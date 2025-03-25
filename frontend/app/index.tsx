@@ -1,4 +1,4 @@
-import { View, FlatList, ScrollView } from "react-native";
+import { View, FlatList, ScrollView, useWindowDimensions } from "react-native";
 import products from "../assets/products.json";
 import ProductListItem from "../components/ProductListItem";
 import { Button, ButtonText } from "../components/ui/button";
@@ -6,15 +6,21 @@ import { Button, ButtonText } from "../components/ui/button";
 
 
 export default function HomeScreen() {
+
+    const {width} = useWindowDimensions();
+
+    // too many re renders, fix this, also use useBreakPointValue at least
+    const numColumns = width > 700 ? 3 : 2;
     return (
-        <ScrollView>
+        <ScrollView className="mx-auto">
         <View>
             <FlatList 
+                key={numColumns}
                 data={products}
                 renderItem={({item}) => (
                     <ProductListItem product={item}/>
                 )}
-                numColumns={2}
+                numColumns={numColumns}
                 contentContainerClassName="gap-2"
                 columnWrapperClassName="gap-2"
             />
