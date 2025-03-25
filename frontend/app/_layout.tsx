@@ -5,7 +5,7 @@ import "@/global.css";
 export default function RootLayout() {
     return (
         <GluestackUIProvider>
-            <Stack />
+            <Stack screenOptions={{contentStyle: {flex: 1}}} />
         </GluestackUIProvider>
     )
 }
