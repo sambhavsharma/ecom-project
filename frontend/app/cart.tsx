@@ -4,11 +4,16 @@ import { HStack } from "../components/ui/hstack";
 import { VStack } from "../components/ui/vstack";
 import { useCart } from "../store/cartStore";
 import { Text } from "../components/ui/text";
+import { Button, ButtonText } from "../components/ui/button";
 
 export default function CartScreen() {
 
     const items = useCart((state) => state.items);
-    console.log(items);
+    const resetCart = useCart((state) => state.resetCart);
+    const onCheckout = async () => {
+        resetCart();
+    }
+    
     return (
         <FlatList 
             data = {items}
@@ -24,6 +29,13 @@ export default function CartScreen() {
                     </HStack>
                 )
             }
+            ListFooterComponent = {() => (
+                <Button onPress={onCheckout}>
+                    <ButtonText>
+                        Checkout
+                    </ButtonText>
+                </Button>
+            )}
         />
         
     )
