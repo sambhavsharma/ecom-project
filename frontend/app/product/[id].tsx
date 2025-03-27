@@ -1,50 +1,56 @@
-import { Text } from "../../components/ui/text";
+import { getProduct } from "@/api/products";
+import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
-import products from "../../assets/products.json";
-import { Card } from "../../components/ui/card";
-import { Image } from "../../components/ui/image";
-import { VStack } from "../../components/ui/vstack";
-import { Box } from "../../components/ui/box";
-import { Button, ButtonText } from "../../components/ui/button";
-import { Heading } from "../../components/ui/heading";
+import { Card } from "@/components/ui/card";
+import { Image } from "@/components/ui/image";
+import { VStack } from "@/components/ui/vstack";
+import { Box } from "@/components/ui/box";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
 import { Stack } from "expo-router";
-import { useState } from "react";
-import { useCart } from "../../store/cartStore";
+import { useCart } from "@/store/cartStore";
+import { useQuery } from "@tanstack/react-query";
+import { ActivityIndicator } from "react-native";
 
 export default function ProductDetailsScreen(){
 
     const {id} = useLocalSearchParams();
-    const product = products.find((p) => p.id == Number(id));
-
+    
     const addProduct = useCart((state) => state.addProduct);
     const addToCart = () => {
-        addProduct(product);
+        addProduct(data);
     }
 
-    if(!product){
-        return (<Text> Product Not Found! </Text>);
+    const {data, isLoading, err} = useQuery({queryKey: ['products',id ], queryFn:() => getProduct(String(id))});
+
+    if(isLoading) {
+        return <ActivityIndicator/>;
+    } 
+
+    if(err) {
+        return <Text>Error Fetching Products!</Text>;
     }
 
     return (
         <Box className="items-center p-3 flex-1">
-            <Stack.Screen options={{ title: product.name}}/>
+            <Stack.Screen options={{ title: data.name}}/>
             <Card className=" mx-auto p-5 rounded-lg max-w-[360px] m-3 flex-1">
                 <Image
                     source={{
-                    uri: product.image,
+                    uri: data.image,
                     }}
                     className="mb-6 h-[240px] w-full rounded-md aspect-[4/3]"
                     alt="image"
                 />
                 <Text className="text-sm font-normal mb-2 text-typography-700">
-                    {product.name}
+                    {data.name}
                 </Text>
                 <VStack className="mb-6">
                     <Heading size="md" className="mb-4">
-                    ${product.price}
+                    ${data.price}
                     </Heading>
                     { <Text size="sm">
-                    {product.description}
+                    {data.description}
                     </Text>}
                 </VStack>
                 <Box className="flex-col sm:flex-row">

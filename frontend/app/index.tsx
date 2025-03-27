@@ -1,13 +1,39 @@
-import { View, FlatList, ScrollView, useWindowDimensions } from "react-native";
-import products from "../assets/products.json";
-import ProductListItem from "../components/ProductListItem";
-import { Button, ButtonText } from "../components/ui/button";
-
-
+import { listProducts } from "@/api/products";
+import { View, FlatList, ScrollView, useWindowDimensions, ActivityIndicator } from "react-native";
+import ProductListItem from "@/components/ProductListItem";
+import { Button, ButtonText } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { Text } from "@/components/ui/text";
 
 export default function HomeScreen() {
 
     const {width} = useWindowDimensions();
+
+    
+
+    const {data, isLoading, err} = useQuery({queryKey: ["products"], queryFn: listProducts});
+    const products = data;
+
+    if(isLoading) {
+        return <ActivityIndicator/>;
+    } 
+
+    if(err) {
+        return <Text>Error Fetching Products!</Text>;
+    }
+
+    //const [products, setProduts] = useState([]);
+
+    // useEffect(
+    //     () => {
+    //         const getProducts = async () => {
+    //             var products = await listProducts();
+    //             setProduts(products);
+    //         }
+
+    //         getProducts();
+    //     },[]
+    // );
 
     // too many re renders, fix this, also use useBreakPointValue at least
     const numColumns = width > 700 ? 3 : 2;
@@ -25,11 +51,6 @@ export default function HomeScreen() {
                 columnWrapperClassName="gap-2"
             />
              
-            <Button>
-                <ButtonText>
-                    Press Me!
-                </ButtonText>
-            </Button>
         </View>
         </ScrollView>
     )

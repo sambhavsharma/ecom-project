@@ -2,6 +2,7 @@ import express, {json, urlencoded} from 'express';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // import localStrategy from "./lib/auth/strategies/local-strategy";
 
@@ -14,6 +15,7 @@ const app = express()
 const port = 3000
 app.use(urlencoded({extended: false}));
 app.use(json());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
