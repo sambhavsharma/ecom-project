@@ -1,4 +1,13 @@
-import { integer, pgTable, varchar, doublePrecision, text, boolean, timestamp } from "drizzle-orm/pg-core";
+import { 
+    integer, 
+    pgTable, 
+    varchar, 
+    doublePrecision, 
+    text, 
+    boolean, 
+    timestamp 
+} from "drizzle-orm/pg-core";
+import {createInsertSchema, createUpdateSchema} from "drizzle-zod";
 
 export const productsTable = pgTable("products", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -11,3 +20,6 @@ export const productsTable = pgTable("products", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const createProductSchema = createInsertSchema(productsTable).strict();
+export const updateProductSchema = createUpdateSchema(productsTable).strict();

@@ -18,7 +18,6 @@ export async function listProducts(req: Request, res: Response) {
             .offset(offset);
         res.status(200).json(products);
     } catch (e) {
-        console.log(JSON.stringify(e));
         res.status(500).send('Error!');
     }
     
@@ -50,6 +49,7 @@ export async function getProduct(req: Request, res: Response) {
 export async function createProduct(req: Request, res: Response) {
     
     try {
+
         const [product] = await db.insert(productsTable)
             .values(req.body)
             .returning();
