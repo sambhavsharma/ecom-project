@@ -9,7 +9,10 @@ const db = process.env.DATABASE_DB as string;
 
 export default defineConfig({
   out: './drizzle',
-  schema: ['./src/db/productsSchema.ts'],
+  schema: [
+    './src/db/productsSchema.ts',
+    './src/db/usersSchema.ts'
+  ],
   dialect: 'postgresql',
   dbCredentials: {
     host: host,

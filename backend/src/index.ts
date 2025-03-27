@@ -1,5 +1,14 @@
 import express, {json, urlencoded} from 'express';
+import passport from 'passport';
+import session from 'express-session';
+import cookieParser from "cookie-parser";
+
+// import localStrategy from "./lib/auth/strategies/local-strategy";
+
+import "./lib/auth/strategies/local-strategy.ts";
+
 import productRoutes from './routes/products';
+import authRoutes from './routes/auth';
 
 const app = express()
 const port = 3000
@@ -10,7 +19,21 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.use(session({
+  secret: "some secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60 * 60 * 12
+  }
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+// app.use(localStrategy());
+
 app.use("/products", productRoutes);
+app.use("/auth", authRoutes);
 
 
 
