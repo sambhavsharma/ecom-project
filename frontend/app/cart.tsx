@@ -5,14 +5,27 @@ import { VStack } from "../components/ui/vstack";
 import { useCart } from "../store/cartStore";
 import { Text } from "../components/ui/text";
 import { Button, ButtonText } from "../components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { createOrder } from "@/api/orders";
 
 export default function CartScreen() {
 
     const items = useCart((state) => state.items);
     const resetCart = useCart((state) => state.resetCart);
-    const onCheckout = async () => {
-        resetCart();
-    }
+    // const onCheckout = async () => {
+    //     resetCart();
+    // }
+
+    const createOrderMutation = useMutation({
+        mutationFn: () => createOrder(items),
+        onSuccess: (data) => {
+            resetCart();
+            console.log("success");
+        },
+        onError: () => {
+            console.log("error");
+        }
+    })
     
     return (
         <FlatList 
@@ -30,7 +43,7 @@ export default function CartScreen() {
                 )
             }
             ListFooterComponent = {() => (
-                <Button onPress={onCheckout}>
+                <Button onPress={() => createOrderMutation.mutate()}>
                     <ButtonText>
                         Checkout
                     </ButtonText>
