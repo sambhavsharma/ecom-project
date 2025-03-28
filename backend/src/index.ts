@@ -4,19 +4,19 @@ import session from 'express-session';
 //import cookieParser from "cookie-parser";
 import cors from "cors";
 
-// import localStrategy from "./lib/auth/strategies/local-strategy";
-
 import "./lib/auth/strategies/local-strategy.ts";
 
 import productRoutes from './routes/products';
 import authRoutes from './routes/auth';
 import orderRoutes from './routes/orders';
+import bodyParser from 'body-parser';
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 app.use(urlencoded({extended: false}));
-app.use(json());
+//app.use(json());
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -31,15 +31,19 @@ app.use(session({
   }
 }))
 
+// app.use((req, res, next) => {
+//   console.log("req received from client");
+
+//   console.log(req.body);
+//   next(); // this will invoke next middleware function
+// });
+
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(localStrategy());
 
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

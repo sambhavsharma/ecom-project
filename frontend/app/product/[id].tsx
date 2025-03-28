@@ -16,7 +16,7 @@ export default function ProductDetailsScreen(){
 
     const {id} = useLocalSearchParams();
     
-    const addProduct = useCart((state) => state.addProduct);
+    const addProduct = useCart((state: any) => state.addProduct);
     const addToCart = () => {
         addProduct(data);
     }

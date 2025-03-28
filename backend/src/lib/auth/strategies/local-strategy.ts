@@ -11,7 +11,6 @@ const HASH_FUNCTION = 'sha256';
 const localStrategy =  passport.use(
     new Strategy({usernameField: 'email'}, 
     async (email: string, password: string, done) => {
-        
         try {
 
             const [user] = await db.select()
