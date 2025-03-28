@@ -29,6 +29,20 @@
       "when": 1743091548020,
       "tag": "0003_broad_mac_gargan",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1743187307862,
+      "tag": "0004_medical_susan_delgado",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743187339090,
+      "tag": "0005_closed_firestar",
+      "breakpoints": true
     }
   ]
 }
