@@ -4,9 +4,9 @@ import {
     getOrder, 
     createOrder,
     updateOrder
-} from './ordersController';
-import { validateData } from '../../middlewares/validationMiddleware';
-import { createOrderSchema, updateOrderSchema } from '../../db/ordersSchema';
+} from '../controllers/ordersController';
+import { validateData } from '../middlewares/validationMiddleware';
+import { createOrderSchema, updateOrderSchema } from '../db/ordersSchema';
 
 const router = Router();
 

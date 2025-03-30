@@ -9,12 +9,14 @@ import "./lib/auth/strategies/local-strategy.ts";
 import productRoutes from './routes/products';
 import authRoutes from './routes/auth';
 import orderRoutes from './routes/orders';
+import userRoutes from './routes/users';
+
 import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
 app.use(urlencoded({extended: false}));
-//app.use(json());
+app.use(json());
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -44,6 +46,7 @@ app.use(passport.session());
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
+app.use("/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
