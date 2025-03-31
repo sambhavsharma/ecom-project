@@ -6,7 +6,7 @@ import {
     updateOrder
 } from '../controllers/ordersController';
 import { validateData } from '../middlewares/validationMiddleware';
-import { createOrderSchema, updateOrderSchema } from '../db/ordersSchema';
+import { createOrderSchema, updateOrderSchema } from '../db/orders';
 
 const router = Router();
 

@@ -3,7 +3,7 @@ import {
     create 
 } from '../controllers/usersController';
 import { validateData } from '../middlewares/validationMiddleware';
-import { createUserSchema } from '../db/usersSchema';
+import { createUserSchema } from '../db/users';
 
 const router = Router();
 

@@ -6,8 +6,8 @@ import {
     timestamp 
 } from "drizzle-orm/pg-core";
 import {createInsertSchema, createUpdateSchema} from "drizzle-zod";
-import { usersTable } from "./usersSchema";
-import { productsTable } from "./productsSchema";
+import { usersTable } from "./users";
+import { productsTable } from "./products";
 
 export const ordersTable = pgTable("orders", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),

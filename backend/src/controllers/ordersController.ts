@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import { db } from "../db";
-import { ordersTable } from "../db/ordersSchema";
+import { ordersTable } from "../db/orders";
 import { eq, and } from "drizzle-orm";
 
 const DEFAULT_LIMIT = 10;
@@ -84,22 +84,3 @@ export async function updateOrder(req: Request, res: Response) {
 
     
 }
-
-// export async function deleteOrder(req: Request, res: Response) {
-
-//     try {
-//         const id = Number(req.params.id);
-//         const [product] = await db.update(ordersTable)
-//             .set({is_deleted: true})
-//             .where(eq(ordersTable.id, id))
-//             .returning();
-
-//         if(product) {
-//             res.status(200).json(product);
-//         } else {
-//             res.status(404).send('Produt not Found!');
-//         }
-//     } catch (e) {
-//         res.status(500).send('Error!');
-//     }
-// }

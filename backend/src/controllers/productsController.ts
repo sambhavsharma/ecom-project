@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import { db } from "../db";
-import { productsTable } from "../db/productsSchema";
+import { productsTable } from "../db/products";
 import { eq, and } from "drizzle-orm";
 
 const DEFAULT_LIMIT = 10;

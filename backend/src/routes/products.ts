@@ -7,7 +7,7 @@ import {
     deleteProduct 
 } from '../controllers/productsController';
 import { validateData } from '../middlewares/validationMiddleware';
-import { createProductSchema, updateProductSchema } from '../db/productsSchema';
+import { createProductSchema, updateProductSchema } from '../db/products';
 
 const router = Router();
 

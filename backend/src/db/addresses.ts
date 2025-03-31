@@ -1,0 +1,43 @@
+import { 
+    integer, 
+    pgTable, 
+    varchar, 
+    boolean, 
+    timestamp,
+} from "drizzle-orm/pg-core";
+import {createUpdateSchema} from "drizzle-zod";
+import { z } from "zod";
+
+const PARENT_TYPES = ["user", "seller", "order"] as const;
+
+export const addressesTable = pgTable("addresses", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    address1: varchar({ length: 255 }).notNull(),
+    address2: varchar({ length: 255 }),
+    address3: varchar({ length: 255 }),
+    postcode: varchar({ length: 20 }).notNull(),
+    city: varchar({ length: 100 }).notNull(),
+    state: varchar({ length: 100 }).notNull(),
+    country: varchar({ length: 100 }).notNull(),
+    parent_id: varchar({ length: 100 }).notNull(),
+    parent_type: varchar({ length: 20 }).notNull(),
+    is_deleted: boolean().default(false),
+    created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
+    updated_at: timestamp({}).$onUpdate(() => new Date())
+
+});
+
+//export const createUserSchema = createInsertSchema(usersTable).strict();
+export const createAddressSchema = z.object({
+    address1: z.string(),
+    address2: z.string(),
+    address3: z.string().optional(),
+    postcode: z.string(),
+    city: z.string(),
+    state: z.string(),
+    country: z.string(),
+    parent_id: z.string(),
+    parent_type:  z.enum(PARENT_TYPES)
+});
+//createUserSchema.transform((user) => new Date(user.dob));
+export const updateUserSchema = createUpdateSchema(addressesTable).strict();

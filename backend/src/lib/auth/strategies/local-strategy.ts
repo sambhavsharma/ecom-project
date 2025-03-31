@@ -2,7 +2,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 
 import { db } from "../../../db";
-import { usersTable } from "../../../db/usersSchema";
+import { usersTable } from "../../../db/users";
 import { eq, and } from "drizzle-orm";
 
 const crypto = require('crypto');
