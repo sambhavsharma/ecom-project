@@ -30,7 +30,6 @@ export async function create(user: any) {
             address.parent_id = userRow.id.toString();
             const {error} = await Address.create(address, tx);
             if (error) {
-                console.log(error);
                 tx.rollback();
                 return {error};
             }

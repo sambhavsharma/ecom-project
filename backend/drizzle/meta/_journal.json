@@ -22,6 +22,27 @@
       "when": 1743452974092,
       "tag": "0002_same_solo",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1743537216909,
+      "tag": "0003_blushing_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1743546357340,
+      "tag": "0004_jittery_ken_ellis",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743547348964,
+      "tag": "0005_slippery_quicksilver",
+      "breakpoints": true
     }
   ]
 }

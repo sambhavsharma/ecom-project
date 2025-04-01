@@ -3,6 +3,8 @@ import { db } from "../db";
 import { productsTable } from "../db/products";
 import { eq, and } from "drizzle-orm";
 
+const Product = require("../models/product");
+
 const DEFAULT_LIMIT = 10;
 
 export async function listProducts(req: Request, res: Response) {
@@ -27,12 +29,7 @@ export async function getProduct(req: Request, res: Response) {
 
     try {
         const id = Number(req.params.id);
-        const [product] = await db.select()
-            .from(productsTable)
-            .where(and(
-                eq(productsTable.id, id),
-                eq(productsTable.is_deleted, false)
-            ));
+        var product = await Product.get(id);
 
         if(product) {
             res.status(200).json(product);
@@ -50,11 +47,12 @@ export async function createProduct(req: Request, res: Response) {
     
     try {
 
-        const [product] = await db.insert(productsTable)
-            .values(req.body)
-            .returning();
-        res.status(201).json(product);
+        var product = req.body;
+        var productObj = await Product.create(product);
+        res.status(201).json(productObj);
+
     } catch (e) {
+        //console.log(e);
         res.status(500).send('Error creating product');
     }
 }

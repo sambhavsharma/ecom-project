@@ -1,0 +1,44 @@
+import { db } from "../db";
+import { productsTable } from "../db/products";
+import { eq, and } from "drizzle-orm";
+
+const ProductSerializer = require("../serializers/products");
+const Media = require("../models/media");
+
+export async function create(product: any) {
+        
+    const {productRow, error} = await db.transaction(async (tx) => { 
+        var [productRow] = await tx.insert(productsTable)
+            .values(product)
+            .returning();
+
+        for (var media of product.media || []) {
+            media.parent_type = "product";
+            media.parent_id = productRow.id.toString();
+            const {error} = await Media.create(media, tx);
+            if (error) {
+                //console.log(error);
+                tx.rollback();
+                return {error};
+            }
+        }
+        
+        return {productRow: productRow};
+    });
+
+    if(productRow)
+        return ProductSerializer.productObj(productRow);
+    else 
+        return {error};
+};
+
+export async function get(id: number) {
+    const [product] = await db.select()
+        .from(productsTable)
+        .where(and(
+            eq(productsTable.id, id),
+            eq(productsTable.is_deleted, false)
+        ));     
+        
+    return ProductSerializer.productObj(product);
+}

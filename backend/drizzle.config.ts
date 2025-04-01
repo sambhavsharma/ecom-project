@@ -12,6 +12,8 @@ export default defineConfig({
   schema: [
     './src/db/users.ts',
     './src/db/addresses.ts',
+    './src/db/products.ts',
+    './src/db/media.ts',
   ],
   dialect: 'postgresql',
   dbCredentials: {

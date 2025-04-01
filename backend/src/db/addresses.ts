@@ -5,10 +5,11 @@ import {
     boolean, 
     timestamp,
 } from "drizzle-orm/pg-core";
-import {createUpdateSchema} from "drizzle-zod";
+//import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
 
 const PARENT_TYPES = ["user", "seller", "order"] as const;
+const COUNTRY = ["IN", "US", "GB", "SG"] as const;
 
 export const addressesTable = pgTable("addresses", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -19,7 +20,7 @@ export const addressesTable = pgTable("addresses", {
     city: varchar({ length: 100 }).notNull(),
     state: varchar({ length: 100 }).notNull(),
     country: varchar({ length: 100 }).notNull(),
-    parent_id: varchar({ length: 100 }).notNull(),
+    parent_id: varchar({ length: 255 }).notNull(),
     parent_type: varchar({ length: 20 }).notNull(),
     is_deleted: boolean().default(false),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -35,9 +36,11 @@ export const createAddressSchema = z.object({
     postcode: z.string(),
     city: z.string(),
     state: z.string(),
-    country: z.string(),
+    country: z.enum(COUNTRY),
     parent_id: z.string(),
     parent_type:  z.enum(PARENT_TYPES)
 });
+
+
 //createUserSchema.transform((user) => new Date(user.dob));
-export const updateUserSchema = createUpdateSchema(addressesTable).strict();
+//export const updateUserSchema = createUpdateSchema(addressesTable).strict();

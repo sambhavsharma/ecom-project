@@ -7,13 +7,17 @@ import {
     boolean, 
     timestamp 
 } from "drizzle-orm/pg-core";
-import {createInsertSchema, createUpdateSchema} from "drizzle-zod";
+import {createUpdateSchema} from "drizzle-zod";
+import { z } from "zod";
+
+const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 
 export const productsTable = pgTable("products", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
     description: text(),
-    image: varchar({ length: 255 }).notNull(),
+    seller_id: varchar({ length: 255 }).notNull(),
+    currency: varchar({ length: 3 }).notNull(),
     price: doublePrecision().notNull(),
     is_deleted: boolean().default(false),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -21,5 +25,14 @@ export const productsTable = pgTable("products", {
 
 });
 
-export const createProductSchema = createInsertSchema(productsTable).strict();
+export const createProductSchema = z.object({
+    name: z.string(),
+    description: z.string(),
+    seller_id: z.string(),
+    currency: z.enum(CURRENCY),
+    price: z.number(),
+    media: z.object({}).array().optional()
+});
+
+//export const createProductSchema = createInsertSchema(productsTable).strict();
 export const updateProductSchema = createUpdateSchema(productsTable).strict();

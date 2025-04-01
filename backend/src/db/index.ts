@@ -1,4 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
+import * as mediaSchema from './media';
 
 const env = process.env.ENV as string;
 const host = process.env.DATABASE_HOST as string;
@@ -7,7 +8,9 @@ const user = process.env.DATABASE_USER as string;
 const password = process.env.DATABASE_PASSWORD as string;
 const dbase = process.env.DATABASE_DB as string;
 
-export const db = drizzle({ 
+export const db = drizzle({
+  schema: mediaSchema, 
+  logger: false,
   connection: { 
     host: host,
     port:  port,

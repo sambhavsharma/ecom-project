@@ -11,7 +11,7 @@ export async function create(req: Request, res: Response) {
         res.status(201).json(userObj);
         
     } catch (e) {
-        console.log(e);
+        
         res.status(500).send('Error!');
     }
    
