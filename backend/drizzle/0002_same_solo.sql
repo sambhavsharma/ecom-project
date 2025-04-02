@@ -1,1 +1,0 @@
-ALTER TABLE "addresses" ALTER COLUMN "parent_type" SET DATA TYPE varchar(20);

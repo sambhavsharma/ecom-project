@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743449487057,
-      "tag": "0000_perfect_wild_pack",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1743449558875,
-      "tag": "0001_silent_switch",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1743452974092,
-      "tag": "0002_same_solo",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1743537216909,
-      "tag": "0003_blushing_northstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1743546357340,
-      "tag": "0004_jittery_ken_ellis",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1743547348964,
-      "tag": "0005_slippery_quicksilver",
+      "when": 1743613381869,
+      "tag": "0000_daffy_fabian_cortez",
       "breakpoints": true
     }
   ]

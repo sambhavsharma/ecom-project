@@ -33,12 +33,18 @@ export async function create(product: any) {
 };
 
 export async function get(id: number) {
-    const [product] = await db.select()
-        .from(productsTable)
-        .where(and(
+
+    const product = await db.query.productsTable.findFirst({
+        where: and(
             eq(productsTable.id, id),
             eq(productsTable.is_deleted, false)
-        ));     
+        ),
+        with: { 
+            media: {
+                where: (media, { eq }) => eq(media.parent_type, "product")
+            }
+        }
+    });
         
     return ProductSerializer.productObj(product);
 }

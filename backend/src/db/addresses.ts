@@ -20,7 +20,7 @@ export const addressesTable = pgTable("addresses", {
     city: varchar({ length: 100 }).notNull(),
     state: varchar({ length: 100 }).notNull(),
     country: varchar({ length: 100 }).notNull(),
-    parent_id: varchar({ length: 255 }).notNull(),
+    parent_id: integer().notNull(),
     parent_type: varchar({ length: 20 }).notNull(),
     is_deleted: boolean().default(false),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -37,7 +37,7 @@ export const createAddressSchema = z.object({
     city: z.string(),
     state: z.string(),
     country: z.enum(COUNTRY),
-    parent_id: z.string(),
+    parent_id: z.number(),
     parent_type:  z.enum(PARENT_TYPES)
 });
 

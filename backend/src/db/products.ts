@@ -9,6 +9,8 @@ import {
 } from "drizzle-orm/pg-core";
 import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
+import { relations } from 'drizzle-orm';
+import { mediaTable } from "./media";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 
@@ -24,6 +26,13 @@ export const productsTable = pgTable("products", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const productRelations = relations(productsTable, ({ many }) => ({
+	media: many(mediaTable, {
+        fields: [mediaTable.parent_id],
+        references: [productsTable.id]
+    }),
+}));
 
 export const createProductSchema = z.object({
     name: z.string(),
