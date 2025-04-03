@@ -17,7 +17,6 @@ export async function create(product: any) {
             media.parent_id = productRow.id.toString();
             const {error} = await Media.create(media, tx);
             if (error) {
-                //console.log(error);
                 tx.rollback();
                 return {error};
             }

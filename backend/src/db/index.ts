@@ -1,6 +1,10 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
+
 import * as mediaSchema from './media';
 import * as productsSchema from './products';
+import * as usersSchema  from './users';
+import * as ordersSchema  from './orders';
+import * as addressesSchema  from './addresses';
 
 const env = process.env.ENV as string;
 const host = process.env.DATABASE_HOST as string;
@@ -10,7 +14,13 @@ const password = process.env.DATABASE_PASSWORD as string;
 const dbase = process.env.DATABASE_DB as string;
 
 export const db = drizzle({
-  schema: { ...mediaSchema, ...productsSchema}, 
+  schema: { 
+    ...mediaSchema, 
+    ...productsSchema, 
+    ...usersSchema, 
+    ...addressesSchema,
+    ...ordersSchema
+  }, 
   logger: false,
   connection: { 
     host: host,

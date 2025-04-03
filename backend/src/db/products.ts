@@ -18,10 +18,11 @@ export const productsTable = pgTable("products", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
     description: text(),
+    brand: varchar({ length: 255 }),
     seller_id: varchar({ length: 255 }).notNull(),
     currency: varchar({ length: 3 }).notNull(),
     price: doublePrecision().notNull(),
-    is_deleted: boolean().default(false),
+    is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
@@ -37,11 +38,11 @@ export const productRelations = relations(productsTable, ({ many }) => ({
 export const createProductSchema = z.object({
     name: z.string(),
     description: z.string(),
+    brand: z.string().optional(),
     seller_id: z.string(),
     currency: z.enum(CURRENCY),
     price: z.number(),
     media: z.object({}).array().optional()
 });
 
-//export const createProductSchema = createInsertSchema(productsTable).strict();
 export const updateProductSchema = createUpdateSchema(productsTable).strict();

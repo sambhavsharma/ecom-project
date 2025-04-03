@@ -8,12 +8,23 @@ const password = process.env.DATABASE_PASSWORD as string;
 const db = process.env.DATABASE_DB as string;
 
 export default defineConfig({
-  out: './drizzle',
+  out: './src/db/drizzle/migrations',
   schema: [
     './src/db/users.ts',
     './src/db/addresses.ts',
     './src/db/products.ts',
     './src/db/media.ts',
+    './src/db/auth_tokens.ts',
+    './src/db/sellers.ts',
+    './src/db/categories.ts',
+    './src/db/attributes.ts',
+    './src/db/category_attributes.ts',
+    './src/db/product_attributes.ts',
+    './src/db/product_categories.ts',
+    './src/db/user_wishlist.ts',
+    './src/db/cart_items.ts',
+    './src/db/orders.ts',
+    './src/db/order_products.ts',
   ],
   dialect: 'postgresql',
   dbCredentials: {
