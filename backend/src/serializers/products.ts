@@ -1,14 +1,23 @@
 const MediaSerializer = require("../serializers/media");
 
-export async function productObj(product: any) {
-    
-    //const media = await Media.get(product.id, "product");
+export function productsList(products: any) {
+
+    var productsList = [];
+    for (let product of products || []) {
+        productsList.push(productObj(product));
+    }
+
+    return productsList;
+}
+
+export function productObj(product: any) {
     
     return {
-       name: product.name,
-       description: product.description,
-       currency: product.currency,
-       price: product.price,
-       media: MediaSerializer.mediaList(product.media)
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        currency: product.currency,
+        price: product.price,
+        media: MediaSerializer.mediaList(product.media)
     }
 }

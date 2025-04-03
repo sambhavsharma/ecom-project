@@ -145,7 +145,7 @@ async function main() {
         {
             "url": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/ecom/applewatch.jpg",
             "type": "image",
-            "parent_id": 3,
+            "parent_id": 2,
             "parent_type": "product"
         },
         {

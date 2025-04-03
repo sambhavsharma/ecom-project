@@ -12,13 +12,10 @@ export async function listProducts(req: Request, res: Response) {
         const page = Number(req.query.page);
         const limit = Number(req.query.limit) || DEFAULT_LIMIT;
         const offset = (page-1) * limit;
-        
-        const products = await db.select()
-            .from(productsTable)
-            .where(eq(productsTable.is_deleted, false))
-            .limit(limit)
-            .offset(offset);
+
+        const products = await Product.list(limit, offset);
         res.status(200).json(products);
+
     } catch (e) {
         res.status(500).send('Error!');
     }
@@ -29,7 +26,7 @@ export async function getProduct(req: Request, res: Response) {
 
     try {
         const id = Number(req.params.id);
-        var product = await Product.get(id);
+        const product = await Product.get(id);
 
         if(product) {
             res.status(200).json(product);

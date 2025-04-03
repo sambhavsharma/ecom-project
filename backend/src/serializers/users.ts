@@ -1,5 +1,5 @@
 
-export async function userObj(user: any) {
+export function userObj(user: any) {
 
     return {
         id: user.id,
@@ -9,7 +9,7 @@ export async function userObj(user: any) {
     }
 }
 
-export async function userDetails(user: any) {
+export function userDetails(user: any) {
     return {
         first_name: user.first_name,
         laat_name: user.last_name,

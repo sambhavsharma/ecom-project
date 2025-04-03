@@ -47,3 +47,21 @@ export async function get(id: number) {
         
     return ProductSerializer.productObj(product);
 }
+
+export async function list(limit: number, offset: number) {
+
+    const products = await db.query.productsTable.findMany({
+        where: and(
+            eq(productsTable.is_deleted, false)
+        ),
+        limit: limit,
+        offset: offset,
+        with: { 
+            media: {
+                where: (media, { eq }) => eq(media.parent_type, "product")
+            }
+        }
+    });
+    
+    return ProductSerializer.productsList(products);
+}

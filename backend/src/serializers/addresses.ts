@@ -1,4 +1,4 @@
-export async function addressObj(address: any) {
+export function addressObj(address: any) {
 
     return {
        address1: address.address1,
