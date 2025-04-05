@@ -55,7 +55,7 @@ const UserProfile = () => {
   const [openLogoutAlertDialog, setOpenLogoutAlertDialog] = useState(false);
   return (
     <>
-       <HStack className="p-1.5 items-center">
+       <HStack className="p-1.5 items-center min-w-[240px]">
      
         <Button size="sm" className="font-medium">
           <ButtonText className="text-typography-0">Sell</ButtonText>

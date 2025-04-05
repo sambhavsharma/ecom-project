@@ -17,7 +17,7 @@ const Header = React.memo(() => {
   return (
     <>
       {/* big screen */}
-      <Box className="px-16 w-full border-b hidden md:flex border-outline-100 min-h-20 ">
+      <Box className="px-16 w-full border-b hidden md:flex border-outline-100 min-h-15 mt-4 ">
         <HStack className="items-center justify-between mx-auto w-full">
           <Link href='/'>
             <HomestayLogo />

@@ -9,7 +9,7 @@ const HeaderTabs = () => {
   const [selectedTab, setSelectedTab] = React.useState("Anywhere");
   const colorMode = "light"; // useContext(ThemeContext);
   return (
-    <HStack className="h-20 items-center justify-between w-full ml-5 mr-5 max-w-[560px]">
+    <HStack className="h-12 items-center justify-between w-full ml-5 mr-5 max-w-[560px]">
        <Input size="sm" className="w-full h-10">
           <InputField placeholder="Search for anything..." />
           <InputSlot className="bg-primary-500 rounded-full h-6 w-6 m-1.5">

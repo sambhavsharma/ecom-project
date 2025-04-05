@@ -25,6 +25,7 @@ import { FormControl } from "@/components/ui/form-control";
 import HomestayPage from "@/components/HomestayPage";
 
 import Header from "@/components/Header";
+import LowerHeader from "@/components/LowerHeader";
 
 const cartItemNumber = useCart(state => state.items.length);
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
             <GluestackUIProvider>
                 <Header/>
+                <LowerHeader/>
                 {/* <HomestayPage /> */}
            
 
