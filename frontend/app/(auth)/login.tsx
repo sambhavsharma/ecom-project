@@ -40,7 +40,7 @@ export default function LoginScreen() {
   };
 
   if(isLoggedIn) { 
-    return <Redirect href={"/"}/>;
+    // return <Redirect href={"/"}/>;
   }
 
   return (

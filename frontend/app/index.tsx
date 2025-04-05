@@ -22,20 +22,6 @@ export default function HomeScreen() {
         return <Text>Error Fetching Products!</Text>;
     }
 
-    //const [products, setProduts] = useState([]);
-
-    // useEffect(
-    //     () => {
-    //         const getProducts = async () => {
-    //             var products = await listProducts();
-    //             setProduts(products);
-    //         }
-
-    //         getProducts();
-    //     },[]
-    // );
-
-    // too many re renders, fix this, also use useBreakPointValue at least
     const numColumns = width > 700 ? 3 : 2;
     return (
         <ScrollView className="mx-auto">

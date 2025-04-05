@@ -37,7 +37,7 @@ export default function ProductDetailsScreen(){
             <Card className=" mx-auto p-5 rounded-lg max-w-[360px] m-3 flex-1">
                 <Image
                     source={{
-                    uri: data.image,
+                    uri: data.media[0].url,
                     }}
                     className="mb-6 h-[240px] w-full rounded-md aspect-[4/3]"
                     alt="image"
