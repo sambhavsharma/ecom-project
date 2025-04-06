@@ -57,7 +57,7 @@ const UserProfile = () => {
     <>
        <HStack className="p-1.5 items-center min-w-[240px]">
      
-        <Button size="sm" className="font-medium">
+        <Button size="sm" className="font-medium hidden md:flex">
           <ButtonText className="text-typography-0">Sell</ButtonText>
         </Button>
 
