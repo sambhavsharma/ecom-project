@@ -13,6 +13,7 @@ import { relations } from 'drizzle-orm';
 import { mediaTable } from "./media";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
+const CONDITION = ["N", "LN", "GU"] as const;
 
 export const productsTable = pgTable("products", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -21,6 +22,7 @@ export const productsTable = pgTable("products", {
     brand: varchar({ length: 255 }),
     seller_id: varchar({ length: 255 }).notNull(),
     currency: varchar({ length: 3 }).notNull(),
+    condition: varchar({ length: 3 }).notNull(),
     price: doublePrecision().notNull(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -39,6 +41,7 @@ export const createProductSchema = z.object({
     name: z.string(),
     description: z.string(),
     brand: z.string().optional(),
+    condition:  z.enum(CONDITION),
     seller_id: z.string(),
     currency: z.enum(CURRENCY),
     price: z.number(),

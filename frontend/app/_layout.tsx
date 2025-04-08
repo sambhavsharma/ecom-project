@@ -19,7 +19,6 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
             <GluestackUIProvider>
                 <Header/>
-
                 <Stack
                     screenOptions={{headerShown: false}}
                 >

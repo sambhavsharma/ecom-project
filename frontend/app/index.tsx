@@ -1,43 +1,56 @@
-import { listProducts } from "@/api/products";
-import { View, FlatList, ScrollView, useWindowDimensions, ActivityIndicator } from "react-native";
-import ProductListItem from "@/components/ProductListItem";
+import { View, ScrollView } from "react-native";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Text } from "@/components/ui/text";
+import { Image } from "@/components/ui/image";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import {ImageBackground } from '@/components/ui/image-background';
+import {Center } from '@/components/ui/center';
+import {StyleSheet} from 'react-native';
+import ProductList from "@/components/widgets/ProductList";
+import IndexContent from "@/components/index/IndexContent";
 
 export default function HomeScreen() {
 
-    const {width} = useWindowDimensions();
-
-    
-
-    const {data, isLoading, err} = useQuery({queryKey: ["products"], queryFn: listProducts});
-    const products = data;
-
-    if(isLoading) {
-        return <ActivityIndicator/>;
-    } 
-
-    if(err) {
-        return <Text>Error Fetching Products!</Text>;
-    }
-
-    const numColumns = width > 700 ? 3 : 2;
     return (
-        <ScrollView className="mx-auto">
-        <View>
-            <FlatList 
-                key={numColumns}
-                data={products}
-                renderItem={({item}) => (
-                    <ProductListItem product={item}/>
-                )}
-                numColumns={numColumns}
-                contentContainerClassName="gap-2"
-                columnWrapperClassName="gap-2"
-            />
-             
-        </View>
+        <ScrollView>
+            <Box style={styles.testClass}>
+                <Image
+                    source={require("@/assets/index-banner.jpg")}
+                    style={{ flex: 1, justifyContent: "center" }}
+                    size="full"
+                />
+                <HStack space="lg" style={styles.bannerContent}>
+                    <Center>
+                        <Box >
+                            <Button>
+                                <ButtonText>
+                                    Shop Now!
+                                </ButtonText>
+                            </Button>
+                        </Box>    
+                    </Center>
+                </HStack>
+            </Box>
+
+            <View className="mx-auto mt-8">
+                <IndexContent/>
+            </View>
         </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    testClass: {
+      height: 300,
+      maxWidth: "100%",
+    },
+    bannerContent: {
+        position: "absolute",
+        height: "100%",
+        width: "100%",
+        justifyContent: "center"
+    }
+})

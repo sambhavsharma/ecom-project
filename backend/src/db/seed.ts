@@ -67,6 +67,8 @@ async function main() {
             "description": "Apple's wireless noise-cancelling earbuds with adaptive transparency and spatial audio.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Apple",
+            "condition": "N",
             "price": 249.99
         },
         {
@@ -74,6 +76,8 @@ async function main() {
             "description": "Latest smartwatch from Apple featuring always-on retina display and advanced health monitoring.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Apple",
+            "condition": "N",
             "price": 399.99
         },
         {
@@ -81,6 +85,8 @@ async function main() {
             "description": "Premium noise-cancelling over-ear headphones with 20 hours of battery life and voice assistant integration.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Bose",
+            "condition": "N",
             "price": 349.99,
             
         },
@@ -89,6 +95,8 @@ async function main() {
             "description": "Powerful cordless vacuum with laser-detect technology and advanced filtration system.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Dyson",
+            "condition": "N",
             "price": 699.99
         },
         {
@@ -96,6 +104,8 @@ async function main() {
             "description": "Flagship smartphone with 200MP camera, 120Hz AMOLED display, and S Pen support.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Samsung",
+            "condition": "N",
             "price": 1199.99
         },
         {
@@ -103,6 +113,8 @@ async function main() {
             "description": "12.9-inch iPad Pro with M2 chip, Liquid Retina XDR display, and 5G connectivity.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Apple",
+            "condition": "N",
             "price": 1099.99
         },
         {
@@ -110,6 +122,8 @@ async function main() {
             "description": "Apple's latest iPhone with A18 Bionic chip, ProMotion display, and advanced triple-lens camera system.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Apple",
+            "condition": "N",
             "price": 1299.99
         },
         {
@@ -117,6 +131,8 @@ async function main() {
             "description": "High-performance laptop with M2 Max chip, Liquid Retina XDR display, and 1TB SSD.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Apple",
+            "condition": "N",
             "price": 2499.99
         },
         {
@@ -124,6 +140,8 @@ async function main() {
             "description": "Popular running shoes with Nike Air cushioning and breathable mesh upper.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Nike",
+            "condition": "N",
             "price": 149.99
         },
         {
@@ -131,6 +149,8 @@ async function main() {
             "description": "Sony's latest gaming console with 8K output, lightning-fast load times, and 825GB SSD.",
             "seller_id": Math.floor(Math.random() * 10),
             "currency": "INR",
+            "brand": "Sony",
+            "condition": "N",
             "price": 499.99
         }
     ]

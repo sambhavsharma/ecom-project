@@ -65,3 +65,9 @@ export async function list(limit: number, offset: number) {
     
     return ProductSerializer.productsList(products);
 }
+
+export const conditionMap = {
+    "N": "New",
+    "LN": "Like New",
+    "GU": "Gently Used"
+};
