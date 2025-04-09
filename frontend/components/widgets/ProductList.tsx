@@ -5,7 +5,7 @@ import ProductListItem from "@/components/widgets/ProductListItem";
 import { useMediaQuery } from "@/components/ui/utils/use-media-query";
 
 
-export default function ProductList() {
+export default function ProductList({page}) {
 
     const {data, isLoading} = useQuery({queryKey: ["products"], queryFn: listProducts});
     const products = data;
@@ -31,7 +31,7 @@ export default function ProductList() {
         },
     ])
 
-    var numColumns;
+    var numColumns = 0;
     if(one) 
         numColumns = 1;
     else if(two)
@@ -43,8 +43,25 @@ export default function ProductList() {
     else if(five)
         numColumns = 5;
 
+    if(page == "search")
+        numColumns -= 1;
+
     return (
-        <FlatList 
+        <>
+        {
+            numColumns == 1 ? 
+            <FlatList 
+            key={numColumns}
+            data={products}
+            renderItem={({item}) => (
+                <ProductListItem product={item}/>
+            )}
+            contentContainerClassName="gap-2"
+            horizontal={false}
+            />
+            
+            :
+            <FlatList 
             key={numColumns}
             data={products}
             renderItem={({item}) => (
@@ -53,6 +70,9 @@ export default function ProductList() {
             numColumns={numColumns}
             contentContainerClassName="gap-2"
             columnWrapperClassName="gap-2"
-        />
+            />
+
+        }
+       </>
     )
 }

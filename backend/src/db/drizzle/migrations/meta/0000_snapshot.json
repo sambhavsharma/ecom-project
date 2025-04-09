@@ -1,5 +1,5 @@
 {
-  "id": "4c7ddc6c-ac1d-4123-bfcf-b5fee22680ff",
+  "id": "47d6923e-38b8-4a8b-ac53-b85f60b0bcd3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -234,6 +234,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
         },
         "brand": {
           "name": "brand",

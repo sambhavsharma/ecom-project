@@ -14,11 +14,13 @@ import { mediaTable } from "./media";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const CONDITION = ["N", "LN", "GU"] as const;
+const STATUS = ["draft", "live"] as const;
 
 export const productsTable = pgTable("products", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
     description: text(),
+    status: varchar({ length: 20 }).default("draft").notNull(),
     brand: varchar({ length: 255 }),
     seller_id: varchar({ length: 255 }).notNull(),
     currency: varchar({ length: 3 }).notNull(),
@@ -40,6 +42,7 @@ export const productRelations = relations(productsTable, ({ many }) => ({
 export const createProductSchema = z.object({
     name: z.string(),
     description: z.string(),
+    status: z.enum(STATUS),
     brand: z.string().optional(),
     condition:  z.enum(CONDITION),
     seller_id: z.string(),

@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Text } from "@/components/ui/text";
@@ -8,7 +8,6 @@ import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
 import {ImageBackground } from '@/components/ui/image-background';
 import {Center } from '@/components/ui/center';
-import {StyleSheet} from 'react-native';
 import ProductList from "@/components/widgets/ProductList";
 import IndexContent from "@/components/index/IndexContent";
 

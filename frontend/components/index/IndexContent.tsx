@@ -13,7 +13,7 @@ import {Center } from '@/components/ui/center';
 import {StyleSheet} from 'react-native';
 import ProductList from "@/components/widgets/ProductList";
 
-export default function HomeScreen() {
+export default function IndexContent() {
 
     return (
 
