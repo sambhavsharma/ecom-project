@@ -17,6 +17,7 @@ import { ActivityIndicator } from "react-native";
 import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Icon, StarIcon } from "@/components/ui/icon";
+import { Link } from "expo-router";
 import ProductList from "@/components/widgets/ProductList";
 
 export default function ProductDetailsScreen(){
@@ -42,7 +43,7 @@ export default function ProductDetailsScreen(){
         <ScrollView>
             <Center>
                 <VStack>
-                    <HStack className="max-w-[1300px] center">
+                    <HStack className="max-w-[1300px]">
                         <Box className="items-center p-3 flex-1">
                             <Center>
                                 <Box className=" mx-auto p-5 rounded-lg m-3 flex-1">
@@ -87,10 +88,13 @@ export default function ProductDetailsScreen(){
                                     </Text>}
 
                                     <VStack space="sm" className="mb-6">
-                                        <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1"
-                                            onPress={addToCart}>
-                                            <ButtonText size="sm">Purchase</ButtonText>
-                                        </Button>
+                                        
+                                            <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1"
+                                                onPress={addToCart}>
+                                                <Link href={`checkout/${data.id}`}>
+                                                    <ButtonText size="sm">Purchase</ButtonText>
+                                                </Link>
+                                            </Button>
                                         <Button
                                         variant="outline"
                                         className="px-4 py-2 border-outline-300 sm:flex-1"

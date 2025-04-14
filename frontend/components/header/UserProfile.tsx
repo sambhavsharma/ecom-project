@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
-import { Icon, SearchIcon } from "@/components/ui/icon";
+import { Icon, FavouriteIcon } from "@/components/ui/icon";
 import { Button, ButtonText } from "@/components/ui/button";
 
 
@@ -24,7 +24,14 @@ const UserProfile = () => {
   const [openLogoutAlertDialog, setOpenLogoutAlertDialog] = useState(false);
   return (
     <>
-       <HStack className="p-1.5 items-center min-w-[240px]">
+       <HStack space="lg" className="p-1.5 items-center min-w-[240px]">
+
+       <Link href='/wishlist'>
+        <Icon
+              as={FavouriteIcon}
+              className= "text-typography-900"
+          />
+        </Link>
 
        <Link href='/sell'>
         <Button size="sm" className="font-medium hidden md:flex">
@@ -33,7 +40,7 @@ const UserProfile = () => {
         </Link>
 
         <Link href="/login">
-          <Button size="sm" className="font-medium ml-5">
+          <Button size="sm" className="font-medium ml-1">
             <ButtonText className="text-typography-0">Log In | Sign Up</ButtonText>
           </Button>
         </Link>

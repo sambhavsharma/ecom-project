@@ -9,36 +9,15 @@ import { HStack } from "@/components/ui/hstack";
 import {ImageBackground } from '@/components/ui/image-background';
 import {Center } from '@/components/ui/center';
 import ProductList from "@/components/widgets/ProductList";
-import IndexContent from "@/components/index/IndexContent";
+import WishlistContent from "@/components/wishlist/WishlistContent";
 import { Link } from "expo-router";
 
 export default function HomeScreen() {
 
     return (
         <ScrollView>
-            <Box style={styles.testClass}>
-                <Image
-                    source={require("@/assets/index-banner.jpg")}
-                    style={{ flex: 1, justifyContent: "center" }}
-                    size="full"
-                />
-                <HStack space="lg" style={styles.bannerContent}>
-                    <Center>
-                        <Box >
-                            <Button>
-                                <ButtonText>
-                                    <Link href="/search">
-                                        Shop Now!
-                                    </Link>
-                                </ButtonText>
-                            </Button>
-                        </Box>    
-                    </Center>
-                </HStack>
-            </Box>
-
             <View className="mx-auto mt-8">
-                <IndexContent/>
+                <WishlistContent/>
             </View>
         </ScrollView>
     )
