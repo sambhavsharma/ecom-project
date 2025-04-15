@@ -8,6 +8,9 @@ import {
     text
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
+import { relations } from 'drizzle-orm';
+
+import { categoryAttributesTable } from "./category_attributes";
 
 export const attributesTable = pgTable("attributes", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -19,6 +22,10 @@ export const attributesTable = pgTable("attributes", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const attributesRelations = relations(attributesTable, ({ many }) => ({
+    categories: many(categoryAttributesTable)
+}));
 
 export const createAttributeSchema = z.object({
     name: z.string(),

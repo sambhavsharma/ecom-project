@@ -14,7 +14,12 @@ export async function list(limit: number, offset: number) {
         limit: limit,
         offset: offset,
         with: { 
-            parent: true
+            parent: true,
+            attributes: {
+                with: {
+                    attribute: true
+                }
+            }
         }
     });
     

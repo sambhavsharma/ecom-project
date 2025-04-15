@@ -1,4 +1,4 @@
-
+const AttributesSerializer = require("../serializers/attributes");
 
 export function categoriesList(categories: any) {
 
@@ -9,8 +9,6 @@ export function categoriesList(categories: any) {
 
     let categoriesListMap = {main: [], list: {}};
 
-    //console.log(categoriesList);
-
     for (let category of categoriesList) {
         
         let sub_categories = categoriesList.filter((c) => c.parent_category_id == category.id);
@@ -20,8 +18,6 @@ export function categoriesList(categories: any) {
             subcat_map[category.id] = category;
         }
         
-        //console.log(subcat_map);
-        //category["children"] = subcat_map;
         category["children"] = sub_categories;
 
         if(!category.parent_category_id) {
@@ -31,14 +27,8 @@ export function categoriesList(categories: any) {
             categoriesListMap["main"].push(category);
         }
 
-        // let c_obj = {};
-        // c_obj[category.id] = category;
-
         categoriesListMap["list"][category.id] = category;
     }
-
-    // var queue = [];
-    //categoriesList
 
     return categoriesListMap;
 }
@@ -49,6 +39,7 @@ export function categoryObj(category: any) {
         id: category.id,
         name: category.name,
         parent_category_id: category.parent_category_id,
-        parent: category.parent ? categoryObj(category.parent) : {}
+        parent: category.parent ? categoryObj(category.parent) : {},
+        attributes: AttributesSerializer.attributesList(category.attributes)
     }
 }

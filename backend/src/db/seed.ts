@@ -342,6 +342,42 @@ async function main() {
         {
             category_id: 2,
             attribute_id: 3
+        },
+        {
+            category_id: 3,
+            attribute_id: 1
+        },
+        {
+            category_id: 4,
+            attribute_id: 1
+        },
+        {
+            category_id: 4,
+            attribute_id: 3
+        },
+        {
+            category_id: 5,
+            attribute_id: 1
+        },
+        {
+            category_id: 6,
+            attribute_id: 1
+        },
+        {
+            category_id: 6,
+            attribute_id: 3
+        },
+        {
+            category_id: 7,
+            attribute_id: 1
+        },
+        {
+            category_id: 8,
+            attribute_id: 1
+        },
+        {
+            category_id: 8,
+            attribute_id: 3
         }
     ]
 

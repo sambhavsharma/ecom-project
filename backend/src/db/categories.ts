@@ -8,6 +8,8 @@ import {
 import { z } from "zod";
 import { relations } from 'drizzle-orm';
 
+import { categoryAttributesTable } from "./category_attributes";
+
 export const categoriesTable = pgTable("categories", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).unique().notNull(),
@@ -23,7 +25,8 @@ export const categoriesRelations = relations(categoriesTable, ({ one, many }) =>
 		fields: [categoriesTable.parent_category_id],
 		references: [categoriesTable.id],
         relationName: 'parent'
-	})
+	}),
+    attributes: many(categoryAttributesTable)
 }));
 
 export const createCategorySchema = z.object({

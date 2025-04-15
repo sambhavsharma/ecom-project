@@ -7,6 +7,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { relations } from 'drizzle-orm';
+
 import { productsTable } from "./products";
 import { usersTable } from "./users";
 

@@ -6,6 +6,8 @@ import * as usersSchema  from './users';
 import * as ordersSchema  from './orders';
 import * as addressesSchema  from './addresses';
 import * as categoriesSchema  from './categories';
+import * as attributesSchema  from './attributes';
+import * as categoryAttributesSchema  from './category_attributes';
 
 const env = process.env.ENV as string;
 const host = process.env.DATABASE_HOST as string;
@@ -22,6 +24,8 @@ export const db = drizzle({
     ...addressesSchema,
     ...ordersSchema,
     ...categoriesSchema,
+    ...attributesSchema,
+    ...categoryAttributesSchema
   }, 
   logger: false,
   connection: { 
