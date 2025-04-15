@@ -8,6 +8,8 @@ import {
 } from "drizzle-orm/pg-core";
 import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
+import { relations } from 'drizzle-orm';
+import { productsTable } from "./products";
 
 export const sellersTable = pgTable("sellers", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -21,6 +23,13 @@ export const sellersTable = pgTable("sellers", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const sellersRelations = relations(sellersTable, ({ many }) => ({
+	product: many(productsTable, {
+        fields: [productsTable.seller_id],
+        references: [sellersTable.id]
+    }),
+}));
 
 export const createSellersSchema = z.object({
     first_name: z.string(),

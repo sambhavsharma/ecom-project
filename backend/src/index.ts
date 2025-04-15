@@ -10,6 +10,7 @@ import productRoutes from './routes/products';
 import authRoutes from './routes/auth';
 import orderRoutes from './routes/orders';
 import userRoutes from './routes/users';
+import categoryRoutes from './routes/categories';
 
 import bodyParser from 'body-parser';
 
@@ -47,6 +48,7 @@ app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
 app.use("/users", userRoutes);
+app.use("/categories", categoryRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

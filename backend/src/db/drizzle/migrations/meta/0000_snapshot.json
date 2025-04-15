@@ -1,5 +1,5 @@
 {
-  "id": "47d6923e-38b8-4a8b-ac53-b85f60b0bcd3",
+  "id": "cba5fe66-a3e2-4bf4-be1d-19ab1e35eac6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -250,7 +250,7 @@
         },
         "seller_id": {
           "name": "seller_id",
-          "type": "varchar(255)",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },

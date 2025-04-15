@@ -6,6 +6,7 @@ import {
     timestamp
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
+import { relations } from 'drizzle-orm';
 
 export const categoriesTable = pgTable("categories", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -16,6 +17,14 @@ export const categoriesTable = pgTable("categories", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const categoriesRelations = relations(categoriesTable, ({ one, many }) => ({
+	parent: one(categoriesTable, {
+		fields: [categoriesTable.parent_category_id],
+		references: [categoriesTable.id],
+        relationName: 'parent'
+	})
+}));
 
 export const createCategorySchema = z.object({
     name: z.string(),

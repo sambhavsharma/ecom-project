@@ -17,6 +17,7 @@ export async function listProducts(req: Request, res: Response) {
         res.status(200).json(products);
 
     } catch (e) {
+        console.log(e);
         res.status(500).send('Error!');
     }
     

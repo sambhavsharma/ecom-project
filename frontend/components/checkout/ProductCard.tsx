@@ -49,7 +49,7 @@ export default function ProductCard({product: product}){
                                     </Heading>
                                     <Text size="sm">{product.brand} </Text>
                                     <Text size="sm">{product.condition} </Text>
-                                    <Text size="sm">Seller: {product.brand} </Text>
+                                    <Text size="sm">Seller: {product.seller.first_name} {product.seller.last_name} </Text>
                                 </VStack>
                             </HStack>
                             

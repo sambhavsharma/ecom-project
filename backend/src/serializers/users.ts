@@ -1,3 +1,4 @@
+const MediaSerializer = require("../serializers/media");
 
 export function userObj(user: any) {
 
@@ -16,5 +17,17 @@ export function userDetails(user: any) {
         email: user.email,
         phone: user.phone,
         dob: user.dob
+    }
+}
+
+// Seller Objects
+
+export function sellerObj(user: any) {
+
+    return {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        media: MediaSerializer.mediaList(user.media),
     }
 }

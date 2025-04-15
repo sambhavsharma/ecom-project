@@ -119,13 +119,13 @@ export default function ProductDetailsScreen(){
                                             <AvatarFallbackText>JD</AvatarFallbackText>
                                             <AvatarImage
                                                 source={{
-                                                uri: "https://gluestack.github.io/public-blog-video-assets/camera.png",
+                                                uri: data.seller.media.length ? data.seller.media[0].url : "https://gluestack.github.io/public-blog-video-assets/camera.png",
                                                 }}
                                             />
                                             </Avatar>
                                             <VStack>
                                             <Heading size="md" className="mb-1">
-                                                Jane Doe
+                                                {data.seller.first_name} {data.seller.last_name} 
                                             </Heading>
                                             <HStack className="items-center flex-start">
                                     <Icon

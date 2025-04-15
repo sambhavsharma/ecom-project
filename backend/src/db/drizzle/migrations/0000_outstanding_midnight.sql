@@ -34,7 +34,7 @@ CREATE TABLE "products" (
 	"description" text,
 	"status" varchar(20) DEFAULT 'draft' NOT NULL,
 	"brand" varchar(255),
-	"seller_id" varchar(255) NOT NULL,
+	"seller_id" integer NOT NULL,
 	"currency" varchar(3) NOT NULL,
 	"condition" varchar(3) NOT NULL,
 	"price" double precision NOT NULL,

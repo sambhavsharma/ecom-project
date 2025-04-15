@@ -8,8 +8,9 @@ import {
 import { z } from "zod";
 import { relations } from 'drizzle-orm';
 import { productsTable } from "./products";
+import { usersTable } from "./users";
 
-const PARENT_TYPES = ["product"] as const;
+const PARENT_TYPES = ["product", "user"] as const;
 const TYPES = ["image", "video"] as const;
 
 export const mediaTable = pgTable("media", {
@@ -28,6 +29,10 @@ export const mediaRelations = relations(mediaTable, ({ one }) => ({
 	product: one(productsTable, {
         fields: [mediaTable.parent_id],
         references: [productsTable.id]
+    }),
+    user: one(usersTable, {
+        fields: [mediaTable.parent_id],
+        references: [usersTable.id]
     }),
 }));
 

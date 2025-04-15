@@ -41,6 +41,13 @@ export async function get(id: number) {
         with: { 
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
+            },
+            seller: {
+                with: {
+                    media: {
+                        where: (media, { eq }) => eq(media.parent_type, "user")
+                    }
+                }
             }
         }
     });
@@ -59,6 +66,13 @@ export async function list(limit: number, offset: number) {
         with: { 
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
+            },
+            seller: {
+                with: {
+                    media: {
+                        where: (media, { eq }) => eq(media.parent_type, "user")
+                    }
+                }
             }
         }
     });

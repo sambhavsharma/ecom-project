@@ -11,6 +11,7 @@ import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
 import { relations } from 'drizzle-orm';
 import { mediaTable } from "./media";
+import { usersTable } from "./users";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const CONDITION = ["N", "LN", "GU"] as const;
@@ -22,7 +23,7 @@ export const productsTable = pgTable("products", {
     description: text(),
     status: varchar({ length: 20 }).default("draft").notNull(),
     brand: varchar({ length: 255 }),
-    seller_id: varchar({ length: 255 }).notNull(),
+    seller_id: integer().notNull(),
     currency: varchar({ length: 3 }).notNull(),
     condition: varchar({ length: 3 }).notNull(),
     price: doublePrecision().notNull(),
@@ -32,11 +33,12 @@ export const productsTable = pgTable("products", {
 
 });
 
-export const productRelations = relations(productsTable, ({ many }) => ({
-	media: many(mediaTable, {
-        fields: [mediaTable.parent_id],
-        references: [productsTable.id]
-    }),
+export const productRelations = relations(productsTable, ({ many, one }) => ({
+	media: many(mediaTable),
+    seller: one(usersTable, {
+        fields: [productsTable.seller_id],
+        references: [usersTable.id]
+    })
 }));
 
 export const createProductSchema = z.object({

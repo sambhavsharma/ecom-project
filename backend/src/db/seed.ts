@@ -40,8 +40,71 @@ async function main() {
     const users = [
         {
             first_name: "Sambhav",
-            last_name: "Sharma",
+            last_name: "Sharma1",
             email: "sambhav.sharma@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma2",
+            email: "sambhav.sharma2@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma3",
+            email: "sambhav.sharma3@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma4",
+            email: "sambhav.sharma4@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma5",
+            email: "sambhav.sharma5@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma6",
+            email: "sambhav.sharma6@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma7",
+            email: "sambhav.sharma7@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma8",
+            email: "sambhav.sharma8@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "Sharma9",
+            email: "sambhav.sharma9@hotmail.com",
+            phone: "+919711324152",
+            password: "password"
+        },
+        {
+            first_name: "Sambhav",
+            last_name: "SharmaX",
+            email: "sambhav.sharma10@hotmail.com",
             phone: "+919711324152",
             password: "password"
         }
@@ -65,7 +128,7 @@ async function main() {
         {
             "name": "AirPods Pro",
             "description": "Apple's wireless noise-cancelling earbuds with adaptive transparency and spatial audio.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Apple",
             "condition": "N",
@@ -74,7 +137,7 @@ async function main() {
         {
             "name": "Apple Watch Series 9",
             "description": "Latest smartwatch from Apple featuring always-on retina display and advanced health monitoring.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Apple",
             "condition": "N",
@@ -83,7 +146,7 @@ async function main() {
         {
             "name": "Bose Noise Cancelling Headphones",
             "description": "Premium noise-cancelling over-ear headphones with 20 hours of battery life and voice assistant integration.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Bose",
             "condition": "N",
@@ -93,7 +156,7 @@ async function main() {
         {
             "name": "Dyson V15 Vacuum",
             "description": "Powerful cordless vacuum with laser-detect technology and advanced filtration system.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Dyson",
             "condition": "N",
@@ -102,7 +165,7 @@ async function main() {
         {
             "name": "Samsung Galaxy S24 Ultra",
             "description": "Flagship smartphone with 200MP camera, 120Hz AMOLED display, and S Pen support.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Samsung",
             "condition": "N",
@@ -111,7 +174,7 @@ async function main() {
         {
             "name": "iPad Pro",
             "description": "12.9-inch iPad Pro with M2 chip, Liquid Retina XDR display, and 5G connectivity.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Apple",
             "condition": "N",
@@ -120,7 +183,7 @@ async function main() {
         {
             "name": "iPhone 16 Pro",
             "description": "Apple's latest iPhone with A18 Bionic chip, ProMotion display, and advanced triple-lens camera system.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Apple",
             "condition": "N",
@@ -129,7 +192,7 @@ async function main() {
         {
             "name": "MacBook Pro 16-inch",
             "description": "High-performance laptop with M2 Max chip, Liquid Retina XDR display, and 1TB SSD.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Apple",
             "condition": "N",
@@ -138,7 +201,7 @@ async function main() {
         {
             "name": "Nike Air Max 270",
             "description": "Popular running shoes with Nike Air cushioning and breathable mesh upper.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Nike",
             "condition": "N",
@@ -147,7 +210,7 @@ async function main() {
         {
             "name": "PlayStation 5",
             "description": "Sony's latest gaming console with 8K output, lightning-fast load times, and 825GB SSD.",
-            "seller_id": Math.floor(Math.random() * 10),
+            "seller_id": Math.floor(Math.random() * 10)+1,
             "currency": "INR",
             "brand": "Sony",
             "condition": "N",
