@@ -1,23 +1,43 @@
+// @ts-nocheck
 import { db } from "../db";
 import { productsTable } from "../db/products";
 import { eq, and } from "drizzle-orm";
+import multer from "multer";
+import fs from 'fs';
 
 const ProductSerializer = require("../serializers/products");
 const Media = require("../models/media");
+const Storage = require("../lib/multer-config");
 
 export async function create(product: any) {
         
     const {productRow, error} = await db.transaction(async (tx) => { 
+
+        //console.log(product);
+
         var [productRow] = await tx.insert(productsTable)
             .values(product)
             .returning();
 
         for (var media of product.media || []) {
+
             media.parent_type = "product";
             media.parent_id = productRow.id.toString();
-            const {error} = await Media.create(media, tx);
+
+            let buff = Buffer.from(media.uri, 'base64');
+            fs.writeFileSync('./media/'+media.filename, buff);
+            
+            var mediaObj = {
+                parent_type: "product",
+                parent_id: productRow.id.toString(),
+                type: media.type,
+                url: 'http:3000//127.0.0.1/'+media.filename
+            }
+
+            const {error} = await Media.create(mediaObj, tx);
+            
             if (error) {
-                tx.rollback();
+                tx.rollback();  
                 return {error};
             }
         }

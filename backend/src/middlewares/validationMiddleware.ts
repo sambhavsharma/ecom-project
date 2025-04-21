@@ -8,9 +8,9 @@ export function validateData(schema: z.ZodObject<any, any>) {
 
     if(error) { 
       res.status(status).json({ error: error });
+    } else {
+      next();
     }
-
-    next();
   };
 }
 

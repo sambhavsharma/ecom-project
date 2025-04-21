@@ -50,22 +50,15 @@ const MobileMenu = ({
                         />
                     </VStack>
                 </Pressable>
-
-            {/* <Button
-              onPress={() => {
-                setShowMobileMenu(false)
-              }}
-              className="flex-1"
-            >
-            </Button> */}
           </DrawerHeader>
 
           <DrawerBody>
             <VStack space="lg" className="mx-0.5 xl:gap-5 2xl:gap-6">
                 {tabs.map(
-                    (tab: any) => { 
+                    (tab: any, index: number) => { 
                         return (
                             <Pressable
+                                key={index}
                                 onPress={() => {}}
                             >
                                 <Text
@@ -80,17 +73,6 @@ const MobileMenu = ({
                 )}
             </VStack>
           </DrawerBody>
-
-          {/* <DrawerFooter>
-            <Button
-              onPress={() => {
-                setShowMobileMenu(false)
-              }}
-              className="flex-1"
-            >
-              <ButtonText>Button</ButtonText>
-            </Button>
-          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
       </>

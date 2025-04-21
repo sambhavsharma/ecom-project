@@ -21,6 +21,7 @@ export function productObj(product: any) {
         currency: product.currency,
         price: product.price,
         brand: product.brand,
+        // condition: Product.conditionMap[product.condition],
         condition: Product.conditionMap[product.condition],
         media: MediaSerializer.mediaList(product.media),
         seller: UserSerializer.sellerObj(product.seller)

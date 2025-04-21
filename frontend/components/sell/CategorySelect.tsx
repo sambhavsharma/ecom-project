@@ -114,10 +114,11 @@ export default function CategorySelect({
                     }
 
                     {
-                        showCategoryMenu && currentCategoryMenu && currentCategoryMenu.map((category: any) => {
+                        showCategoryMenu && currentCategoryMenu && currentCategoryMenu
+                            .map((category: any, index: number) => {
                             return (
                                 <>
-                                    <Pressable onPress={() => {categorySelect(category.id)}} className="w-full">
+                                    <Pressable key={index} onPress={() => {categorySelect(category.id)}} className="w-full">
                                         <HStack className="w-full cursor-pointer hover:bg-gray-50">
                                             <Heading size="sm" className="w-full mb-1 p-3"> 
                                                 {category.name}

@@ -24,10 +24,10 @@ export function userDetails(user: any) {
 
 export function sellerObj(user: any) {
 
-    return {
+    return user ? {
         id: user.id,
         first_name: user.first_name,
         last_name: user.last_name,
         media: MediaSerializer.mediaList(user.media),
-    }
+    } : {}
 }

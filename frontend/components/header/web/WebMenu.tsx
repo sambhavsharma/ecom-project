@@ -18,9 +18,10 @@ const Header = (({tabs}: any) => {
         <VStack>
             <HStack space="lg" className="mx-0.5 xl:gap-5 2xl:gap-6">
                 {tabs.map(
-                    (tab: any) => { 
+                    (tab: any, index: number) => { 
                         return (
                             <Pressable
+                                key={index}
                                 onPress={() => setShowMenu( showMenu ? false : true)}
                             >
                                 <Text
@@ -36,9 +37,9 @@ const Header = (({tabs}: any) => {
             </HStack>
             <HStack space="lg" className={`mx-0.5 xl:gap-5 2xl:gap-6 ${ showMenu ? '' : 'hidden' }`}>
                 {tabs.map(
-                        (tab: any) => { 
+                        (tab: any, index: number) => { 
                             return (
-                                <Pressable>
+                                <Pressable key={index}>
                                     <Text
                                         size="sm"
                                         className="text-typography-900 font-medium my-4 mr-4 pointer"

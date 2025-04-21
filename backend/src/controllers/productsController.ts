@@ -5,7 +5,7 @@ import { eq, and } from "drizzle-orm";
 
 const Product = require("../models/product");
 
-const DEFAULT_LIMIT = 10;
+const DEFAULT_LIMIT = 15;
 
 export async function listProducts(req: Request, res: Response) {
     try {
@@ -43,15 +43,15 @@ export async function getProduct(req: Request, res: Response) {
 }
 
 export async function createProduct(req: Request, res: Response) {
-    
-    try {
 
+    try {
+        
         var product = req.body;
         var productObj = await Product.create(product);
         res.status(201).json(productObj);
 
     } catch (e) {
-        //console.log(e);
+        console.log(e);
         res.status(500).send('Error creating product');
     }
 }

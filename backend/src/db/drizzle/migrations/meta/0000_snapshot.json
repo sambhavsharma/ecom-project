@@ -1,5 +1,5 @@
 {
-  "id": "09f8533f-907a-4ba2-b677-b79ffae5b5bf",
+  "id": "43dd28dc-033a-4aed-8458-0bf402bc0f62",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -244,7 +244,7 @@
         },
         "brand": {
           "name": "brand",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
@@ -254,14 +254,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "currency": {
-          "name": "currency",
-          "type": "varchar(3)",
+        "category_id": {
+          "name": "category_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "condition": {
           "name": "condition",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency": {
+          "name": "currency",
           "type": "varchar(3)",
           "primaryKey": false,
           "notNull": true
