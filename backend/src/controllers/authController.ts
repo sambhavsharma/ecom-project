@@ -1,18 +1,30 @@
 import {Request, Response} from "express";
+import jwt from "jsonwebtoken";
 
 const UserSerializer = require("../serializers/users");
+
+const jwtOptions = {
+    secretOrKey: "secret",
+    expiresIn: 60
+  };  
 
 export async function login(req: Request, res: Response) {
     try {
         
-        var user = req.user;
-        if(user){
-            res.status(200).json(UserSerializer.userObj(user));
+        let user = req.user;
+
+        if(user && user.id){
+            let token = jwt.sign(user, jwtOptions.secretOrKey, { expiresIn: jwtOptions.expiresIn });
+
+            res.status(200).json({            
+                ...UserSerializer.userObj(user),
+                token: token
+            });
         } else {
-            throw new Error();
+            res.status(404).send('User not Found!');
         }
-                    
     } catch (e) {
+        console.log(e);
         res.status(500).send('Error!');
     }
     

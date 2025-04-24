@@ -5,8 +5,7 @@ import "@/global.css";
 
 import { useCart } from "@/store/cartStore";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
-
+import { AuthProvider } from "@/providers/AuthProvider";
 
 import Header from "@/components/header/Header";
 
@@ -16,15 +15,17 @@ const queryClient = new QueryClient();
 export default function RootLayout() {
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <GluestackUIProvider>
-                <Header/>
-                <Stack
-                    screenOptions={{headerShown: false}}
-                >
-                   
-                </Stack>
-            </GluestackUIProvider>
-        </QueryClientProvider>
+        <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+                <GluestackUIProvider>
+                    <Header/>
+                    <Stack
+                        screenOptions={{headerShown: false}}
+                    >
+                    
+                    </Stack>
+                </GluestackUIProvider>
+            </QueryClientProvider>
+        </AuthProvider>
     )
 }

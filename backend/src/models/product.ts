@@ -19,20 +19,23 @@ export async function create(product: any) {
             .values(product)
             .returning();
 
+        productRow.media = [];
+
         for (var media of product.media || []) {
 
-            media.parent_type = "product";
-            media.parent_id = productRow.id.toString();
-
-            let buff = Buffer.from(media.uri, 'base64');
-            fs.writeFileSync('./media/'+media.filename, buff);
-            
+            if(!media.url){
+                let buff = Buffer.from(media.uri, 'base64');
+                fs.writeFileSync('./media/'+media.filename, buff);
+            }
+                
             var mediaObj = {
                 parent_type: "product",
                 parent_id: productRow.id.toString(),
                 type: media.type,
-                url: 'http:3000//127.0.0.1/'+media.filename
+                url: media.url ? media.url : 'http://127.0.0.1:3000/'+media.filename
             }
+
+            productRow.media.push(mediaObj);
 
             const {error} = await Media.create(mediaObj, tx);
             

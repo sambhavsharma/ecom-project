@@ -1,4 +1,6 @@
 import {Router} from 'express';
+import passport from "passport";
+
 import { 
     listProducts, 
     getProduct, 
@@ -11,21 +13,18 @@ import { createProductSchema, updateProductSchema } from '../db/products';
 
 const router = Router();
 
-const multer  = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './media')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
+// const multer  = require('multer');
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './media')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname)
+//     }
+// })
 
-const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
 
-
-router.get('/', listProducts);
-router.get('/:id', getProduct);
 // router.post('/', validateData(createProductSchema), createProduct);
 
 // router.post('/', upload.array("media"), createProduct);
@@ -41,7 +40,10 @@ router.get('/:id', getProduct);
 //     });
 // });
 
-router.post('/', createProduct);
+router.get('/', listProducts);
+router.get('/:id', getProduct);
+
+router.post('/', passport.authenticate('jwt', { session: false }), createProduct);
 
 router.put('/:id', validateData(updateProductSchema), updateProduct);
 router.delete('/:id', deleteProduct);

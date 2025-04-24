@@ -45,7 +45,7 @@ export async function getProduct(req: Request, res: Response) {
 export async function createProduct(req: Request, res: Response) {
 
     try {
-        
+        //console.log(req.user);
         var product = req.body;
         var productObj = await Product.create(product);
         res.status(201).json(productObj);

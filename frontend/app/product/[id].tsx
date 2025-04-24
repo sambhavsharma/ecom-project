@@ -49,7 +49,8 @@ export default function ProductDetailsScreen(){
                                 <Box className=" mx-auto p-5 rounded-lg m-3 flex-1">
                                     <Image
                                         source={{
-                                        uri: data.media[0].url,
+                                        uri: data.media[0] ? data.media[0].url : 
+                                            "https://www.mountaingoatsoftware.com/uploads/blog/2016-09-06-what-is-a-product.png",
                                         }}
                                         className="mb-6 h-auto w-[500px] rounded-md aspect-[4/3]"
                                         alt="image"

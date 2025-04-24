@@ -5,6 +5,8 @@ import session from 'express-session';
 import cors from "cors";
 
 import "./lib/auth/strategies/local-strategy.ts";
+import "./lib/auth/strategies/jwt-strategy.ts";
+
 
 import productRoutes from './routes/products';
 import authRoutes from './routes/auth';
@@ -45,7 +47,7 @@ app.use(session({
 // });
 
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);

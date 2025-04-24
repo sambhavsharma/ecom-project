@@ -18,7 +18,6 @@ export async function create(user: any) {
 
     if(user.dob)
         user.dob = new Date(user.dob);
-
         
     const {userRow, error} = await db.transaction(async (tx) => { 
         var [userRow] = await tx.insert(usersTable)
