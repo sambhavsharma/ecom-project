@@ -4,6 +4,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { Icon, FavouriteIcon } from "@/components/ui/icon";
 import { Button, ButtonText } from "@/components/ui/button";
+import { useAuth } from "@/providers/AuthProvider";
 
 
 import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
@@ -17,14 +18,17 @@ import {
 
 import { Pressable } from "@/components/ui/pressable";
 import { Link } from "expo-router";
-
-const [selectedTab, setSelectedTab] = React.useState("Anywhere");
+import UserMenu from "./userMenu";
 
 const UserProfile = () => {
+  
   const [openLogoutAlertDialog, setOpenLogoutAlertDialog] = useState(false);
+  const { user } = useAuth();
+
+
   return (
     <>
-       <HStack space="lg" className="p-1.5 items-center min-w-[240px]">
+       <HStack space="lg" className="p-1.5 items-center min-w-[240px] justify-end">
 
        <Link href='/wishlist'>
         <Icon
@@ -34,16 +38,24 @@ const UserProfile = () => {
         </Link>
 
        <Link href='/sell'>
-        <Button size="sm" className="font-medium hidden md:flex">
-          <ButtonText className="text-typography-0">Sell</ButtonText>
+        <Button size="sm" variant="outline" className="font-medium hidden md:flex">
+          <ButtonText className="text-typography-1">Sell</ButtonText>
         </Button>
         </Link>
 
-        <Link href="/login">
-          <Button size="sm" className="font-medium ml-1">
-            <ButtonText className="text-typography-0">Log In | Sign Up</ButtonText>
-          </Button>
-        </Link>
+        {
+          user && user.id &&
+          < UserMenu user={user} />
+        }
+
+        {
+          user && !user.id &&
+          <Link href="/login">
+            <Button size="sm" className="font-medium ml-1">
+              <ButtonText className="text-typography-0">Log In | Sign Up</ButtonText>
+            </Button>
+          </Link>
+        }
       </HStack>
     
     </>

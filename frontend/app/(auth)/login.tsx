@@ -1,12 +1,14 @@
 import { Button, ButtonText } from "../../components/ui/button";
-import { FormControl } from "../../components/ui/form-control";
-import { Heading } from "../../components/ui/heading";
-import { Input, InputField, InputIcon, InputSlot } from "../../components/ui/input";
-import { Text } from "../../components/ui/text";
-import { VStack } from "../../components/ui/vstack";
-import { EyeIcon, EyeOffIcon } from "../../components/ui/icon";
+import { FormControl } from "@/components/ui/form-control";
+import { Heading } from "@/components/ui/heading";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 import React, { useState } from "react";
-import { HStack } from "../../components/ui/hstack";
+import { HStack } from "@/components/ui/hstack";
+import { Center } from "@/components/ui/center";
+import { Spinner } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import { useAuth } from "@/providers/AuthProvider";
@@ -25,11 +27,12 @@ export default function LoginScreen() {
   const loginMutation = useMutation({
     mutationFn: () => login(email, password),
     onSuccess: async (data) => {
+
       await signin(data);
-      console.log("success set User");
     },
     onError: (e) => {
-      console.log("error");
+
+      console.log("error: "+e);
     }
   })
   
@@ -39,12 +42,19 @@ export default function LoginScreen() {
     });
   };
 
-  // if(isLoggedIn) { 
-  //   // return <Redirect href={"/"}/>;
-  // }
+  if(!user) {
+    return (
+        <Center className="h-full">
+            <VStack space="sm" >
+                <Spinner />
+                <Text size="md">Loading</Text>
+            </VStack>
+        </Center>
+    );
+  }
 
-  if(user)
-        return <Redirect href="/"/>
+  if(user.id)
+    return <Redirect href="/"/>
 
   return (
     <ScrollView>

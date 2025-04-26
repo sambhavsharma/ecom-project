@@ -7,20 +7,22 @@ import fs from 'fs';
 
 const ProductSerializer = require("../serializers/products");
 const Media = require("../models/media");
+const ProductAttribute = require("../models/product_attribute");
 const Storage = require("../lib/multer-config");
+
+const BASE_URL = "http://127.0.0.1:3000/";
 
 export async function create(product: any) {
         
     const {productRow, error} = await db.transaction(async (tx) => { 
 
-        //console.log(product);
-
         var [productRow] = await tx.insert(productsTable)
             .values(product)
             .returning();
 
+        // Adding Product Media
         productRow.media = [];
-
+        
         for (var media of product.media || []) {
 
             if(!media.url){
@@ -32,7 +34,7 @@ export async function create(product: any) {
                 parent_type: "product",
                 parent_id: productRow.id.toString(),
                 type: media.type,
-                url: media.url ? media.url : 'http://127.0.0.1:3000/'+media.filename
+                url: media.url ? media.url : BASE_URL+media.filename
             }
 
             productRow.media.push(mediaObj);
@@ -44,7 +46,24 @@ export async function create(product: any) {
                 return {error};
             }
         }
-        
+
+        // Adding Product Attributes
+        for (var attribute_id of Object.keys(product.attributes) || []) {
+            let attribute = {
+                product_id: productRow.id,
+                attribute_id: parseInt(attribute_id),
+                value: product.attributes[attribute_id]
+            }
+
+            const {error} = await ProductAttribute.create(attribute, tx);
+
+            if (error) {
+                console.log(error);
+                tx.rollback();  
+                return {error};
+            }
+        }
+
         return {productRow: productRow};
     });
 
@@ -64,6 +83,12 @@ export async function get(id: number) {
         with: { 
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
+            },
+            category: true,
+            attributes: {
+                with: {
+                    attribute: true
+                }
             },
             seller: {
                 with: {
@@ -90,6 +115,7 @@ export async function list(limit: number, offset: number) {
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
             },
+            category: true,
             seller: {
                 with: {
                     media: {

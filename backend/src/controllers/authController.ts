@@ -5,7 +5,7 @@ const UserSerializer = require("../serializers/users");
 
 const jwtOptions = {
     secretOrKey: "secret",
-    expiresIn: 60
+    expiresIn: 600
   };  
 
 export async function login(req: Request, res: Response) {

@@ -43,3 +43,14 @@ export function categoryObj(category: any) {
         attributes: AttributesSerializer.attributesList(category.attributes)
     }
 }
+
+export function baseCategoryObj(category: any) {
+
+    if(!category)
+        return {};
+
+    return {
+        id: category.id,
+        name: category.name
+    }
+}

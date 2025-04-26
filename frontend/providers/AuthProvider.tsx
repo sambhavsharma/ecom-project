@@ -30,7 +30,8 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
 
     useEffect(() => {
         const loadUser = async () => {
-            setUser(JSON.parse(await get("user")));
+            let data = await get("user") || "{}";
+            setUser(JSON.parse(data));
         }
         loadUser();
     }, [])

@@ -1,5 +1,7 @@
 const MediaSerializer = require("../serializers/media");
 const UserSerializer = require("../serializers/users");
+const CategorySerializer = require("../serializers/categories");
+const ProductAttributeSerializer = require("../serializers/product_attributes");
 const Product = require("../models/product");
 
 export function productsList(products: any) {
@@ -22,8 +24,10 @@ export function productObj(product: any) {
         price: product.price,
         brand: product.brand,
         // condition: Product.conditionMap[product.condition],
-        condition: Product.conditionMap[product.condition],
+        condition: product.condition,
         media: MediaSerializer.mediaList(product.media),
-        seller: UserSerializer.sellerObj(product.seller)
+        seller: UserSerializer.sellerObj(product.seller),
+        category: CategorySerializer.baseCategoryObj(product.category),
+        attributes: ProductAttributeSerializer.productAttributesList(product.attributes)
     }
 }

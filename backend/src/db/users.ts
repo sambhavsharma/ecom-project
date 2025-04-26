@@ -4,7 +4,8 @@ import {
     varchar, 
     boolean, 
     timestamp,
-    date 
+    date,
+    text 
 } from "drizzle-orm/pg-core";
 import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
@@ -20,6 +21,7 @@ export const usersTable = pgTable("users", {
     email: varchar({ length: 255 }).unique().notNull(),
     phone:  varchar({ length: 50 }).notNull(),
     dob: date({mode: "date"}),
+    bio: text(),
     password: varchar({ length: 255 }).notNull(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
@@ -39,6 +41,7 @@ export const createUserSchema = z.object({
     email: z.string(),
     phone:  z.string(),
     dob: z.string().date(),
+    bio: z.string(),
     password: z.string(),
     addresses: z.object({}).array().optional()
 }).strict();

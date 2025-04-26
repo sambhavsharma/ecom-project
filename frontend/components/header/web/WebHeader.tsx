@@ -36,7 +36,7 @@ const WebHeader = (({
             </Input>
         </HStack>
 
-          <HStack space="lg" className="items-center pr-1.5">
+          <HStack space="lg" className="items-center pr-1.5 text-right">
             <UserProfile />
           </HStack>
         </HStack>

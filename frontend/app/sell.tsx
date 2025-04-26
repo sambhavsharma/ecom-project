@@ -18,6 +18,8 @@ import { Image } from "@/components/ui/image";
 import { Card } from "@/components/ui/card";
 import { Link, LinkText } from "@/components/ui/link";
 
+import { Spinner } from "@/components/ui/spinner";
+
 import {
     Select,
     SelectTrigger,
@@ -151,7 +153,18 @@ export default function Sell () {
         setImages([]);
     }
 
-    if(!user){
+    if(!user) {
+        return (
+            <Center className="h-full">
+                <VStack space="sm" >
+                    <Spinner />
+                    <Text size="md">Loading</Text>
+                </VStack>
+            </Center>
+        );
+    }
+
+    if(!user.id){
         return <Redirect href="/login"/>
     }
 

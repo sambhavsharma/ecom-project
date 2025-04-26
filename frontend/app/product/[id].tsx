@@ -66,21 +66,28 @@ export default function ProductDetailsScreen(){
                                     </Text>
 
                                     <VStack space="sm" className="mb-2">
+                                        {
+                                            data.attributes.map(
+                                                (attribute: any, index: number) => {
+                                                    return(
+                                                        <Text size="sm">
+                                                            {attribute.name}: {attribute.value}
+                                                        </Text>
+                                                    ) 
+                                                }
+                                            )
+                                        }
                                         <Text size="sm">
-                                        Size: L
+                                        Brand: {data.brand}
                                         </Text>
 
                                         <Text size="sm">
-                                        Color: Black
-                                        </Text>
-
-                                        <Text size="sm">
-                                        Condition: Good
+                                        Condition: {data.condition}
                                         </Text>
                                     </VStack>
 
                                     <Heading size="md" className="mb-1">
-                                    ${data.price}
+                                    {data.currency} {data.price}
                                     </Heading>
                                     
 
