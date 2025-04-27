@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
@@ -25,6 +25,11 @@ const UserProfile = () => {
   const [openLogoutAlertDialog, setOpenLogoutAlertDialog] = useState(false);
   const { user } = useAuth();
 
+  useEffect(
+    () => {
+      
+    }
+  )
 
   return (
     <>
@@ -43,13 +48,17 @@ const UserProfile = () => {
         </Button>
         </Link>
 
+        {/* <Text>No User</Text> */}
+
+        {/* { !user && <Text>No User</Text>} */}
+
         {
-          user && user.id &&
+          user &&
           < UserMenu user={user} />
         }
 
         {
-          user && !user.id &&
+          !user &&
           <Link href="/login">
             <Button size="sm" className="font-medium ml-1">
               <ButtonText className="text-typography-0">Log In | Sign Up</ButtonText>

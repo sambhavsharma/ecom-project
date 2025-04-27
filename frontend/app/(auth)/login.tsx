@@ -7,13 +7,12 @@ import { VStack } from "@/components/ui/vstack";
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 import React, { useState } from "react";
 import { HStack } from "@/components/ui/hstack";
-import { Center } from "@/components/ui/center";
-import { Spinner } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
 import { ScrollView } from "react-native";
+import Loader from "@/components/widgets/Loader";
 
 	
 export default function LoginScreen() {
@@ -22,7 +21,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signin, user} = useAuth();
+  const { signin, user, isLoading} = useAuth();
 
   const loginMutation = useMutation({
     mutationFn: () => login(email, password),
@@ -42,19 +41,12 @@ export default function LoginScreen() {
     });
   };
 
-  if(!user) {
-    return (
-        <Center className="h-full">
-            <VStack space="sm" >
-                <Spinner />
-                <Text size="md">Loading</Text>
-            </VStack>
-        </Center>
-    );
+  if(isLoading) {
+    return ( <Loader /> );
   }
 
-  if(user.id)
-    return <Redirect href="/"/>
+  if(user)
+    return (<Redirect href="/"/>);
 
   return (
     <ScrollView>

@@ -1,50 +1,25 @@
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
 import { Pressable } from "@/components/ui/pressable";
 import {
   Menu,
   MenuItem,
-  MenuItemLabel,
-  MenuSeparator,
+  MenuItemLabel
 } from "@/components/ui/menu"
-import {
-  Icon,
-  HelpCircleIcon,
-  MessageCircleIcon,
-  SettingsIcon,
-} from "@/components/ui/icon"
-import { Redirect } from "expo-router";
 
+import { Redirect } from "expo-router";
+import { Link } from "expo-router";
 import { useAuth } from "@/providers/AuthProvider";
 
-import React, {useState} from "react"
+import React from "react"
 
 import {
     Avatar,
-    AvatarBadge,
     AvatarFallbackText,
     AvatarImage,
   } from "@/components/ui/avatar"
 
 const UserMenu = (user: object) => {
 
-    const [selected, setSelected] = useState(new Set([]));
-    const [redirect, setRedirect] = useState(null);
     const { logout} = useAuth();
-
-    const onSelect = (value: string) => {
-        if(value === "profile")
-            setRedirect("/profile");
-        if(value === "settings")
-            setRedirect("/settings");
-        if(value === "favorites")
-            setRedirect("/wishlist");
-        if(value === "logout")
-            logout();
-    };
-
-    if(redirect)
-        return <Redirect href={redirect}/>
-
 
     return (
         <Menu
@@ -67,39 +42,40 @@ const UserMenu = (user: object) => {
                     </Pressable>
                 )
             }}
-        >
+        >       
             <MenuItem
                 key="profile"
                 textValue="profile"
-                className="p-2"
-                onPress={ () => { onSelect("profile")}}
+                className="p-2 w-full"
             >
-                <MenuItemLabel size="sm">Profile</MenuItemLabel>
+                <Link  href="/profile">
+                    <MenuItemLabel className="w-full" size="sm">Profile</MenuItemLabel>
+                </Link>
             </MenuItem>
-
             <MenuItem
                 key="settings"
                 textValue="settings"
                 className="p-2"
-                onPress={ () => { onSelect("settings")}}
             >
-                <MenuItemLabel size="sm">Settings</MenuItemLabel>
+                <Link  href="/settings">
+                    <MenuItemLabel className="w-full" size="sm">Settings</MenuItemLabel>
+                </Link>
             </MenuItem>
 
             <MenuItem
                 key="favorites"
                 textValue="favorites"
                 className="p-2"
-                onPress={ () => { onSelect("favorites")}}
             >
-                <MenuItemLabel size="sm">Favorites</MenuItemLabel>
+                <Link  href="/wishlist">
+                    <MenuItemLabel className="w-full" size="sm">Favorites</MenuItemLabel>
+                </Link>
             </MenuItem>
 
             <MenuItem
                 key="orders"
                 textValue="orders"
                 className="p-2"
-                onPress={ () => { onSelect("orders")}}
             >
                 <MenuItemLabel size="sm">Orders</MenuItemLabel>
             </MenuItem>
@@ -108,7 +84,7 @@ const UserMenu = (user: object) => {
                 key="logout"
                 textValue="logout"
                 className="p-2"
-                onPress={ () => { onSelect("logout")}}
+                onPress={ () => {logout()}}
             >
                 <MenuItemLabel size="sm">Logout</MenuItemLabel>
             </MenuItem>

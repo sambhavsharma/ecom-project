@@ -11,14 +11,8 @@ import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
-import { Text } from "@/components/ui/text";
 import { Box } from "@/components/ui/box";
 import { Image } from "@/components/ui/image";
-
-import { Card } from "@/components/ui/card";
-import { Link, LinkText } from "@/components/ui/link";
-
-import { Spinner } from "@/components/ui/spinner";
 
 import {
     Select,
@@ -31,7 +25,7 @@ import {
     SelectItem,
 } from "@/components/ui/select";
 
-import { Icon, ArrowRightIcon, AddIcon, ChevronDownIcon } from "@/components/ui/icon";
+import { AddIcon, ChevronDownIcon } from "@/components/ui/icon";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import * as ImagePicker from 'expo-image-picker';
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -42,6 +36,7 @@ import CategorySelect from "@/components/sell/CategorySelect";
 import ProductCreated from "@/components/sell/ProductCreated";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
+import Loader from "@/components/widgets/Loader";
 
 export default function Sell () {
 
@@ -49,7 +44,7 @@ export default function Sell () {
     const [inputValue, setInputValue] = useState('12345');
     const [createdProduct, setCreatedProduct] = useState(null);
     
-    const {logout, user} = useAuth();
+    const {logout, user, isLoading} = useAuth();
 
     // Form Values
     const [name, setName] = useState("");
@@ -98,7 +93,7 @@ export default function Sell () {
         setAttributes(attributes);
     }
 
-    const {data, isLoading, err} = useQuery({queryKey: ['categories'], queryFn:() => listCategories()});
+    const {data} = useQuery({queryKey: ['categories'], queryFn:() => listCategories()});
 
     const createProductMutation = useMutation({
         mutationFn: (productObj: object) => {
@@ -116,10 +111,6 @@ export default function Sell () {
             }
         }
     })
-    
-    // if(err) {
-    //     return <Text>Explore Similar Products!</Text>;
-    // }
 
     const [images, setImages] = useState<any>([]);
 
@@ -153,18 +144,11 @@ export default function Sell () {
         setImages([]);
     }
 
-    if(!user) {
-        return (
-            <Center className="h-full">
-                <VStack space="sm" >
-                    <Spinner />
-                    <Text size="md">Loading</Text>
-                </VStack>
-            </Center>
-        );
+    if(isLoading) {
+        return ( <Loader /> );
     }
 
-    if(!user.id){
+    if(!user){
         return <Redirect href="/login"/>
     }
 

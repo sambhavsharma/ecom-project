@@ -6,7 +6,8 @@ import { Platform } from 'react-native';
 const AuthContext = createContext({
     user: {},
     signin: (user) => {},
-    logout: () => {}
+    logout: () => {},
+    isLoading: true
 });
 
 export const AuthProvider = ({children} : PropsWithChildren) => {
@@ -26,12 +27,15 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
         return Platform.OS === 'web' ? await AsyncStorage.removeItem(key) : await SecureStore.deleteItemAsync(key);
     }
 
-    const [user, setUser] = useState(undefined);
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadUser = async () => {
-            let data = await get("user") || "{}";
+            // let data = await get("user") || "{}";
+            let data = await get("user");
             setUser(JSON.parse(data));
+            setIsLoading(false);
         }
         loadUser();
     }, [])
@@ -57,7 +61,7 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, signin, logout}}>
+        <AuthContext.Provider value={{ user, signin, logout, isLoading}}>
             {children}
         </AuthContext.Provider>
     );
