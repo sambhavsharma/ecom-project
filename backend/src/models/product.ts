@@ -27,14 +27,14 @@ export async function create(product: any) {
 
             if(!media.url){
                 let buff = Buffer.from(media.uri, 'base64');
-                fs.writeFileSync('./media/'+media.filename, buff);
+                fs.writeFileSync('./media/'+media.fileNname, buff);
             }
                 
             var mediaObj = {
                 parent_type: "product",
                 parent_id: productRow.id.toString(),
                 type: media.type,
-                url: media.url ? media.url : BASE_URL+media.filename
+                url: media.url ? media.url : BASE_URL+media.fileNname
             }
 
             productRow.media.push(mediaObj);

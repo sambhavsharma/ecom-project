@@ -14,12 +14,28 @@ const localStrategy =  passport.use(
     new Strategy( {usernameField: 'email'}, async function(email: string, password: string, done){
         try {
 
-            const [user] = await db.select()
-                .from(usersTable)
-                .where(and(
+            const user = await db.query.usersTable.findFirst({
+                where: and(
                     eq(usersTable.email, email),
                     eq(usersTable.is_deleted, false)
-                ));
+                ),
+                with: { 
+                    media: {
+                        where: (media, { eq }) => eq(media.parent_type, "user")
+                    }
+                }
+            });
+
+            // const [user] = await db.select()
+            //     .from(usersTable)
+            //     .where(and(
+            //         eq(usersTable.email, email),
+            //         eq(usersTable.is_deleted, false)
+            //     )).with(
+            //         media: {
+            //             where: (media, { eq }) => eq(media.parent_type, "user")
+            //         }
+            //     );
 
             if(!user) { throw new Error(); }
             

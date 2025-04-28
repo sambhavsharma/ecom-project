@@ -7,12 +7,15 @@ import cors from "cors";
 import "./lib/auth/strategies/local-strategy.ts";
 import "./lib/auth/strategies/jwt-strategy.ts";
 
-
+// Routes Begin
 import productRoutes from './routes/products';
 import authRoutes from './routes/auth';
 import orderRoutes from './routes/orders';
 import userRoutes from './routes/users';
 import categoryRoutes from './routes/categories';
+import addressRoutes from './routes/addresses';
+// Routes End
+
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -54,6 +57,7 @@ app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
 app.use("/users", userRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/addresses", addressRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

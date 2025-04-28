@@ -15,18 +15,6 @@ const getToken = async () => {
     return user ? user.token : "";
 }
 
-const clearUser = async () => {
-
-    let key = "user";
-    let user = JSON.parse(
-         Platform.OS === 'web' ? await AsyncStorage.getItem(key) : await SecureStore.getItemAsync(key)
-    )
-    
-    return user ? user.token : "";
-}
-
-
-
 export async function listProducts() {
     var url = `${API_URL}/products`;
     const res = await fetch(url.toString());
@@ -87,4 +75,4 @@ const createFormData = (media: [object], product: object) => {
     });
   
     return data;
-  };
+};

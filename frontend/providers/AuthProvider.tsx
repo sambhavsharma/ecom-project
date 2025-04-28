@@ -7,6 +7,7 @@ const AuthContext = createContext({
     user: {},
     signin: (user) => {},
     logout: () => {},
+    updateUserData: (user) => {},
     isLoading: true
 });
 
@@ -32,7 +33,6 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
 
     useEffect(() => {
         const loadUser = async () => {
-            // let data = await get("user") || "{}";
             let data = await get("user");
             setUser(JSON.parse(data));
             setIsLoading(false);
@@ -42,16 +42,7 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
     
     const signin = async (data) => {
 
-        let user =  {
-            id: data.id.toString(),
-            first_name: data.first_name,
-            last_name: data.last_name,
-            email: data.email,
-            token: data.token
-        }
-
-        await save("user",JSON.stringify(user));
-
+        await save("user",JSON.stringify(data));
         setUser(data);
     }
 
@@ -60,8 +51,14 @@ export const AuthProvider = ({children} : PropsWithChildren) => {
         setUser(undefined);
     }
 
+    const updateUserData = async (userData) => {
+        
+        await save("user",JSON.stringify(userData));
+        setUser(userData);
+    }
+
     return (
-        <AuthContext.Provider value={{ user, signin, logout, isLoading}}>
+        <AuthContext.Provider value={{ user, signin, logout, isLoading, updateUserData}}>
             {children}
         </AuthContext.Provider>
     );

@@ -13,33 +13,6 @@ import { createProductSchema, updateProductSchema } from '../db/products';
 
 const router = Router();
 
-// const multer  = require('multer');
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, './media')
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, file.originalname)
-//     }
-// })
-
-// const upload = multer({ storage: storage })
-
-// router.post('/', validateData(createProductSchema), createProduct);
-
-// router.post('/', upload.array("media"), createProduct);
-
-// router.post('/', function(req, res){
-
-//     const upload = multer({ storage: storage }).array("media", req.body.media.length);
-
-//     upload(req, res, function (err) {
-
-//         console.log(req.files);
-//         createProduct(req, res);
-//     });
-// });
-
 router.get('/', listProducts);
 router.get('/:id', getProduct);
 

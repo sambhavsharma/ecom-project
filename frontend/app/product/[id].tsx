@@ -2,14 +2,12 @@ import { ScrollView } from "react-native";
 import { getProduct } from "@/api/products";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
-import { Card } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { Stack } from "expo-router";
 import { Center } from "@/components/ui/center";
 import { useCart } from "@/store/cartStore";
 import { useQuery } from "@tanstack/react-query";
@@ -124,10 +122,10 @@ export default function ProductDetailsScreen(){
                                     <Box className="p-6 rounded-lg max-w-[360px] m-3">
                                         <Box className="flex-row">
                                             <Avatar className="mr-4">
-                                            <AvatarFallbackText>JD</AvatarFallbackText>
+                                            
                                             <AvatarImage
                                                 source={{
-                                                uri: data.seller.media.length ? data.seller.media[0].url : "https://gluestack.github.io/public-blog-video-assets/camera.png",
+                                                    uri: data.seller.image,
                                                 }}
                                             />
                                             </Avatar>

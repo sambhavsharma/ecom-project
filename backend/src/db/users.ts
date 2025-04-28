@@ -23,6 +23,8 @@ export const usersTable = pgTable("users", {
     dob: date({mode: "date"}),
     bio: text(),
     password: varchar({ length: 255 }).notNull(),
+    email_verified: boolean().default(false).notNull(),
+    phone_verified: boolean().default(false).notNull(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp({}).$onUpdate(() => new Date())

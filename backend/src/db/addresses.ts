@@ -9,7 +9,7 @@ import {
 import { z } from "zod";
 
 const PARENT_TYPES = ["user", "seller", "order"] as const;
-const COUNTRY = ["IN", "US", "GB", "SG"] as const;
+const COUNTRY = ["IN", "US", "GB", "SG", "UAE"] as const;
 
 export const addressesTable = pgTable("addresses", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),

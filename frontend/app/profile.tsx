@@ -1,32 +1,69 @@
 import { ScrollView } from "react-native";
-import { Text } from "@/components/ui/text";
-import { useLocalSearchParams } from "expo-router";
-import { Card } from "@/components/ui/card";
-import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Stack } from "expo-router";
+import { Link } from "@/components/ui/link";
 import { Center } from "@/components/ui/center";
-import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator } from "react-native";
-import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
-import { Divider } from "@/components/ui/divider";
-import { Icon, StarIcon } from "@/components/ui/icon";
-import { Link } from "expo-router";
+
+import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar"
+import { Box } from "@/components/ui/box"
+import { Button, ButtonText } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Divider } from "@/components/ui/divider"
+import { Heading } from "@/components/ui/heading"
+import { Image } from "@/components/ui/image"
+import { Text } from "@/components/ui/text"
+
+import Loader from "@/components/widgets/Loader";
+import { useAuth } from "@/providers/AuthProvider";
+import { Redirect } from "expo-router";
+
+import ProductList from "@/components/widgets/ProductList";
 
 export default function Profile(){
+
+    const { user, isLoading} = useAuth();
+
+    if(isLoading) {
+        return ( <Loader /> );
+    }
+
+    if(!user){
+        return <Redirect href="/login"/>
+    }
 
     return (
         <ScrollView>
             <Center>
-                <VStack>
-                    <HStack className="max-w-[1300px]">
-                    </HStack>
-                </VStack>
+            <Card className="p-6 rounded-lg m-3">
+                <Box className="flex-row">
+                    <Avatar className="mr-4">
+                    <AvatarFallbackText>{user.first_name[0]}</AvatarFallbackText>
+                    <AvatarImage
+                        source={{
+                            uri: user.image,
+                        }}
+                    />
+                    </Avatar>
+                    <VStack>
+                    <Heading size="md" className="mb-1">
+                        {user.first_name} {user.last_name}
+                    </Heading>
+                    <Text size="sm">{user.email}</Text>
+                    <Text size="sm" className="mt-2">Joined in May, 2025</Text>
+                    <Text size="sm" className="mt-2">I am a new Seller at Evergrail!</Text>
+                    </VStack>
+                </Box>
+                <Button className="py-2 px-4 mt-4">
+                    <Link href="/settings">
+                    <ButtonText size="sm">Edit</ButtonText>
+                    </Link>
+                </Button>
+            </Card>
             </Center>
+
+            <Box className="mx-auto">
+                <Heading className="mb-4" size="xl">Closet</Heading>
+                <ProductList/>
+            </Box>
         </ScrollView>
     );
 }

@@ -5,37 +5,21 @@ import { Text } from "@/components/ui/text";
 import { Icon, FavouriteIcon } from "@/components/ui/icon";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAuth } from "@/providers/AuthProvider";
-
-
-import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
-
-import {
-  Avatar,
-  AvatarBadge,
-  AvatarFallbackText,
-  AvatarImage,
-} from "@/components/ui/avatar"
-
-import { Pressable } from "@/components/ui/pressable";
 import { Link } from "expo-router";
-import UserMenu from "./userMenu";
+import UserMenu from "./UserMenu";
 
 const UserProfile = () => {
   
-  const [openLogoutAlertDialog, setOpenLogoutAlertDialog] = useState(false);
-  const { user } = useAuth();
+  const { isLoading, user, logout } = useAuth();
 
-  useEffect(
-    () => {
-      
-    }
-  )
+  if(isLoading)
+    return (<></>);
 
   return (
     <>
        <HStack space="lg" className="p-1.5 items-center min-w-[240px] justify-end">
 
-       <Link href='/wishlist'>
+        <Link href='/wishlist'>
         <Icon
               as={FavouriteIcon}
               className= "text-typography-900"
@@ -48,13 +32,9 @@ const UserProfile = () => {
         </Button>
         </Link>
 
-        {/* <Text>No User</Text> */}
-
-        {/* { !user && <Text>No User</Text>} */}
-
         {
           user &&
-          < UserMenu user={user} />
+          < UserMenu user={user} logout={logout} />
         }
 
         {

@@ -5,11 +5,7 @@ import {
   MenuItemLabel
 } from "@/components/ui/menu"
 
-import { Redirect } from "expo-router";
 import { Link } from "expo-router";
-import { useAuth } from "@/providers/AuthProvider";
-
-import React from "react"
 
 import {
     Avatar,
@@ -17,9 +13,7 @@ import {
     AvatarImage,
   } from "@/components/ui/avatar"
 
-const UserMenu = (user: object) => {
-
-    const { logout} = useAuth();
+const UserMenu = ({user, logout}) => {
 
     return (
         <Menu
@@ -35,29 +29,30 @@ const UserMenu = (user: object) => {
                             <AvatarFallbackText>{user.first_name} {user.last_name}</AvatarFallbackText>
                             <AvatarImage
                                 source={{
-                                    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                    uri: user.image
                                 }}
                             />
                         </Avatar>
                     </Pressable>
                 )
             }}
-        >       
+        >      
             <MenuItem
                 key="profile"
                 textValue="profile"
-                className="p-2 w-full"
+                className="p-2"
             >
-                <Link  href="/profile">
+                <Link className="w-full" href="/profile">
                     <MenuItemLabel className="w-full" size="sm">Profile</MenuItemLabel>
                 </Link>
             </MenuItem>
+
             <MenuItem
                 key="settings"
                 textValue="settings"
                 className="p-2"
             >
-                <Link  href="/settings">
+                <Link className="w-full" href="/settings">
                     <MenuItemLabel className="w-full" size="sm">Settings</MenuItemLabel>
                 </Link>
             </MenuItem>
@@ -67,7 +62,7 @@ const UserMenu = (user: object) => {
                 textValue="favorites"
                 className="p-2"
             >
-                <Link  href="/wishlist">
+                <Link  href="/wishlist" className="w-full">
                     <MenuItemLabel className="w-full" size="sm">Favorites</MenuItemLabel>
                 </Link>
             </MenuItem>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {  ScrollView, StyleSheet } from "react-native";
 import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
 import { FormControl, 
@@ -40,10 +40,7 @@ import Loader from "@/components/widgets/Loader";
 
 export default function Sell () {
 
-    const [isInvalid, setIsInvalid] = useState(false);
-    const [inputValue, setInputValue] = useState('12345');
     const [createdProduct, setCreatedProduct] = useState(null);
-    
     const {logout, user, isLoading} = useAuth();
 
     // Form Values
@@ -61,8 +58,8 @@ export default function Sell () {
 
         for (let image of images) {
             let imageObj = {
-                filename: image.fileName,
-                mimetype: image.mimeType,
+                fileName: image.fileName,
+                mimeType: image.mimeType,
                 type: "image",
                 uri: image.base64
             };
@@ -104,7 +101,6 @@ export default function Sell () {
             setCreatedProduct(data);
         },
         onError: async (err) => {
-
             if(err.status === 401){
                 await logout();
                 return <Redirect href="/login"/>;
@@ -126,7 +122,6 @@ export default function Sell () {
         });
     
         if (!result.canceled) {
-            console.log(result);
             setImages(result.assets);
         }
     };
@@ -163,7 +158,7 @@ export default function Sell () {
                     <Heading>
                         Sell your product
                     </Heading>
-                    <FormControl isInvalid={isInvalid} size="md" isDisabled={false} isReadOnly={false} isRequired={false} >
+                    <FormControl isInvalid={false} size="md" isDisabled={false} isReadOnly={false} isRequired={false} >
                     
                     {/* Item Name */}
                     <HStack className="w-full mt-[20px] z-[-1]">
