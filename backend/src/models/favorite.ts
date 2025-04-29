@@ -53,7 +53,7 @@ export async function list(user_id) {
         }
     });
 
-    return FavoritesSerializer.favoritesList(favorites);
+    return FavoritesSerializer.favoriteProductsList(favorites);
 }
 
 export async function deleteFavorite(id: number, user_id: string) {
@@ -75,6 +75,30 @@ export async function deleteFavorite(id: number, user_id: string) {
         return FavoritesSerializer.favoritesObj(favoriteRow);
     
     } catch (error) {
+        return {error: error};
+    }
+};
+
+export async function deleteUserFavorite(user_id: string, product_id: string) {
+
+    try {
+
+        var [favoriteRow] = await db.update(favoritesTable)
+            .set({
+                is_deleted: true
+            })
+            .where(
+                and(
+                    eq(favoritesTable.user_id, user_id), // You should only be able to remove your favorite
+                    eq(favoritesTable.product_id, product_id)
+                )
+            )
+            .returning();
+
+        return FavoritesSerializer.favoritesObj(favoriteRow);
+    
+    } catch (error) {
+        console.log(error);
         return {error: error};
     }
 };

@@ -23,7 +23,7 @@ export async function getUserAddress(id: string) {
                 "Accept":"application/json", 
                 "Content-Type":"application/json",
                 "Authorization": "Bearer "+( await getToken())
-            },
+            }
         }
     );
 

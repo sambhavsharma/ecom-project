@@ -5,10 +5,10 @@ import ProductListItem from "@/components/widgets/ProductListItem";
 import { useMediaQuery } from "@/components/ui/utils/use-media-query";
 
 
-export default function ProductList({page}) {
+export default function ProductList({page, data}) {
 
-    const {data, isLoading} = useQuery({queryKey: ["products"], queryFn: listProducts});
-    const products = data;
+    // const {data, isLoading} = useQuery({queryKey: ["products"], queryFn: listProducts});
+    // const products = data;
 
     const [one, two, three, four, five] = useMediaQuery([
         {
@@ -52,7 +52,7 @@ export default function ProductList({page}) {
             numColumns == 1 ? 
             <FlatList 
             key={numColumns}
-            data={products}
+            data={data}
             renderItem={({item}) => (
                 <ProductListItem product={item}/>
             )}
@@ -63,7 +63,7 @@ export default function ProductList({page}) {
             :
             <FlatList 
             key={numColumns}
-            data={products}
+            data={data}
             renderItem={({item}) => (
                 <ProductListItem product={item}/>
             )}

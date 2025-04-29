@@ -1,19 +1,49 @@
-import { listProducts } from "@/api/products";
-import { View, FlatList, ScrollView, useWindowDimensions, ActivityIndicator } from "react-native";
-//import ProductListItem from "@/components/ProductListItem";
-import { Button, ButtonText } from "@/components/ui/button";
+import {useState, useEffect} from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Text } from "@/components/ui/text";
-import { Image } from "@/components/ui/image";
+import { listFavorites } from "@/api/favorites";
 import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
 import {Heading } from '@/components/ui/heading';
 import {Center } from '@/components/ui/center';
-import {StyleSheet} from 'react-native';
 import ProductList from "@/components/widgets/ProductList";
 
+import { useAuth } from "@/providers/AuthProvider";
+import { Redirect } from "expo-router";
+import Loader from "@/components/widgets/Loader";
+
 export default function WishlistContent() {
+
+    const {data, error} = useQuery({
+        queryKey: ["favorites"], 
+        queryFn: listFavorites,
+        retry: false
+    });
+
+    const {logout, isLoading} = useAuth();
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+    // Auth Check Begins
+    useEffect(
+        () => {
+            const checkError = async () =>{
+                if(error && error.status === 401){
+                    await logout();
+                    setIsAuthenticated(false);
+                }
+            }
+            checkError()
+            console.log(error);
+        }, [error]
+    )
+
+    if(!isAuthenticated) {
+        return (<Redirect href="/login" />)
+    }
+
+    // Auth Check Ends
+
+    if(isLoading) {
+        return ( <Loader /> );
+    }
 
     return (
 
@@ -22,7 +52,7 @@ export default function WishlistContent() {
                 <Heading className="mb-4" size="xl">Favorites</Heading>
             </Center>
             
-            <ProductList/>
+            <ProductList data={data}/>
         </Box>
     )
 }

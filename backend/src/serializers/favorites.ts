@@ -10,6 +10,15 @@ export function favoritesList(favorites: any) {
     return favoritesList;
 }
 
+export function favoriteProductsList(favorites: any) {
+
+    var favoriteProductsList = [];
+    for (let favorite of favorites || []) {
+        favoriteProductsList.push( ProductSerializer.productObj(favorite.product));
+    }
+
+    return favoriteProductsList;
+}
 
 export function favoritesObj(favorite: any) {
 

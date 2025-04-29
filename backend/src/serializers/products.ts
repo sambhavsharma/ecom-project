@@ -16,6 +16,9 @@ export function productsList(products: any) {
 
 export function productObj(product: any) {
 
+    if(!product)
+        return {};
+
     return {
         id: product.id,
         name: product.name,

@@ -39,7 +39,7 @@ export async function checkUserFavorite(req: Request, res: Response) {
         const favorites = await Favorite.checkUserFavorite(product_id, req.user.id);
         res.status(200).json(favorites);
     } catch (e) {
-        console.log(e);
+
         res.status(500).send('Error!');
     }
    
@@ -55,6 +55,21 @@ export async function deleteFavorite(req: Request, res: Response) {
         
     } catch (e) {
         console.log(e);
+        res.status(500).send('Error!');
+    }
+   
+}
+
+export async function deleteUserFavorite(req: Request, res: Response) {
+
+    try {
+
+        const product_id = Number(req.params.product_id);
+        const favorite = await Favorite.deleteUserFavorite(req.user.id, product_id);
+        res.status(200).json(favorite);
+        
+    } catch (e) {
+        
         res.status(500).send('Error!');
     }
    

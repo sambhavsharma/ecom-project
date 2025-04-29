@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
@@ -22,7 +22,7 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
-import { AddIcon, ChevronDownIcon } from "@/components/ui/icon";
+import { ChevronDownIcon } from "@/components/ui/icon";
 
 import ToastMessage from "@/components/widgets/ToastMessage";
 import Loader from "@/components/widgets/Loader";
@@ -46,6 +46,7 @@ const AddressSettings = ({user}) => {
      // Form Values
      const [formData, setFormData] = useState({});
 
+    // Auth Check Begins
     useEffect(
         () => {
             const checkError = async () =>{
@@ -61,6 +62,8 @@ const AddressSettings = ({user}) => {
     if(!isAuthenticated) {
         return (<Redirect href="/login" />)
     }
+
+    // Auth Check Ends
 
     useEffect(
         () => {
@@ -98,10 +101,6 @@ const AddressSettings = ({user}) => {
                 }
             )
             setShowMessage(true);
-                // await updateUserData({
-                //     ...user,
-                //     ...data
-                // })
         },
         onError: async (err) => {
             
@@ -109,7 +108,7 @@ const AddressSettings = ({user}) => {
                 await logout();
                 return <Redirect href="/login"/>;
             } else {
-                console.log(err);
+                
                 setAlertMessage(
                     {
                         type: "error",

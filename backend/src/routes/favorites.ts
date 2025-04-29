@@ -5,7 +5,8 @@ import {
     createFavorite,
     listFavorites,
     deleteFavorite,
-    checkUserFavorite
+    checkUserFavorite,
+    deleteUserFavorite
 } from '../controllers/favoritesController';
 import { validateData } from '../middlewares/validationMiddleware';
 import { createFavoritesSchema } from '../db/favorites';
@@ -16,6 +17,7 @@ router.post('/',  passport.authenticate('jwt', { session: false }), validateData
 router.get('/', passport.authenticate('jwt', { session: false }), listFavorites);
 router.get('/product/:product_id', passport.authenticate('jwt', { session: false }), checkUserFavorite);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteFavorite);
+router.delete('/product/:product_id', passport.authenticate('jwt', { session: false }), deleteUserFavorite);
 
 
 export default router;

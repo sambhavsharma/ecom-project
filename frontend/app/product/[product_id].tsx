@@ -1,3 +1,4 @@
+import {useState} from "react";
 import { ScrollView } from "react-native";
 import { getProduct } from "@/api/products";
 import { Text } from "@/components/ui/text";
@@ -11,35 +12,92 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Center } from "@/components/ui/center";
 import { useCart } from "@/store/cartStore";
-import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator } from "react-native";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { createFavorite } from "@/api/favorites";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
 import { Link } from "expo-router";
 import ProductList from "@/components/widgets/ProductList";
+import { useAuth } from "@/providers/AuthProvider";
+import { Redirect } from "expo-router";
+import ToastMessage from "@/components/widgets/ToastMessage";
+import Loader from "@/components/widgets/Loader";
 
 export default function ProductDetailsScreen(){
 
-    const {id} = useLocalSearchParams();
+    const {product_id} = useLocalSearchParams();
+    const {user, logout} = useAuth();
+    const [showMessage, setShowMessage] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
+    const [redirectLogin, setRedirectLogin] = useState(false);
     
     const addProduct = useCart((state: any) => state.addProduct);
     const addToCart = () => {
         addProduct(data);
     }
 
-    const {data, isLoading, err} = useQuery({queryKey: ['products',id ], queryFn:() => getProduct(String(id))});
+    const {data, isLoading} = useQuery({queryKey: ['products',product_id ], queryFn:() => getProduct(String(product_id))});
+
+    const toggleFavoriteMutation = useMutation({
+        mutationFn: (favorite) => {
+            
+            return createFavorite({favorite})
+        },
+        onSuccess: async (data) => {
+            //refetch();
+            setAlertMessage(
+                {
+                    type: "success",
+                    title: "Address saved!"
+                }
+            )
+            setShowMessage(true);
+        },
+        onError: async (err) => {
+            
+            if(err.status === 401){
+                
+                setRedirectLogin(true);
+
+            } else {
+                console.log(err);
+                setAlertMessage(
+                    {
+                        type: "error",
+                        title: "Could not add to wishlist! :("
+                    }
+                )
+                setShowMessage(true);
+            }
+        }
+    })
+
+    const handleToggleFavorite = () => {
+        if(!user) {
+            setRedirectLogin(true);
+            return;
+        }
+        toggleFavoriteMutation.mutate({user_id: user.id, product_id: parseInt(product_id)});
+    }
 
     if(isLoading) {
-        return <ActivityIndicator/>;
-    } 
-
-    if(err) {
-        return <Text>Explore Similar Products!</Text>;
+        return <Loader/>;
     }
+
+    if(redirectLogin)
+        return <Redirect href="/login" />
 
     return (
         <ScrollView>
+
+            <ToastMessage 
+                showMessage={showMessage} 
+                setShowMessage={setShowMessage}
+                alertMessage={alertMessage}
+                setAlertMessage={setAlertMessage}
+            />
+
             <Center>
                 <VStack>
                     <HStack className="max-w-[1300px]">
@@ -67,7 +125,7 @@ export default function ProductDetailsScreen(){
                                             </Text>
                                         </Box>
                                         <Box className="w-full max-w-[15px] m-auto">
-                                            <Pressable>
+                                            <Pressable onPress={() => {handleToggleFavorite()}}>
                                                 <Icon
                                                     size="lg"
                                                     as={FavouriteIcon}
