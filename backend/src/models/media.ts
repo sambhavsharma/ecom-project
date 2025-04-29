@@ -44,7 +44,7 @@ export async function update(media: any, tx: any) {
 
         return MediaSerializer.mediaObj(mediaRow);
     } catch (error) {
-        console.log(error);
+ 
         return {error: error};
     }
     

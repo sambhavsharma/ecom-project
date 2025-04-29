@@ -21,7 +21,7 @@ export default defineConfig({
     './src/db/category_attributes.ts',
     './src/db/product_attributes.ts',
     './src/db/product_categories.ts',
-    './src/db/user_wishlist.ts',
+    './src/db/favorites.ts',
     './src/db/cart_items.ts',
     './src/db/orders.ts',
     './src/db/order_products.ts',

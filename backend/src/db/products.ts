@@ -14,6 +14,7 @@ import { mediaTable } from "./media";
 import { usersTable } from "./users";
 import { categoriesTable } from "./categories";
 import { productAttributesTable } from "./product_attributes";
+import { favoritesTable } from "./favorites";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const CONDITION = ["new", "like_new", "gently_used"] as const;
@@ -37,6 +38,7 @@ export const productsTable = pgTable("products", {
 
 export const productRelations = relations(productsTable, ({ many, one }) => ({
 	media: many(mediaTable),
+    favorites: many(favoritesTable),
     category: one(categoriesTable, {
         fields: [productsTable.category_id],
         references: [categoriesTable.id]

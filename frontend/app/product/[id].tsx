@@ -2,6 +2,7 @@ import { ScrollView } from "react-native";
 import { getProduct } from "@/api/products";
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
+import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
@@ -12,9 +13,9 @@ import { Center } from "@/components/ui/center";
 import { useCart } from "@/store/cartStore";
 import { useQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native";
-import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
-import { Icon, StarIcon } from "@/components/ui/icon";
+import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
 import { Link } from "expo-router";
 import ProductList from "@/components/widgets/ProductList";
 
@@ -59,9 +60,23 @@ export default function ProductDetailsScreen(){
                         <Box className="items-center p-3 flex-1">
                             <Box className=" mx-auto p-5 rounded-lg max-w-[360px] m-3 flex-1">
                                 <VStack space="lg" className="mb-6">
-                                    <Text className="text-lg font-normal mb-2 text-typography-700">
-                                        {data.name}
-                                    </Text>
+                                    <HStack>
+                                        <Box className="w-full">
+                                            <Text className="text-lg font-normal text-typography-700">
+                                                {data.name}
+                                            </Text>
+                                        </Box>
+                                        <Box className="w-full max-w-[15px] m-auto">
+                                            <Pressable>
+                                                <Icon
+                                                    size="lg"
+                                                    as={FavouriteIcon}
+                                                    className= "text-typography-900 fill-none"
+                                                />
+                                            </Pressable>
+                                        </Box>
+                                    </HStack>
+                                    
 
                                     <VStack space="sm" className="mb-2">
                                         {
@@ -85,13 +100,13 @@ export default function ProductDetailsScreen(){
                                     </VStack>
 
                                     <Heading size="md" className="mb-1">
-                                    {data.currency} {data.price}
+                                        {data.currency} {data.price}
                                     </Heading>
                                     
 
-                                    { <Text size="md">
-                                    {data.description}
-                                    </Text>}
+                                    <Text size="md">
+                                        {data.description}
+                                    </Text>
 
                                     <VStack space="sm" className="mb-6">
                                         

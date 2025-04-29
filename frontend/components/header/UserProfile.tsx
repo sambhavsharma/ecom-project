@@ -20,9 +20,9 @@ const UserProfile = () => {
        <HStack space="lg" className="p-1.5 items-center min-w-[240px] justify-end">
 
         <Link href='/wishlist'>
-        <Icon
-              as={FavouriteIcon}
-              className= "text-typography-900"
+          <Icon
+            as={FavouriteIcon}
+            className= "text-typography-900"
           />
         </Link>
 

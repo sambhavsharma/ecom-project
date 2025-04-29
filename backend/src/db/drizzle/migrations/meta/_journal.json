@@ -22,6 +22,27 @@
       "when": 1745878461404,
       "tag": "0002_warm_nemesis",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745955782985,
+      "tag": "0003_familiar_morph",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1745956961770,
+      "tag": "0004_familiar_princess_powerful",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1745959534915,
+      "tag": "0005_high_cerebro",
+      "breakpoints": true
     }
   ]
 }
