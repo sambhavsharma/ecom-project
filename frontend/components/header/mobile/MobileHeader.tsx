@@ -4,7 +4,7 @@ import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Box } from "@/components/ui/box";
 import HomestayLogo from "@/components/header/HomestayLogo";
-import UserProfile from "@/components/header/UserProfile";
+import AuthenticatedUserHeader from "@/components/header/AuthenticatedUserHeader";
 import { Link } from "expo-router";
 
 import { Icon, MenuIcon } from "@/components/ui/icon";
@@ -45,7 +45,7 @@ const MobileHeader =(({
                 </Link>
             
                 <HStack space="lg" className="justify-end pr-1.5 text-right">
-                    <UserProfile />
+                    <AuthenticatedUserHeader />
                 </HStack>
             </HStack>
         </Box>

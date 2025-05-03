@@ -4,7 +4,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
 
 import HomestayLogo from "@/components/header/HomestayLogo";
-import UserProfile from "@/components/header/UserProfile";
+import AuthenticatedUserHeader from "@/components/header/AuthenticatedUserHeader";
 import { Input, InputIcon, InputSlot, InputField } from "@/components/ui/input";
 import { SearchIcon } from "@/components/ui/icon";
 import { Link } from "expo-router";
@@ -37,7 +37,7 @@ const WebHeader = (({
         </HStack>
 
           <HStack space="lg" className="items-center pr-1.5 text-right">
-            <UserProfile />
+            <AuthenticatedUserHeader />
           </HStack>
         </HStack>
       </Box>

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
 import { Icon, FavouriteIcon } from "@/components/ui/icon";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAuth } from "@/providers/AuthProvider";
 import { Link } from "expo-router";
 import UserMenu from "./UserMenu";
 
-const UserProfile = () => {
+const AuthenticatedUserHeader = () => {
   
   const { isLoading, user, logout } = useAuth();
 
@@ -51,4 +50,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default AuthenticatedUserHeader;

@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const RESPURCE = "products";
 
 // There has to be a better way
 const getToken = async () => {
@@ -17,9 +18,7 @@ const getToken = async () => {
 
 export async function listProducts({queryFilters}) {
 
-    console.log(queryFilters)
-
-    var url = `${API_URL}/products?`;
+    var url = `${API_URL}/${RESPURCE}?`;
     const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
     });
 
@@ -34,7 +33,7 @@ export async function listProducts({queryFilters}) {
 }
 
 export async function getProduct(id: string) {
-    var url = `${API_URL}/products/${id}`;
+    var url = `${API_URL}/${RESPURCE}/${id}`;
     const res = await fetch(url.toString());
 
     if(!res.ok) {
@@ -47,7 +46,7 @@ export async function getProduct(id: string) {
 
 export async function createProduct({media = {}, product}) {
     
-    let url = `${API_URL}/products`;
+    let url = `${API_URL}/${RESPURCE}`;
 
     const res = await fetch(url.toString(), {
         method: 'POST',
