@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { db } from "../db";
 import { productsTable } from "../db/products";
-import { eq, and } from "drizzle-orm";
+import { categoriesTable } from "../db/categories";
+import { sql, eq, and, count, inArray } from "drizzle-orm";
 import multer from "multer";
 import fs from 'fs';
 
@@ -103,11 +104,13 @@ export async function get(id: number) {
     return ProductSerializer.productObj(product);
 }
 
-export async function list(limit: number, offset: number) {
+export async function list(limit: number, offset: number, filters)  {
 
     const products = await db.query.productsTable.findMany({
         where: and(
-            eq(productsTable.is_deleted, false)
+            eq(productsTable.is_deleted, false),
+            filters.brand ? inArray(productsTable.brand, filters.brand.split(',')) : eq(1,1), // Find a better way to do this!
+            filters.condition ? inArray(productsTable.condition, filters.condition.split(',')) : eq(1,1), 
         ),
         limit: limit,
         offset: offset,
@@ -122,11 +125,39 @@ export async function list(limit: number, offset: number) {
                         where: (media, { eq }) => eq(media.parent_type, "user")
                     }
                 }
+            },
+            attributes: {
+                with: {
+                    attribute: true
+                }
             }
         }
     });
+
+    return {
+        filters: await buildAvailableFilters(filters),
+        products: ProductSerializer.productsList(products)
+    };
+}
+
+async function buildAvailableFilters(filters) {
+
+    const conditionFilter = await db.select({
+            name: productsTable.condition,
+            count: count()
+        }).from(productsTable)
+    .groupBy([productsTable.condition])
+
+    const brandFilter = await db.select({
+        name: productsTable.brand,
+        count: count()
+    }).from(productsTable)
+    .groupBy([productsTable.brand])
     
-    return ProductSerializer.productsList(products);
+    return {
+        brand: brandFilter,
+        condition: conditionFilter
+    };
 }
 
 export const conditionMap = {

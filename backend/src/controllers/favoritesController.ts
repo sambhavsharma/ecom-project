@@ -36,7 +36,7 @@ export async function checkUserFavorite(req: Request, res: Response) {
     try {
 
         const product_id = Number(req.params.product_id);
-        const favorites = await Favorite.checkUserFavorite(product_id, req.user.id);
+        const favorites = await Favorite.checkUserFavorite(req.user.id, product_id);
         res.status(200).json(favorites);
     } catch (e) {
 

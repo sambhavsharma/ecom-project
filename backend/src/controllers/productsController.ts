@@ -13,7 +13,10 @@ export async function listProducts(req: Request, res: Response) {
         const limit = Number(req.query.limit) || DEFAULT_LIMIT;
         const offset = (page-1) * limit;
 
-        const products = await Product.list(limit, offset);
+        // console.log(req.body);
+        // console.log(req.query);
+
+        const products = await Product.list(limit, offset, req.query);
         res.status(200).json(products);
 
     } catch (e) {

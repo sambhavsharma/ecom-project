@@ -37,23 +37,27 @@ export async function listFavorites() {
     return favorites;
 }
 
-// export async function getProduct(id: string) {
-//     var url = `${API_URL}/products/${id}`;
-//     const res = await fetch(url.toString());
+export async function checkUserFavorite(product_id: string) {
+    var url = `${API_URL}/${ENTITY}/product/${product_id}`;
+    const res = await fetch(url.toString(), {
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+    });
 
-//     if(!res.ok) {
-//         throw new Error();
-//     }
+    if(!res.ok) {
+        throw res;
+    }
 
-//     const products = await res.json();
-//     return products;
-// }
+    const data  = await res.json();
+    return data;
+}
 
 export async function createFavorite({favorite}) {
     
     let url = `${API_URL}/${ENTITY}`;
-
-    console.log(favorite);
 
     const res = await fetch(url.toString(), {
         method: 'POST',
@@ -70,6 +74,27 @@ export async function createFavorite({favorite}) {
         throw res;
     }
 
-    const productObj = await res.json();
-    return productObj;
+    const favoriteObj = await res.json();
+    return favoriteObj;
+}
+
+export async function deleteFavorite({product_id}) {
+    
+    var url = `${API_URL}/${ENTITY}/product/${product_id}`;
+    const res = await fetch(url.toString(), {
+        method: 'DELETE',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        }
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const favoriteObj = await res.json();
+    return favoriteObj;
 }

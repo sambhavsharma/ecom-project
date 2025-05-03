@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1745097697385,
-      "tag": "0000_red_spacker_dave",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1745699214360,
-      "tag": "0001_calm_red_skull",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1745878461404,
-      "tag": "0002_warm_nemesis",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1745955782985,
-      "tag": "0003_familiar_morph",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1745956961770,
-      "tag": "0004_familiar_princess_powerful",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1745959534915,
-      "tag": "0005_high_cerebro",
+      "when": 1746034998075,
+      "tag": "0000_magenta_monster_badoon",
       "breakpoints": true
     }
   ]

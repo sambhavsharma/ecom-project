@@ -132,7 +132,7 @@ async function main() {
             "category_id": 1,
             "currency": "INR",
             "brand": "Apple",
-            "condition": "N",
+            "condition": "new",
             "price": 249.99
         },
         {
@@ -142,7 +142,7 @@ async function main() {
             "category_id": 1,
             "currency": "INR",
             "brand": "Apple",
-            "condition": "N",
+            "condition": "like_new",
             "price": 399.99
         },
         {
@@ -152,7 +152,7 @@ async function main() {
             "category_id": 2,
             "currency": "INR",
             "brand": "Bose",
-            "condition": "N",
+            "condition": "new",
             "price": 349.99,
             
         },
@@ -163,7 +163,7 @@ async function main() {
             "category_id": 2,
             "currency": "INR",
             "brand": "Dyson",
-            "condition": "N",
+            "condition": "new",
             "price": 699.99
         },
         {
@@ -173,7 +173,7 @@ async function main() {
             "category_id": 3,
             "currency": "INR",
             "brand": "Samsung",
-            "condition": "N",
+            "condition": "gently_used",
             "price": 1199.99
         },
         {
@@ -183,7 +183,7 @@ async function main() {
             "category_id": 6,
             "currency": "INR",
             "brand": "Apple",
-            "condition": "N",
+            "condition": "like_new",
             "price": 1099.99
         },
         {
@@ -193,7 +193,7 @@ async function main() {
             "category_id": 6,
             "currency": "INR",
             "brand": "Apple",
-            "condition": "N",
+            "condition": "like_new",
             "price": 1299.99
         },
         {
@@ -203,7 +203,7 @@ async function main() {
             "category_id": 7,
             "currency": "INR",
             "brand": "Apple",
-            "condition": "N",
+            "condition": "gently_used",
             "price": 2499.99
         },
         {
@@ -213,7 +213,7 @@ async function main() {
             "category_id": 8,
             "currency": "INR",
             "brand": "Nike",
-            "condition": "N",
+            "condition": "new",
             "price": 149.99
         },
         {
@@ -223,7 +223,7 @@ async function main() {
             "category_id": 8,
             "currency": "INR",
             "brand": "Sony",
-            "condition": "N",
+            "condition": "new",
             "price": 499.99
         }
     ]
@@ -441,6 +441,11 @@ async function main() {
             value: "black"
         },
         {
+            product_id: 1,
+            attribute_id: 2,
+            value: "XL"
+        },
+        {
             product_id: 2,
             attribute_id: 1,
             value: "black"
@@ -449,6 +454,11 @@ async function main() {
             product_id: 3,
             attribute_id: 1,
             value: "white"
+        },
+        {
+            product_id: 3,
+            attribute_id: 2,
+            value: "36"
         },
         {
             product_id: 4,

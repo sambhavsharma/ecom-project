@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { ScrollView } from "react-native";
-import { getProduct } from "@/api/products";
+
 import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "@/components/ui/pressable";
@@ -13,7 +13,7 @@ import { Heading } from "@/components/ui/heading";
 import { Center } from "@/components/ui/center";
 import { useCart } from "@/store/cartStore";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { createFavorite } from "@/api/favorites";
+
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
@@ -24,6 +24,9 @@ import { Redirect } from "expo-router";
 import ToastMessage from "@/components/widgets/ToastMessage";
 import Loader from "@/components/widgets/Loader";
 
+import { getProduct } from "@/api/products";
+import { createFavorite, deleteFavorite, checkUserFavorite } from "@/api/favorites";
+
 export default function ProductDetailsScreen(){
 
     const {product_id} = useLocalSearchParams();
@@ -31,28 +34,50 @@ export default function ProductDetailsScreen(){
     const [showMessage, setShowMessage] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
     const [redirectLogin, setRedirectLogin] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
     
     const addProduct = useCart((state: any) => state.addProduct);
     const addToCart = () => {
         addProduct(data);
     }
 
-    const {data, isLoading} = useQuery({queryKey: ['products',product_id ], queryFn:() => getProduct(String(product_id))});
+    const {data, isLoading} = useQuery({
+        queryKey: ['products',product_id ], 
+        queryFn:() => getProduct(String(product_id)),
+        retry: false
+    });
+    const {data: isFavoriteResponse} = useQuery({
+        queryKey: ['favorites',product_id ], 
+        queryFn:() => checkUserFavorite(String(product_id)),
+        retry: false
+    });
+
+    useEffect(
+        () => {
+            if(isFavoriteResponse) {
+                setIsFavorite(isFavoriteResponse["isFavorite"]);
+            }
+        }, [isFavoriteResponse]
+    )
 
     const toggleFavoriteMutation = useMutation({
         mutationFn: (favorite) => {
-            
-            return createFavorite({favorite})
+            return isFavorite ? deleteFavorite({product_id: product_id}) : createFavorite({favorite})
+           
         },
         onSuccess: async (data) => {
-            //refetch();
+
+            setShowMessage(true);
+            setIsFavorite(isFavorite ? false : true);
+
+            let message =  (isFavorite ? "Removed from" : "Added to") + " wishlist!";
             setAlertMessage(
                 {
                     type: "success",
-                    title: "Address saved!"
+                    title: message
                 }
             )
-            setShowMessage(true);
+
         },
         onError: async (err) => {
             
@@ -61,11 +86,12 @@ export default function ProductDetailsScreen(){
                 setRedirectLogin(true);
 
             } else {
-                console.log(err);
+                let message = "Could not " + isFavorite ? "remove from" : "add to" + " wishlist!";
+
                 setAlertMessage(
                     {
                         type: "error",
-                        title: "Could not add to wishlist! :("
+                        title: message
                     }
                 )
                 setShowMessage(true);
@@ -78,6 +104,7 @@ export default function ProductDetailsScreen(){
             setRedirectLogin(true);
             return;
         }
+
         toggleFavoriteMutation.mutate({user_id: user.id, product_id: parseInt(product_id)});
     }
 
@@ -129,7 +156,7 @@ export default function ProductDetailsScreen(){
                                                 <Icon
                                                     size="lg"
                                                     as={FavouriteIcon}
-                                                    className= "text-typography-900 fill-none"
+                                                    className= {`text-typography-900 fill-${isFavorite ? 'black' : 'none'}`}
                                                 />
                                             </Pressable>
                                         </Box>

@@ -1,14 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { FlatList } from "react-native";
-import { listProducts } from "@/api/products";
 import ProductListItem from "@/components/widgets/ProductListItem";
 import { useMediaQuery } from "@/components/ui/utils/use-media-query";
 
 
 export default function ProductList({page, data}) {
-
-    // const {data, isLoading} = useQuery({queryKey: ["products"], queryFn: listProducts});
-    // const products = data;
 
     const [one, two, three, four, five] = useMediaQuery([
         {
@@ -51,25 +46,25 @@ export default function ProductList({page, data}) {
         {
             numColumns == 1 ? 
             <FlatList 
-            key={numColumns}
-            data={data}
-            renderItem={({item}) => (
-                <ProductListItem product={item}/>
-            )}
-            contentContainerClassName="gap-2"
-            horizontal={false}
+                key={numColumns}
+                data={data}
+                renderItem={({item}) => (
+                    <ProductListItem product={item}/>
+                )}
+                contentContainerClassName="gap-2"
+                horizontal={false}
             />
             
             :
             <FlatList 
-            key={numColumns}
-            data={data}
-            renderItem={({item}) => (
-                <ProductListItem product={item}/>
-            )}
-            numColumns={numColumns}
-            contentContainerClassName="gap-2"
-            columnWrapperClassName="gap-2"
+                key={numColumns}
+                data={data}
+                renderItem={({item}) => (
+                    <ProductListItem product={item}/>
+                )}
+                numColumns={numColumns}
+                contentContainerClassName="gap-2"
+                columnWrapperClassName="gap-2"
             />
 
         }

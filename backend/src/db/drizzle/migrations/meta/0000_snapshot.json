@@ -1,5 +1,5 @@
 {
-  "id": "43dd28dc-033a-4aed-8458-0bf402bc0f62",
+  "id": "5cafa232-3c5a-4783-b858-376dce77b8cc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -55,11 +55,31 @@
           "primaryKey": false,
           "notNull": false
         },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "password": {
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "phone_verified": {
+          "name": "phone_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "is_deleted": {
           "name": "is_deleted",
@@ -960,8 +980,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.user_wishlist": {
-      "name": "user_wishlist",
+    "public.favorites": {
+      "name": "favorites",
       "schema": "",
       "columns": {
         "id": {
@@ -971,7 +991,7 @@
           "notNull": true,
           "identity": {
             "type": "always",
-            "name": "user_wishlist_id_seq",
+            "name": "favorites_id_seq",
             "schema": "public",
             "increment": "1",
             "startWith": "1",
@@ -1016,9 +1036,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "user_wishlist_user_id_users_id_fk": {
-          "name": "user_wishlist_user_id_users_id_fk",
-          "tableFrom": "user_wishlist",
+        "favorites_user_id_users_id_fk": {
+          "name": "favorites_user_id_users_id_fk",
+          "tableFrom": "favorites",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -1029,9 +1049,9 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "user_wishlist_product_id_products_id_fk": {
-          "name": "user_wishlist_product_id_products_id_fk",
-          "tableFrom": "user_wishlist",
+        "favorites_product_id_products_id_fk": {
+          "name": "favorites_product_id_products_id_fk",
+          "tableFrom": "favorites",
           "tableTo": "products",
           "columnsFrom": [
             "product_id"
@@ -1044,7 +1064,16 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "favorites_user_id_product_id_unique": {
+          "name": "favorites_user_id_product_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_id",
+            "product_id"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
