@@ -1,18 +1,18 @@
 import {Router} from 'express';
+import passport from "passport";
+
 import { 
-    listOrders, 
-    getOrder, 
-    createOrder,
-    updateOrder
+    getUserOrder, 
+    getUserOrders,
+    createOrder
 } from '../controllers/ordersController';
 import { validateData } from '../middlewares/validationMiddleware';
 import { createOrderSchema, updateOrderSchema } from '../db/orders';
 
 const router = Router();
 
-router.get('/', listOrders);
-router.get('/:id', getOrder);
-router.post('/', createOrder);
-router.put('/:id', validateData(updateOrderSchema), updateOrder);
+router.post('/',passport.authenticate('jwt', { session: false }), createOrder);
+router.get('/:id/user',passport.authenticate('jwt', { session: false }), getUserOrder);
+router.get('/user',passport.authenticate('jwt', { session: false }), getUserOrders);
   
 export default router;

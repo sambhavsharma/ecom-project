@@ -15,12 +15,11 @@ const getToken = async () => {
     return user ? user.token : "";
 }
 
-export async function listProducts(queryFilters: any) {
-    //const [_, queryFilters] = queryKey;
-    
-    //console.log(queryFilters);
-    var url = `${API_URL}/products?`;
+export async function listProducts({queryFilters}) {
 
+    console.log(queryFilters)
+
+    var url = `${API_URL}/products?`;
     const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
     });
 
@@ -29,6 +28,8 @@ export async function listProducts(queryFilters: any) {
     }
 
     const products = await res.json();
+
+    console.log(products);
     return products;
 }
 

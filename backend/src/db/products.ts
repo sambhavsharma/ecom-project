@@ -15,6 +15,7 @@ import { usersTable } from "./users";
 import { categoriesTable } from "./categories";
 import { productAttributesTable } from "./product_attributes";
 import { favoritesTable } from "./favorites";
+import { orderProductsTable } from "./order_products";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const CONDITION = ["new", "like_new", "gently_used"] as const;
@@ -47,7 +48,8 @@ export const productRelations = relations(productsTable, ({ many, one }) => ({
     seller: one(usersTable, {
         fields: [productsTable.seller_id],
         references: [usersTable.id]
-    })
+    }),
+    orders: many(orderProductsTable)
 }));
 
 export const createProductSchema = z.object({

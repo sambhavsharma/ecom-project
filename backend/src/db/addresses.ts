@@ -5,7 +5,6 @@ import {
     boolean, 
     timestamp,
 } from "drizzle-orm/pg-core";
-//import {createUpdateSchema} from "drizzle-zod";
 import { z } from "zod";
 
 const PARENT_TYPES = ["user", "seller", "order"] as const;

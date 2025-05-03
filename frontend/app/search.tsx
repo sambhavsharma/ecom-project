@@ -17,9 +17,8 @@ export default function Search() {
     });
 
     const listProductsCall = async () => {
-        //console.log(opid)
         
-        return listProducts(filterQuery);
+        return listProducts({queryFilters: filterQuery});
     }
 
     const {data, isLoading, refetch} = useQuery({

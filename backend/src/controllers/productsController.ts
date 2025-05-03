@@ -1,7 +1,4 @@
 import {Request, Response} from "express";
-import { db } from "../db";
-import { productsTable } from "../db/products";
-import { eq, and } from "drizzle-orm";
 
 const Product = require("../models/product");
 
@@ -12,9 +9,6 @@ export async function listProducts(req: Request, res: Response) {
         const page = Number(req.query.page);
         const limit = Number(req.query.limit) || DEFAULT_LIMIT;
         const offset = (page-1) * limit;
-
-        // console.log(req.body);
-        // console.log(req.query);
 
         const products = await Product.list(limit, offset, req.query);
         res.status(200).json(products);
@@ -48,9 +42,9 @@ export async function getProduct(req: Request, res: Response) {
 export async function createProduct(req: Request, res: Response) {
 
     try {
-        //console.log(req.user);
+
         var product = req.body;
-        var productObj = await Product.create(product);
+        var productObj = await Product.create(product, req.user.id);
         res.status(201).json(productObj);
 
     } catch (e) {

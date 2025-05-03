@@ -5,10 +5,16 @@ import {
     doublePrecision, 
     timestamp 
 } from "drizzle-orm/pg-core";
-import {createInsertSchema, createUpdateSchema} from "drizzle-zod";
+import { createUpdateSchema} from "drizzle-zod";
+import { z } from "zod";
+import { relations } from 'drizzle-orm';
+
 import { usersTable } from "./users";
+import { orderProductsTable } from "./order_products";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
+const STATUS = ["new","cancelled","sent"] as const;
+
 
 export const ordersTable = pgTable("orders", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -20,6 +26,14 @@ export const ordersTable = pgTable("orders", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 });
 
+export const orderRelations = relations(ordersTable, ({ many }) => ({
+    products: many(orderProductsTable),
+}));
 
-export const createOrderSchema = createInsertSchema(ordersTable).strict();
+export const createOrderSchema = z.object({
+    status: z.enum(STATUS),
+    user_id: z.number(),
+    price: z.number(),
+    currency: z.enum(CURRENCY)
+});;
 export const updateOrderSchema = createUpdateSchema(ordersTable).strict();

@@ -1,9 +1,7 @@
-// @ts-nocheck
+
 import { db } from "../db";
 import { productsTable } from "../db/products";
-import { categoriesTable } from "../db/categories";
-import { sql, eq, and, count, inArray } from "drizzle-orm";
-import multer from "multer";
+import {  eq, and, count, inArray } from "drizzle-orm";
 import fs from 'fs';
 
 const ProductSerializer = require("../serializers/products");
@@ -13,10 +11,11 @@ const Storage = require("../lib/multer-config");
 
 const BASE_URL = "http://127.0.0.1:3000/";
 
-export async function create(product: any) {
+export async function create(product: any, user_id: number) {
         
     const {productRow, error} = await db.transaction(async (tx) => { 
 
+        product.seller_id = user_id;
         var [productRow] = await tx.insert(productsTable)
             .values(product)
             .returning();
