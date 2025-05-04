@@ -27,8 +27,21 @@ export async function listProducts({queryFilters}) {
     }
 
     const products = await res.json();
+    return products;
+}
 
-    console.log(products);
+export async function getUserProducts(user_id) {
+
+    var url = `${API_URL}/${RESOURCE}/user/${user_id}`;
+    const res = await fetch(url.toString(), {
+
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const products = await res.json();
     return products;
 }
 

@@ -36,6 +36,8 @@ export function sellerObj(user: any) {
         id: user.id,
         first_name: user.first_name,
         last_name: user.last_name,
+        bio: user.bio,
+        created_at: user.created_at,
         image: getImage(user)
     } : {}
 }

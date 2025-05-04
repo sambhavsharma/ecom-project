@@ -9,21 +9,13 @@ import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { Center } from "@/components/ui/center";
 import { Card } from "@/components/ui/card";
-import { useCart } from "@/store/cartStore";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Divider } from "@/components/ui/divider";
-import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
 import { Link, LinkText }from "@/components/ui/link";
-import ProductList from "@/components/widgets/ProductList";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
-import ToastMessage from "@/components/widgets/ToastMessage";
 import Loader from "@/components/widgets/Loader";
 
 import { getUserOrder } from "@/api/orders";
@@ -32,9 +24,7 @@ export default function OrderDetailsScreen(){
 
     Moment.locale('en');
     const {order_id} = useLocalSearchParams();
-    const {user, logout} = useAuth();
-    const [showMessage, setShowMessage] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(null);
+    const {logout} = useAuth();
     const [redirectLogin, setRedirectLogin] = useState(false);
     
     const {data: order, isLoading, error} = useQuery({

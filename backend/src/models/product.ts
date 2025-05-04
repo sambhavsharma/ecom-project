@@ -139,6 +139,38 @@ export async function list(limit: number, offset: number, filters)  {
     };
 }
 
+export async function getUserProducts(limit: number, offset: number, user_id)  {
+
+    const products = await db.query.productsTable.findMany({
+        where: and(
+            eq(productsTable.is_deleted, false),
+            eq(productsTable.seller_id, user_id) 
+        ),
+        limit: limit,
+        offset: offset,
+        with: { 
+            media: {
+                where: (media, { eq }) => eq(media.parent_type, "product")
+            },
+            category: true,
+            seller: {
+                with: {
+                    media: {
+                        where: (media, { eq }) => eq(media.parent_type, "user")
+                    }
+                }
+            },
+            attributes: {
+                with: {
+                    attribute: true
+                }
+            }
+        }
+    });
+
+    return ProductSerializer.productsList(products);
+}
+
 async function buildAvailableFilters(filters) {
 
     const conditionFilter = await db.select({

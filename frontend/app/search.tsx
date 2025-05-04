@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { listProducts } from "@/api/products";
 import { ScrollView } from "react-native";
 import { Box } from "@/components/ui/box";
 import { HStack } from "@/components/ui/hstack";
@@ -8,6 +7,8 @@ import {Center } from '@/components/ui/center';
 import ProductList from "@/components/widgets/ProductList";
 import WebSidebar from "@/components/search/WebSidebar";
 import Loader from "@/components/widgets/Loader";
+
+import { listProducts } from "@/api/products";
 
 export default function Search() {
 
@@ -24,7 +25,6 @@ export default function Search() {
     const {data, isLoading, refetch} = useQuery({
         retry: false,
         queryKey: ["products"], 
-        //notifyOnChangeProps: [],
         queryFn: ({ queryKey }) => listProductsCall()
     });
 

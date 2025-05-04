@@ -42,7 +42,7 @@ const UserMenu = ({user, logout}) => {
                 textValue="profile"
                 className="p-2"
             >
-                <Link className="w-full" href="/profile?">
+                <Link className="w-full" href={`/profile/${user.id}`}>
                     <MenuItemLabel className="w-full" size="sm">Profile</MenuItemLabel>
                 </Link>
             </MenuItem>

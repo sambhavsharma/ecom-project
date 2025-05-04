@@ -35,6 +35,27 @@ export async function getUser(id: string) {
     return user;
 }
 
+export async function getSeller(id: string) {
+
+    var url = `${API_URL}/users/${id}/seller`;
+    const res = await fetch(
+        url.toString(),{
+            headers: {
+                "Accept":"application/json", 
+                "Content-Type":"application/json",
+                "Authorization": "Bearer "+( await getToken())
+            },
+        }
+    );
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const seller = await res.json();
+    return seller;
+}
+
 export async function updateUser(id, user) {
     
     var url = `${API_URL}/users/${id}`;

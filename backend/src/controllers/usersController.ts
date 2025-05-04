@@ -36,6 +36,25 @@ export async function getUser(req: Request, res: Response) {
    
 }
 
+export async function getSeller(req: Request, res: Response) {
+
+    try {
+        const id = Number(req.params.id);
+        const user = await User.getSeller(id);
+
+        if(user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).send('User not Found!');
+        }
+        
+    } catch (e) {
+
+        res.status(500).send('Error!');
+    }
+   
+}
+
 export async function updateUser(req: Request, res: Response) {
 
     try {

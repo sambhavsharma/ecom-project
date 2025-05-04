@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import { ScrollView } from "react-native";
 
 import { Text } from "@/components/ui/text";
@@ -24,7 +24,6 @@ import Loader from "@/components/widgets/Loader";
 
 import { getProduct } from "@/api/products";
 import { createFavorite, deleteFavorite, checkUserFavorite } from "@/api/favorites";
-import { authCheck } from "@/api/auth";
 
 export default function ProductDetailsScreen(){
 
@@ -210,29 +209,31 @@ export default function ProductDetailsScreen(){
                                         <Box className="flex-row">
                                             <Avatar className="mr-4">
                                             
-                                            <AvatarImage
-                                                source={{
-                                                    uri: data.seller.image,
-                                                }}
-                                            />
+                                                <AvatarImage
+                                                    source={{
+                                                        uri: data.seller.image,
+                                                    }}
+                                                />
                                             </Avatar>
                                             <VStack>
-                                            <Heading size="md" className="mb-1">
-                                                {data.seller.first_name} {data.seller.last_name} 
-                                            </Heading>
-                                            <HStack className="items-center flex-start">
-                                    <Icon
-                                    as={StarIcon}
-                                    size="2xs"
-                                    className="stroke-typography-900 fill-typography-900"
-                                    />
-                                    <Text
-                                    size="sm"
-                                    className="pl-1 text-typography-900"
-                                    >
-                                    4.7
-                                    </Text>
-                                </HStack>
+                                                <Link href={`/profile/${data.seller.id}`}>
+                                                    <Heading size="md" className="mb-1">
+                                                        {data.seller.first_name} {data.seller.last_name} 
+                                                    </Heading>
+                                                </Link>
+                                                <HStack className="items-center flex-start">
+                                                    <Icon
+                                                        as={StarIcon}
+                                                        size="2xs"
+                                                        className="stroke-typography-900 fill-typography-900"
+                                                    />
+                                                    <Text
+                                                        size="sm"
+                                                        className="pl-1 text-typography-900"
+                                                    >
+                                                        4.7
+                                                    </Text>
+                                                </HStack>
                                             </VStack>
                                         </Box>
                                         <Box className="my-5 flex-col sm:flex-row">
@@ -265,10 +266,10 @@ export default function ProductDetailsScreen(){
                             </Box>
                         </Box>
                     </HStack>
-                    <Center>
+                    {/* <Center>
                         <Heading className="mb-4" size="xl">Expore Similar Products!</Heading>
                         <ProductList/>
-                    </Center>
+                    </Center> */}
                 </VStack>
             </Center>
         </ScrollView>

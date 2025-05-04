@@ -20,6 +20,24 @@ export async function listProducts(req: Request, res: Response) {
     
 }
 
+export async function getUserProducts(req: Request, res: Response) {
+    try {
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit) || DEFAULT_LIMIT;
+        const offset = (page-1) * limit;
+
+        const user_id = Number(req.params.user_id);
+
+        const products = await Product.getUserProducts(limit, offset, user_id);
+        res.status(200).json(products);
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Error!');
+    }
+    
+}
+
 export async function getProduct(req: Request, res: Response) {
 
     try {

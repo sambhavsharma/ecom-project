@@ -3,6 +3,7 @@ import passport from "passport";
 
 import { 
     listProducts, 
+    getUserProducts,
     getProduct, 
     createProduct,
     updateProduct, 
@@ -15,6 +16,7 @@ const router = Router();
 
 router.get('/', listProducts);
 router.get('/:id', getProduct);
+router.get('/user/:user_id', getUserProducts);
 
 router.post('/', passport.authenticate('jwt', { session: false }), createProduct);
 
