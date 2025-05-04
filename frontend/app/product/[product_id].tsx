@@ -11,21 +11,20 @@ import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Center } from "@/components/ui/center";
-import { useCart } from "@/store/cartStore";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
-import { Link } from "expo-router";
 import ProductList from "@/components/widgets/ProductList";
 import { useAuth } from "@/providers/AuthProvider";
-import { Redirect } from "expo-router";
+import { Link, Redirect } from "expo-router";
 import ToastMessage from "@/components/widgets/ToastMessage";
 import Loader from "@/components/widgets/Loader";
 
 import { getProduct } from "@/api/products";
 import { createFavorite, deleteFavorite, checkUserFavorite } from "@/api/favorites";
+import { authCheck } from "@/api/auth";
 
 export default function ProductDetailsScreen(){
 
@@ -35,30 +34,19 @@ export default function ProductDetailsScreen(){
     const [alertMessage, setAlertMessage] = useState(null);
     const [redirectLogin, setRedirectLogin] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-    
-    const addProduct = useCart((state: any) => state.addProduct);
-    const addToCart = () => {
-        addProduct(data);
-    }
+
 
     const {data, isLoading} = useQuery({
         queryKey: ['products',product_id ], 
         queryFn:() => getProduct(String(product_id)),
         retry: false
     });
+
     const {data: isFavoriteResponse} = useQuery({
         queryKey: ['favorites',product_id ], 
         queryFn:() => checkUserFavorite(String(product_id)),
         retry: false
     });
-
-    useEffect(
-        () => {
-            if(isFavoriteResponse) {
-                setIsFavorite(isFavoriteResponse["isFavorite"]);
-            }
-        }, [isFavoriteResponse]
-    )
 
     const toggleFavoriteMutation = useMutation({
         mutationFn: (favorite) => {
@@ -195,8 +183,7 @@ export default function ProductDetailsScreen(){
 
                                     <VStack space="sm" className="mb-6">
                                         
-                                            <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1"
-                                                onPress={addToCart}>
+                                            <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
                                                 <Link href={`checkout/${data.id}`}>
                                                     <ButtonText size="sm">Purchase</ButtonText>
                                                 </Link>

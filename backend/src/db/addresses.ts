@@ -6,6 +6,9 @@ import {
     timestamp,
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
+import { relations } from 'drizzle-orm';
+
+import { ordersTable } from "./orders";
 
 const PARENT_TYPES = ["user", "seller", "order"] as const;
 const COUNTRY = ["IN", "US", "GB", "SG", "UAE"] as const;
@@ -26,6 +29,14 @@ export const addressesTable = pgTable("addresses", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 
 });
+
+export const addressRelations = relations(addressesTable, ({ one }) => ({
+    order: one(addressesTable, {
+        fields: [ordersTable.id],
+        references: [addressesTable.parent_id]
+    }),
+}));
+
 
 //export const createUserSchema = createInsertSchema(usersTable).strict();
 export const createAddressSchema = z.object({

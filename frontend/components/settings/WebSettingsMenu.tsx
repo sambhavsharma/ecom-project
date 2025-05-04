@@ -16,11 +16,11 @@ const WebSettingsMenu = ({activeTab, setActiveTab}) => {
         },
         {
             value: "My Buy Orders",
-            key: "buy_orders"
+            key: "buyorders"
         },
         {
             value: "My Sale Orders",
-            key: "sale_orders"
+            key: "saleorders"
         },
         {
             value: "Messages",
@@ -36,13 +36,13 @@ const WebSettingsMenu = ({activeTab, setActiveTab}) => {
         <Box className="flex-1 md:flex md:web:max-h-[calc(100vh-144px)] max-w-[340px] w-full pl-12 hidden">
             <ScrollView className="w-full" scrollEnabled={true}>
                 <VStack space="xl" className="py-6 px-8">
-                    <Heading className="px-2" size="lg">My Grailed</Heading>
+                    <Heading className="px-2" size="lg">My Evergrail</Heading>
 
                     {
                         options.map(
                             (option) => {
                                 return (
-                                    <Link href={`/users/${option.key}`}>
+                                    <Link href={`/users/${option.key}`} key={option.key}>
                                         <Pressable key={option.key} 
                                             className={`hover:bg-gray-200 p-2 ${activeTab == option.key ? 'bg-gray-200' : ''}`}
                                             onPress={ () => {setActiveTab(option.key)}}>

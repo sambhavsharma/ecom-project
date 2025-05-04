@@ -14,7 +14,7 @@ export async function create(order_product: any, tx: any) {
 
         return OrderProductSerializer.orderProductObj(orderProductRow);
     } catch (error) {
-
+        console.log(error);
         return {error: error};
     }
     

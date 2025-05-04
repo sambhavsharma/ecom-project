@@ -30,3 +30,15 @@ export async function login(req: Request, res: Response) {
     
 }
 
+export async function check(req: Request, res: Response) {
+    try {
+        
+        res.status(200).json(UserSerializer.userObj(req.user));
+
+    } catch (e) {
+        
+        res.status(500).send('Error!');
+    }
+    
+}
+

@@ -1,6 +1,9 @@
 
 export function addressObj(address: any) {
 
+    if(!address)
+        return {};
+
     return {
         id: address.id,
         address1: address.address1,

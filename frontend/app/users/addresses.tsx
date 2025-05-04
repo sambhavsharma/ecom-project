@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
-import { ScrollView } from "react-native";
+import { View } from "react-native";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import { Input, InputField } from "@/components/ui/input";
@@ -30,8 +30,6 @@ import Loader from "@/components/widgets/Loader";
 const AddressSettings = () => {
 
     const {user, logout, isLoading} = useAuth();
-
-    
 
     const {data, error, refetch} = useQuery({
         queryKey: ['addresses',user.id ], 
@@ -138,7 +136,7 @@ const AddressSettings = () => {
                 setAlertMessage={setAlertMessage}
             />
             
-            <ScrollView className="w-full" scrollEnabled={true}>
+            <View className="w-full">
                 <VStack space="xl" className="py-6 px-8 min-w-[400px]">
                     <Heading size="lg">Manage Address</Heading>
 
@@ -287,7 +285,7 @@ const AddressSettings = () => {
                         <ButtonText>Update Address</ButtonText>
                     </Button>
                 </VStack>
-            </ScrollView>
+            </View>
         </Box>
     );
 };

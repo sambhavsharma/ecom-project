@@ -3,13 +3,11 @@ import { Stack } from "expo-router";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/global.css";
 
-import { useCart } from "@/store/cartStore";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "@/providers/AuthProvider";
 
 import Header from "@/components/header/Header";
 
-//const cartItemNumber = useCart(state => state.items.length);
 const queryClient = new QueryClient();
 
 export default function RootLayout() {

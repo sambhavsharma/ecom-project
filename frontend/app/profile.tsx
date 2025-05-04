@@ -53,7 +53,7 @@ export default function Profile(){
                     </VStack>
                 </Box>
                 <Button className="py-2 px-4 mt-4">
-                    <Link href="/settings">
+                    <Link href="/users/profile">
                     <ButtonText size="sm">Edit</ButtonText>
                     </Link>
                 </Button>

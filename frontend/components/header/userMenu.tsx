@@ -52,7 +52,7 @@ const UserMenu = ({user, logout}) => {
                 textValue="settings"
                 className="p-2"
             >
-                <Link className="w-full" href="/settings">
+                <Link className="w-full" href="/users/profile">
                     <MenuItemLabel className="w-full" size="sm">Settings</MenuItemLabel>
                 </Link>
             </MenuItem>
@@ -72,7 +72,7 @@ const UserMenu = ({user, logout}) => {
                 textValue="orders"
                 className="p-2"
             >
-                <Link  href="/settings?t=profile" className="w-full">
+                <Link  href="/users/buyorders" className="w-full">
                     <MenuItemLabel size="sm">Orders</MenuItemLabel>
                 </Link>
             </MenuItem>

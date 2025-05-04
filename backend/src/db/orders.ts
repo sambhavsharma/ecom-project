@@ -11,6 +11,7 @@ import { relations } from 'drizzle-orm';
 
 import { usersTable } from "./users";
 import { orderProductsTable } from "./order_products";
+import { addressesTable } from "./addresses";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const STATUS = ["new","cancelled","sent"] as const;
@@ -26,8 +27,12 @@ export const ordersTable = pgTable("orders", {
     updated_at: timestamp({}).$onUpdate(() => new Date())
 });
 
-export const orderRelations = relations(ordersTable, ({ many }) => ({
+export const orderRelations = relations(ordersTable, ({ many, one }) => ({
     products: many(orderProductsTable),
+    address: one(addressesTable, {
+        fields: [ordersTable.id],
+        references: [addressesTable.parent_id]
+    }),
 }));
 
 export const createOrderSchema = z.object({

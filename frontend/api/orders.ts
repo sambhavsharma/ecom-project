@@ -1,59 +1,76 @@
-import { useAuth } from "@/store/authStore";
+import {Platform} from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
-const RESPURCE = "orders";
+const RESOURCE = "orders";
+
+// There has to be a better way
+const getToken = async () => {
+
+    let key = "user";
+    let user = JSON.parse(
+         Platform.OS === 'web' ? await AsyncStorage.getItem(key) : await SecureStore.getItemAsync(key)
+    )
+    
+    return user ? user.token : "";
+}
 
 export async function getUserOrders({queryFilters}) {
 
-    var url = `${API_URL}/${RESPURCE}/user?`;
+    var url = `${API_URL}/${RESOURCE}/user?`;
     const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
     });
 
     if(!res.ok) {
         throw res;
     }
 
-    const products = await res.json();
-
-    console.log(products);
-    return products;
+    const orders = await res.json();
+    return orders;
 }
 
 export async function getUserOrder(id: string) {
-    var url = `${API_URL}/${RESPURCE}/${id}/user`;
-    const res = await fetch(url.toString());
+    var url = `${API_URL}/${RESOURCE}/${id}/user`;
+    const res = await fetch(url.toString(),{
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+    });
 
     if(!res.ok) {
-        throw new Error();
+        throw res;
     }
 
-    const products = await res.json();
-    return products;
+    const order = await res.json();
+    return order;
 }
 
-export async function createOrder(items: []) {
+export async function createOrder(order) {
     
-    const user = useAuth.getState().user;
-    var url = `${API_URL}/${RESPURCE}`;
+    var url = `${API_URL}/${RESOURCE}`;
     const res = await fetch(url.toString(), {
         method: 'POST',
         mode: "cors",
         headers: {
             "Accept":"application/json", 
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
         },
-        body: JSON.stringify({
-            order: {
-                price: 100, 
-                user_id: user.id
-            }
-        })
+        body: JSON.stringify(order)
     });
 
     if(!res.ok) {
-        throw new Error();
+        throw res;
     }
 
-    const data = await res.json();
-    return data;
+    const orderObj = await res.json();
+    return orderObj;
 }

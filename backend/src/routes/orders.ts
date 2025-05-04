@@ -6,9 +6,6 @@ import {
     getUserOrders,
     createOrder
 } from '../controllers/ordersController';
-import { validateData } from '../middlewares/validationMiddleware';
-import { createOrderSchema, updateOrderSchema } from '../db/orders';
-
 const router = Router();
 
 router.post('/',passport.authenticate('jwt', { session: false }), createOrder);
