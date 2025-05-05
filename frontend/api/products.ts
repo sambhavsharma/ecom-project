@@ -34,7 +34,11 @@ export async function getUserProducts(user_id) {
 
     var url = `${API_URL}/${RESOURCE}/user/${user_id}`;
     const res = await fetch(url.toString(), {
-
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
     });
 
     if(!res.ok) {
@@ -76,6 +80,53 @@ export async function createProduct({media = {}, product}) {
     }
 
     const productObj = await res.json();
+    return productObj;
+}
+
+export async function updateProduct(product, product_id) {
+
+    //console.log(product);
+    
+    let url = `${API_URL}/${RESOURCE}/${product_id}`;
+    const res = await fetch(url.toString(), {
+        method: 'PUT',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+        body: JSON.stringify(product)
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const productObj = await res.json();
+    //console.log(productObj);
+    return productObj;
+}
+
+export async function deleteProduct(product_id) {
+    
+    let url = `${API_URL}/${RESOURCE}/${product_id}`;
+    const res = await fetch(url.toString(), {
+        method: 'DELETE',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        }
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const productObj = await res.json();
+    console.log(productObj);
     return productObj;
 }
 

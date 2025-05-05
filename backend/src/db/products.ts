@@ -30,6 +30,7 @@ export const productsTable = pgTable("products", {
     seller_id: integer().notNull(),
     category_id: integer().notNull(),
     condition: varchar({ length: 20 }).notNull(),
+    quantity: integer().default(1).notNull(),
     currency: varchar({ length: 3 }).notNull(),
     price: doublePrecision().notNull(),
     is_deleted: boolean().default(false).notNull(),
@@ -55,7 +56,7 @@ export const productRelations = relations(productsTable, ({ many, one }) => ({
 export const createProductSchema = z.object({
     name: z.string(),
     description: z.string(),
-    status: z.enum(STATUS).optional(),
+    status: z.enum(STATUS),
     brand: z.string().optional(),
     condition:  z.enum(CONDITION),
     seller_id: z.number(),

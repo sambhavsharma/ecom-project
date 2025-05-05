@@ -12,65 +12,73 @@ const Storage = require("../lib/multer-config");
 const BASE_URL = "http://127.0.0.1:3000/";
 
 export async function create(product: any, user_id: number) {
-        
-    const {productRow, error} = await db.transaction(async (tx) => { 
 
-        product.seller_id = user_id;
-        var [productRow] = await tx.insert(productsTable)
-            .values(product)
-            .returning();
+    try {
 
-        // Adding Product Media
-        productRow.media = [];
-        
-        for (var media of product.media || []) {
+        const {productRow, error} = await db.transaction(async (tx) => { 
 
-            if(!media.url){
-                let buff = Buffer.from(media.uri, 'base64');
-                fs.writeFileSync('./media/'+media.fileNname, buff);
-            }
-                
-            var mediaObj = {
-                parent_type: "product",
-                parent_id: productRow.id.toString(),
-                type: media.type,
-                url: media.url ? media.url : BASE_URL+media.fileNname
-            }
-
-            productRow.media.push(mediaObj);
-
-            const {error} = await Media.create(mediaObj, tx);
+            product.seller_id = user_id;
+            var [productRow] = await tx.insert(productsTable)
+                .values(product)
+                .returning();
+    
+            // Adding Product Media
+            productRow.media = [];
             
-            if (error) {
-                tx.rollback();  
-                return {error};
+            for (var media of product.media || []) {
+    
+                if(!media.url){
+                    let buff = Buffer.from(media.uri, 'base64');
+                    fs.writeFileSync('./media/'+media.fileNname, buff);
+                }
+                    
+                var mediaObj = {
+                    parent_type: "product",
+                    parent_id: productRow.id.toString(),
+                    type: media.type,
+                    url: media.url ? media.url : BASE_URL+media.fileNname
+                }
+    
+                productRow.media.push(mediaObj);
+    
+                const {error} = await Media.create(mediaObj, tx);
+                
+                if (error) {
+                    tx.rollback();  
+                    return {error};
+                }
             }
-        }
+    
+            // Adding Product Attributes
+            for (var attribute_id of Object.keys(product.attributes || {})) {
+                let attribute = {
+                    product_id: productRow.id,
+                    attribute_id: parseInt(attribute_id),
+                    value: product.attributes[attribute_id]
+                }
+    
+                const {error} = await ProductAttribute.create(attribute, tx);
+    
+                if (error) {
 
-        // Adding Product Attributes
-        for (var attribute_id of Object.keys(product.attributes) || []) {
-            let attribute = {
-                product_id: productRow.id,
-                attribute_id: parseInt(attribute_id),
-                value: product.attributes[attribute_id]
+                    tx.rollback();  
+                    return {error};
+                }
             }
-
-            const {error} = await ProductAttribute.create(attribute, tx);
-
-            if (error) {
-                console.log(error);
-                tx.rollback();  
-                return {error};
-            }
-        }
-
-        return {productRow: productRow};
-    });
-
-    if(productRow)
+    
+            return {productRow: productRow};
+        });
+    
         return ProductSerializer.productObj(productRow);
-    else 
-        return {error};
+
+    } catch (error) {
+
+        //console.log(error);
+        return {error: error};
+    }
+        
+    
+
 };
 
 export async function get(id: number) {
@@ -108,6 +116,7 @@ export async function list(limit: number, offset: number, filters)  {
     const products = await db.query.productsTable.findMany({
         where: and(
             eq(productsTable.is_deleted, false),
+            eq(productsTable.status, "live"),
             filters.brand ? inArray(productsTable.brand, filters.brand.split(',')) : eq(1,1), // Find a better way to do this!
             filters.condition ? inArray(productsTable.condition, filters.condition.split(',')) : eq(1,1), 
         ),
@@ -139,12 +148,76 @@ export async function list(limit: number, offset: number, filters)  {
     };
 }
 
-export async function getUserProducts(limit: number, offset: number, user_id)  {
+export async function update(id: number, updateFields: any, user_id: number) {
+     
+    try {
+        
+        const {productRow, error} = await db.transaction(async (tx) => { 
+
+            console.log(updateFields.product);
+
+            var [productRow] = await tx.update(productsTable)
+                .set(updateFields.product)
+                .where(and(
+                    eq(productsTable.id, id),
+                    eq(productsTable.is_deleted, false),
+                    eq(productsTable.seller_id, user_id)
+                ))
+                .returning();
+    
+            return {productRow: productRow};
+        });
+
+        //console.log(productRow);
+    
+        return ProductSerializer.productObj(productRow);
+
+    } catch (error) {
+        //console.log(error);
+        return {error: error};
+    }
+
+    
+};
+
+export async function deleteProduct(id: number, user_id: number) {
+     
+    try {
+        
+        const {productRow, error} = await db.transaction(async (tx) => { 
+
+            var [productRow] = await tx.update(productsTable)
+                .set({
+                    is_deleted: true
+                })
+                .where(and(
+                    eq(productsTable.id, id),
+                    eq(productsTable.seller_id, user_id)
+                ))
+                .returning();
+    
+            return {productRow: productRow};
+        });
+
+        //console.log(productRow);
+    
+        return ProductSerializer.productObj(productRow);
+
+    } catch (error) {
+        console.log(error);
+        return {error: error};
+    }
+
+    
+};
+
+export async function getUserProducts(limit: number, offset: number, user_id, returnDraft)  {
 
     const products = await db.query.productsTable.findMany({
         where: and(
             eq(productsTable.is_deleted, false),
-            eq(productsTable.seller_id, user_id) 
+            eq(productsTable.seller_id, user_id),
+            returnDraft ? eq(1,1) : eq(productsTable.status, "live")
         ),
         limit: limit,
         offset: offset,
@@ -174,15 +247,24 @@ export async function getUserProducts(limit: number, offset: number, user_id)  {
 async function buildAvailableFilters(filters) {
 
     const conditionFilter = await db.select({
-            name: productsTable.condition,
-            count: count()
-        }).from(productsTable)
+        name: productsTable.condition,
+        count: count()
+    })
+    .from(productsTable)
+    .where(
+        eq(productsTable.status, "live"),
+        eq(productsTable.is_deleted, false)
+    )
     .groupBy([productsTable.condition])
 
     const brandFilter = await db.select({
         name: productsTable.brand,
         count: count()
     }).from(productsTable)
+    .where(
+        eq(productsTable.status, "live"),
+        eq(productsTable.is_deleted, false)
+    )
     .groupBy([productsTable.brand])
     
     return {

@@ -27,9 +27,9 @@ export default function Profile(){
     const {user_id} = useLocalSearchParams();
     const { user, isLoading} = useAuth();
 
-    const {data: closetData} = useQuery({
+    const {data: closetData, isLoading: closetLoading} = useQuery({
         retry: false,
-        queryKey: ["products"], 
+        queryKey: ["closet"], 
         queryFn:() => getUserProducts(user_id)
     });
 
@@ -39,7 +39,7 @@ export default function Profile(){
         queryFn:() => getSeller(user_id)
     });
 
-    if(isLoading || isLoadingSeller) {
+    if(isLoading || isLoadingSeller || closetLoading) {
         return ( <Loader /> );
     }
 
@@ -65,7 +65,7 @@ export default function Profile(){
                         </VStack>
                     </Box>
                     {
-                        (user.id === seller.id) && 
+                        user && (user.id === seller.id) && 
                         <Button className="py-2 px-4 mt-4">
                             <Link href="/users/profile">
                             <ButtonText size="sm">Edit</ButtonText>

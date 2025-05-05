@@ -16,7 +16,6 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
 import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
-import ProductList from "@/components/widgets/ProductList";
 import { useAuth } from "@/providers/AuthProvider";
 import { Link, Redirect } from "expo-router";
 import ToastMessage from "@/components/widgets/ToastMessage";
@@ -70,6 +69,7 @@ export default function ProductDetailsScreen(){
             
             if(err.status === 401){
                 
+                await logout();
                 setRedirectLogin(true);
 
             } else {
@@ -180,31 +180,55 @@ export default function ProductDetailsScreen(){
                                         {data.description}
                                     </Text>
 
-                                    <VStack space="sm" className="mb-6">
-                                        
+                                    {
+                                        (user && (data.seller.id === user.id))  &&
+                                        <VStack space="sm" className="mb-6">
                                             <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
-                                                <Link href={`checkout/${data.id}`}>
-                                                    <ButtonText size="sm">Purchase</ButtonText>
+                                                <Link href={`sell/${data.id}`}>
+                                                    <ButtonText size="sm">Edit</ButtonText>
                                                 </Link>
                                             </Button>
-                                        <Button
-                                        variant="outline"
-                                        className="px-4 py-2 border-outline-300 sm:flex-1"
-                                        >
-                                            <ButtonText size="sm" className="text-typography-600">
-                                                Offer
-                                            </ButtonText>
-                                        </Button>
-                                        <Button
-                                        variant="outline"
-                                        className="px-4 py-2 border-outline-300 sm:flex-1"
-                                        >
-                                            <ButtonText size="sm" className="text-typography-600">
-                                                Message
-                                            </ButtonText>
-                                        </Button>
-                                    </VStack>
+                                        </VStack>
+                                    }
 
+                                    {
+                                        (user && (data.seller.id !== user.id))  &&
+
+                                        <VStack space="sm" className="mb-6">
+                                            
+                                            
+                                                <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
+                                                    <Link href={`checkout/${data.id}`}>
+                                                        <ButtonText size="sm">Purchase</ButtonText>
+                                                    </Link>
+                                                </Button>
+                                        
+                                        
+                                                <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
+                                                    <Link href={`checkout/${data.id}`}>
+                                                        <ButtonText size="sm">Purchase</ButtonText>
+                                                    </Link>
+                                                </Button>
+
+                                                <Button
+                                                variant="outline"
+                                                className="px-4 py-2 border-outline-300 sm:flex-1"
+                                                >
+                                                    <ButtonText size="sm" className="text-typography-600">
+                                                        Offer
+                                                    </ButtonText>
+                                                </Button>
+
+                                                <Button
+                                                variant="outline"
+                                                className="px-4 py-2 border-outline-300 sm:flex-1"
+                                                >
+                                                    <ButtonText size="sm" className="text-typography-600">
+                                                        Message
+                                                    </ButtonText>
+                                                </Button>
+                                        </VStack>
+                                    }
                                     <Box className="p-6 rounded-lg max-w-[360px] m-3">
                                         <Box className="flex-row">
                                             <Avatar className="mr-4">
@@ -236,32 +260,39 @@ export default function ProductDetailsScreen(){
                                                 </HStack>
                                             </VStack>
                                         </Box>
+                                        
                                         <Box className="my-5 flex-col sm:flex-row">
                                             <VStack className="items-center pb-2 sm:flex-1 sm:pb-0 sm:border-r sm:border-outline-300">
-                                            <Heading size="xs">81</Heading>
-                                            <Text size="xs">products</Text>
+                                                <Heading size="xs">81</Heading>
+                                                <Text size="xs">products</Text>
                                             </VStack>
+
                                             <Divider
-                                            orientation="horizontal"
-                                            className="w-[40%] self-center bg-background-300 flex sm:hidden"
+                                                orientation="horizontal"
+                                                className="w-[40%] self-center bg-background-300 flex sm:hidden"
                                             />
+
                                             <VStack className="items-center py-2 sm:flex-1 sm:py-0 sm:border-r sm:border-outline-300">
-                                            <Heading size="xs">5,281</Heading>
-                                            <Text size="xs">followers</Text>
+                                                <Heading size="xs">5,281</Heading>
+                                                <Text size="xs">followers</Text>
                                             </VStack>
+                                            
                                             <Divider
-                                            orientation="horizontal"
-                                            className="w-[40%] self-center bg-background-300 flex sm:hidden"
-                                            />
+                                                orientation="horizontal"
+                                                className="w-[40%] self-center bg-background-300 flex sm:hidden"
+                                                />
+                                            
                                             {/* <VStack className="items-center pt-2 sm:flex-1 sm:pt-0">
                                             <Heading size="xs">281</Heading>
                                             <Text size="xs">following</Text>
                                             </VStack> */}
+
                                         </Box>
+                                        
                                         <Button className="py-2 px-4">
-                                            <ButtonText size="sm">Follow</ButtonText>
+                                                <ButtonText size="sm">Follow</ButtonText>
                                         </Button>
-                                        </Box>
+                                    </Box>
                                 </VStack>
                             </Box>
                         </Box>

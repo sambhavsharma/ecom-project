@@ -16,11 +16,11 @@ const router = Router();
 
 router.get('/', listProducts);
 router.get('/:id', getProduct);
-router.get('/user/:user_id', getUserProducts);
+router.get('/user/:user_id', passport.authenticate(["jwt", "anonymous"], { session: false }), getUserProducts);
 
 router.post('/', passport.authenticate('jwt', { session: false }), createProduct);
+router.put('/:id', passport.authenticate('jwt', { session: false }), updateProduct);
 
-router.put('/:id', validateData(updateProductSchema), updateProduct);
-router.delete('/:id', deleteProduct);
+router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteProduct);
   
 export default router;

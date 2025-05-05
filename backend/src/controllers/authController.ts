@@ -11,7 +11,7 @@ const jwtOptions = {
 export async function login(req: Request, res: Response) {
     try {
         
-        let user = req.user;
+        let user = UserSerializer.userObj(req.user);
 
         if(user && user.id){
             let token = jwt.sign(user, jwtOptions.secretOrKey, { expiresIn: jwtOptions.expiresIn });

@@ -8,6 +8,13 @@
       "when": 1746034998075,
       "tag": "0000_magenta_monster_badoon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746470786769,
+      "tag": "0001_aspiring_black_widow",
+      "breakpoints": true
     }
   ]
 }

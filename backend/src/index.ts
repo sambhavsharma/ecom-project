@@ -4,8 +4,10 @@ import session from 'express-session';
 //import cookieParser from "cookie-parser";
 import cors from "cors";
 
+// Import passport strategies
 import "./lib/auth/strategies/local-strategy.ts";
 import "./lib/auth/strategies/jwt-strategy.ts";
+import "./lib/auth/strategies/anon-strategy.ts";
 
 // Routes Begin
 import productRoutes from './routes/products';

@@ -25,18 +25,7 @@ const localStrategy =  passport.use(
                     }
                 }
             });
-
-            // const [user] = await db.select()
-            //     .from(usersTable)
-            //     .where(and(
-            //         eq(usersTable.email, email),
-            //         eq(usersTable.is_deleted, false)
-            //     )).with(
-            //         media: {
-            //             where: (media, { eq }) => eq(media.parent_type, "user")
-            //         }
-            //     );
-
+            
             if(!user) { throw new Error(); }
             
             if(env == 'dev' && user.id == 1) { return done(null, user); }

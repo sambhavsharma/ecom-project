@@ -15,6 +15,7 @@ var opts = {
 
 const jwtStrategy =  passport.use(
     new Strategy(opts, async function(jwt_payload, done) {
+
         const [user] = await db.select()
             .from(usersTable)
             .where(and(

@@ -27,9 +27,25 @@ export default function CategorySelect({
     setSelectedCategory: setSelectedCategory
 }){
 
+    const [initSelect, setInitSelect] = useState(true);
     const [showCategoryMenu, setShowCategoryMenu] = React.useState(false);
     const [prevCategory, setPreviousCategory] = React.useState(null);
     const [currentCategoryMenu, setCurrentCategoryMenu] = React.useState([]);
+
+    useEffect(
+        () => {
+            const loadAttributes = () =>{
+                if(selectedCategory.id){
+                    categorySelect(selectedCategory.id);
+                    setInitSelect(false);
+                }
+            }
+            
+            if(selectedCategory && initSelect)
+                loadAttributes();
+        
+        }, [selectedCategory]
+    )
 
     useEffect(() => {
         if(data)

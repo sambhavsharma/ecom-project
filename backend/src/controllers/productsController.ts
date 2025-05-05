@@ -27,8 +27,9 @@ export async function getUserProducts(req: Request, res: Response) {
         const offset = (page-1) * limit;
 
         const user_id = Number(req.params.user_id);
+        let returnDraft = req.user ? (user_id === req.user.id) : false;
 
-        const products = await Product.getUserProducts(limit, offset, user_id);
+        const products = await Product.getUserProducts(limit, offset, user_id, returnDraft);
         res.status(200).json(products);
 
     } catch (e) {
@@ -66,7 +67,7 @@ export async function createProduct(req: Request, res: Response) {
         res.status(201).json(productObj);
 
     } catch (e) {
-        console.log(e);
+        //console.log(e);
         res.status(500).send('Error creating product');
     }
 }
@@ -76,41 +77,23 @@ export async function updateProduct(req: Request, res: Response) {
     try {
         const id = Number(req.params.id);
         const updateFields = req.body;
-        const [product] = await db.update(productsTable)
-            .set(updateFields)
-            .where(and(
-                eq(productsTable.id, id),
-                eq(productsTable.is_deleted, false)
-            ))
-            .returning();
 
-        if(product) {
-            res.status(200).json(product);
-        } else {
-            res.status(404).send('Produt not Found!');
-        }
+        var productObj = await Product.update(id, updateFields, req.user.id);
+        res.status(200).json(productObj);
+
     } catch (e) {
-        res.status(500).send('Error!');
+        res.status(500).send('Error updating product!');
     }
-
-    
 }
 
 export async function deleteProduct(req: Request, res: Response) {
 
     try {
         const id = Number(req.params.id);
-        const [product] = await db.update(productsTable)
-            .set({is_deleted: true})
-            .where(eq(productsTable.id, id))
-            .returning();
+        var productObj = await Product.deleteProduct(id, req.user.id);
+        res.status(200).json(productObj);
 
-        if(product) {
-            res.status(200).json(product);
-        } else {
-            res.status(404).send('Produt not Found!');
-        }
     } catch (e) {
-        res.status(500).send('Error!');
+        res.status(500).send('Error deleting product!');
     }
 }
