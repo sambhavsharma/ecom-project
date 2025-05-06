@@ -208,236 +208,231 @@ export default function SellProduct () {
             />
 
             <Center>
-
-                {/* { updatedProduct && <ProductCreated createdProduct={updatedProduct} resetPage={resetPage} />} */}
-
-                { !updatedProduct &&
-                    <VStack  space="lg" className="w-full max-w-[800px] rounded-md border-background-200 p-4">
-                        <Heading>
-                            Sell your product
-                        </Heading>
-                        <FormControl isInvalid={false} size="md" isDisabled={false} isReadOnly={false} isRequired={false} >
-                        
-                            {/* Item Name */}
-                            <HStack className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <VStack space="xs">
-                                        <FormControlLabel>
-                                            <FormControlLabelText>Item Name</FormControlLabelText>
-                                        </FormControlLabel>
-                                        <Input className="min-w-[250px]">
-                                            <InputField type="text" value={formData.name} 
-                                                onChangeText = {(text)=> {
-                                                    setFormData({
-                                                        ...formData,
-                                                        name: text
-                                                    })
-                                                }} 
-                                            />
-                                        </Input>
-                                    </VStack>
-                                </Box>
-                            </HStack>
-
-                            {/* Item Description */}
-                            <VStack space="xs" className="mt-[20px] z-[-1]">
-                                <FormControlLabel>
-                                    <FormControlLabelText>Description</FormControlLabelText>
-                                </FormControlLabel>
-                                <Textarea
-                                    size="md"
-                                    isReadOnly={false}
-                                    isInvalid={false}
-                                    isDisabled={false}
-                                    className="w-full"
-                                >
-                                    <TextareaInput placeholder="Your text goes here..." 
-                                        value={formData.description} onChangeText = {(text)=> 
-                                            setFormData({
-                                                ...formData,
-                                                description: text
-                                            })} 
-                                    />
-                                </Textarea>
-                            </VStack>
-
-                            {/* Item Status */}
-                            <HStack className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <VStack space="xs">
-                                        <FormControlLabel>
-                                            <FormControlLabelText>Status</FormControlLabelText>
-                                        </FormControlLabel>
-                                        <Input className="min-w-[250px]" isDisabled={true}>
-                                            <InputField type="text" value={formData.status} />
-                                        </Input>
-                                    </VStack>
-                                </Box>
-                            </HStack>
-
-                            {/* Item Brand */}
-                            <HStack className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <VStack space="xs">
-                                        <FormControlLabel>
-                                            <FormControlLabelText> Brand</FormControlLabelText>
-                                        </FormControlLabel>
-                                        <Input className="min-w-[250px]">
-                                            <InputField type="text" value={formData.brand} 
-                                            onChangeText = {(text)=> 
-                                                setFormData({
-                                                    ...formData,
-                                                    brand: text
-                                                })
-                                            }  />
-                                        </Input>
-                                    </VStack>
-                                </Box>
-                            </HStack>
-
-                            {/* Condition Select */}
-                            <HStack className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <VStack space="xs">
-                                        <FormControlLabel>
-                                            <FormControlLabelText>Condition</FormControlLabelText>
-                                        </FormControlLabel>
-                                        <Select onValueChange={(value) => {
-                                                setFormData({
-                                                    ...formData,
-                                                    condition: value
-                                                })
-                                            }}
-                                            selectedValue={formData.condition}
-                                        >
-                                            <SelectTrigger variant="outline" size="md">
-                                                <SelectInput placeholder="Select Condition" />
-                                                <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                                            </SelectTrigger>
-                                            <SelectPortal>
-                                                <SelectBackdrop />
-                                                <SelectContent>
-                                                    <SelectItem label="New" value="new" />
-                                                    <SelectItem label="Almost New" value="almost-new" />
-                                                    <SelectItem label="Used" value="used" />
-                                                </SelectContent>
-                                            </SelectPortal>
-                                        </Select>
-                                    </VStack>
-                                </Box>
-                            </HStack>
-                            
-                            {/* Category Select */}
-                            <CategorySelect data={data} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-                            
-                            {/* Attributes Select */}
-                            {
-                                selectedCategory && selectedCategory.attributes && 
-                                selectedCategory.attributes.map((attribute: any) => {
-                                    return (
-                                        <HStack key={attribute.id} className="w-full mt-[20px] z-[-1]">
-                                            <Box>
-                                                <VStack space="xs">
-                                                    <FormControlLabel>
-                                                        <FormControlLabelText>
-                                                            {attribute.name}
-                                                        </FormControlLabelText>
-                                                    </FormControlLabel>
-                                                    <Select onValueChange={(value) => {attributesUpdate(attribute.id, value)}}
-                                                        selectedValue={ getSelectedAttribute(attribute) }
-                                                    >
-                                                        <SelectTrigger variant="outline" size="md">
-                                                            <SelectInput placeholder={`Select ${attribute.name}`} />
-                                                            <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                                                        </SelectTrigger>
-                                                        <SelectPortal>
-                                                            <SelectBackdrop />
-                                                            <SelectContent>
-                                                                {
-                                                                    attribute.values.map((value) => {
-                                                                        return (
-                                                                            <SelectItem key={value} label={value} value={value} />
-                                                                        );
-                                                                    })
-                                                                }
-                                                            </SelectContent>
-                                                        </SelectPortal>
-                                                    </Select>
-                                                </VStack>
-                                            </Box>
-                                            <Box>
-                                            </Box>
-                                        </HStack>
-                                    );
-                                })
-                            }
-                            
-                            {/* Item Price */}
-                            <HStack className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <VStack space="xs">
+                <VStack  space="lg" className="w-full max-w-[800px] rounded-md border-background-200 p-4">
+                    <Heading>
+                        Sell your product
+                    </Heading>
+                    <FormControl isInvalid={false} size="md" isDisabled={false} isReadOnly={false} isRequired={false} >
+                    
+                        {/* Item Name */}
+                        <HStack className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <VStack space="xs">
                                     <FormControlLabel>
-                                        <FormControlLabelText>Price</FormControlLabelText>
+                                        <FormControlLabelText>Item Name</FormControlLabelText>
                                     </FormControlLabel>
                                     <Input className="min-w-[250px]">
-                                        <InputField type="text" value={formData.price} 
-                                            onChangeText = {(text)=> 
+                                        <InputField type="text" value={formData.name} 
+                                            onChangeText = {(text)=> {
                                                 setFormData({
                                                     ...formData,
-                                                    price: text.replace(/[^0-9]/g, '')
+                                                    name: text
                                                 })
-                                            }
+                                            }} 
                                         />
                                     </Input>
-                                    </VStack>
-                                </Box>
-                            </HStack>   
+                                </VStack>
+                            </Box>
+                        </HStack>
 
-                            {/* Image Upload */}
-                            <HStack space="lg" className="w-full mt-[20px] z-[-1]">
-                                <Box>
-                                    <Button className="mt-2" onPress={pickImage}>
-                                        <ButtonText>Add Image</ButtonText>
-                                        <ButtonIcon as={AddIcon} className="ml-2" />
-                                    </Button>
-                                </Box>
-                                <Box>
-                                    <HStack space="md">
-                                        {
-                                            formData.media && formData.media.map((img: any) => {
-                                                return (
-                                                    <Image key={img.id} source={{ uri: img.url || img.uri }} style={styles.image} />
-                                                );
+                        {/* Item Description */}
+                        <VStack space="xs" className="mt-[20px] z-[-1]">
+                            <FormControlLabel>
+                                <FormControlLabelText>Description</FormControlLabelText>
+                            </FormControlLabel>
+                            <Textarea
+                                size="md"
+                                isReadOnly={false}
+                                isInvalid={false}
+                                isDisabled={false}
+                                className="w-full"
+                            >
+                                <TextareaInput placeholder="Your text goes here..." 
+                                    value={formData.description} onChangeText = {(text)=> 
+                                        setFormData({
+                                            ...formData,
+                                            description: text
+                                        })} 
+                                />
+                            </Textarea>
+                        </VStack>
+
+                        {/* Item Status */}
+                        <HStack className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <VStack space="xs">
+                                    <FormControlLabel>
+                                        <FormControlLabelText>Status</FormControlLabelText>
+                                    </FormControlLabel>
+                                    <Input className="min-w-[250px]" isDisabled={true}>
+                                        <InputField type="text" value={formData.status} />
+                                    </Input>
+                                </VStack>
+                            </Box>
+                        </HStack>
+
+                        {/* Item Brand */}
+                        <HStack className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <VStack space="xs">
+                                    <FormControlLabel>
+                                        <FormControlLabelText> Brand</FormControlLabelText>
+                                    </FormControlLabel>
+                                    <Input className="min-w-[250px]">
+                                        <InputField type="text" value={formData.brand} 
+                                        onChangeText = {(text)=> 
+                                            setFormData({
+                                                ...formData,
+                                                brand: text
                                             })
-                                        }
-                                    </HStack>
-                                </Box>
-                            </HStack>                 
+                                        }  />
+                                    </Input>
+                                </VStack>
+                            </Box>
+                        </HStack>
 
-                        </FormControl>
-
-                        <HStack className="mt-[20px] z-[-1]" space="md">
-
-                            <Button className="w-fit self-end mt-4" size="sm" 
-                                onPress= {() => {handleSubmit("draft")}}
-                            >
-                                <ButtonText>Save Draft</ButtonText>
-                            </Button>
-
-                            <Button className="w-fit self-end mt-4" size="sm" 
-                                onPress= {() => {handleSubmit("live")}}
-                            >
-                                <ButtonText> Publish </ButtonText>
-                            </Button>
-                            
-                            <DeleteButton setShowMessage={setShowMessage} setAlertMessage={setAlertMessage} 
-                                productId={product_id} user={user} setRedirectLogin={setRedirectLogin} logout={logout}
-                            />
-                            
+                        {/* Condition Select */}
+                        <HStack className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <VStack space="xs">
+                                    <FormControlLabel>
+                                        <FormControlLabelText>Condition</FormControlLabelText>
+                                    </FormControlLabel>
+                                    <Select onValueChange={(value) => {
+                                            setFormData({
+                                                ...formData,
+                                                condition: value
+                                            })
+                                        }}
+                                        selectedValue={formData.condition}
+                                    >
+                                        <SelectTrigger variant="outline" size="md">
+                                            <SelectInput placeholder="Select Condition" />
+                                            <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                                        </SelectTrigger>
+                                        <SelectPortal>
+                                            <SelectBackdrop />
+                                            <SelectContent>
+                                                <SelectItem label="New" value="new" />
+                                                <SelectItem label="Almost New" value="almost-new" />
+                                                <SelectItem label="Used" value="used" />
+                                            </SelectContent>
+                                        </SelectPortal>
+                                    </Select>
+                                </VStack>
+                            </Box>
                         </HStack>
                         
-                    </VStack>
-                }
+                        {/* Category Select */}
+                        <CategorySelect data={data} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+                        
+                        {/* Attributes Select */}
+                        {
+                            selectedCategory && selectedCategory.attributes && 
+                            selectedCategory.attributes.map((attribute: any) => {
+                                return (
+                                    <HStack key={attribute.id} className="w-full mt-[20px] z-[-1]">
+                                        <Box>
+                                            <VStack space="xs">
+                                                <FormControlLabel>
+                                                    <FormControlLabelText>
+                                                        {attribute.name}
+                                                    </FormControlLabelText>
+                                                </FormControlLabel>
+                                                <Select onValueChange={(value) => {attributesUpdate(attribute.id, value)}}
+                                                    selectedValue={ getSelectedAttribute(attribute) }
+                                                >
+                                                    <SelectTrigger variant="outline" size="md">
+                                                        <SelectInput placeholder={`Select ${attribute.name}`} />
+                                                        <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                                                    </SelectTrigger>
+                                                    <SelectPortal>
+                                                        <SelectBackdrop />
+                                                        <SelectContent>
+                                                            {
+                                                                attribute.values.map((value) => {
+                                                                    return (
+                                                                        <SelectItem key={value} label={value} value={value} />
+                                                                    );
+                                                                })
+                                                            }
+                                                        </SelectContent>
+                                                    </SelectPortal>
+                                                </Select>
+                                            </VStack>
+                                        </Box>
+                                        <Box>
+                                        </Box>
+                                    </HStack>
+                                );
+                            })
+                        }
+                        
+                        {/* Item Price */}
+                        <HStack className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <VStack space="xs">
+                                <FormControlLabel>
+                                    <FormControlLabelText>Price</FormControlLabelText>
+                                </FormControlLabel>
+                                <Input className="min-w-[250px]">
+                                    <InputField type="text" value={formData.price} 
+                                        onChangeText = {(text)=> 
+                                            setFormData({
+                                                ...formData,
+                                                price: text.replace(/[^0-9]/g, '')
+                                            })
+                                        }
+                                    />
+                                </Input>
+                                </VStack>
+                            </Box>
+                        </HStack>   
+
+                        {/* Image Upload */}
+                        <HStack space="lg" className="w-full mt-[20px] z-[-1]">
+                            <Box>
+                                <Button className="mt-2" onPress={pickImage}>
+                                    <ButtonText>Add Image</ButtonText>
+                                    <ButtonIcon as={AddIcon} className="ml-2" />
+                                </Button>
+                            </Box>
+                            <Box>
+                                <HStack space="md">
+                                    {
+                                        formData.media && formData.media.map((img: any) => {
+                                            return (
+                                                <Image key={img.id} source={{ uri: img.url || img.uri }} style={styles.image} />
+                                            );
+                                        })
+                                    }
+                                </HStack>
+                            </Box>
+                        </HStack>                 
+
+                    </FormControl>
+
+                    <HStack className="mt-[20px] z-[-1]" space="md">
+
+                        <Button className="w-fit self-end mt-4" size="sm" 
+                            onPress= {() => {handleSubmit("draft")}}
+                        >
+                            <ButtonText>Save Draft</ButtonText>
+                        </Button>
+
+                        <Button className="w-fit self-end mt-4" size="sm" 
+                            onPress= {() => {handleSubmit("live")}}
+                        >
+                            <ButtonText> Publish </ButtonText>
+                        </Button>
+                        
+                        <DeleteButton setShowMessage={setShowMessage} setAlertMessage={setAlertMessage} 
+                            productId={product_id} user={user} setRedirectLogin={setRedirectLogin} logout={logout}
+                        />
+                        
+                    </HStack>
+                    
+                </VStack>
             </Center>
         </ScrollView>
     );

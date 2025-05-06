@@ -111,15 +111,19 @@ export async function get(id: number) {
     return ProductSerializer.productObj(product);
 }
 
-export async function list(limit: number, offset: number, filters)  {
+export async function list(page: number, limit: number, offset: number, filters)  {
 
-    const products = await db.query.productsTable.findMany({
+    const whereQuery = {
         where: and(
             eq(productsTable.is_deleted, false),
             eq(productsTable.status, "live"),
             filters.brand ? inArray(productsTable.brand, filters.brand.split(',')) : eq(1,1), // Find a better way to do this!
             filters.condition ? inArray(productsTable.condition, filters.condition.split(',')) : eq(1,1), 
-        ),
+        )
+    }
+
+    const products = await db.query.productsTable.findMany({
+        ...whereQuery,
         limit: limit,
         offset: offset,
         with: { 
@@ -142,9 +146,17 @@ export async function list(limit: number, offset: number, filters)  {
         }
     });
 
+    const count = await db.$count(productsTable, whereQuery.where);
+
+    const nextPage = (count - (page * limit)) > 0 ? page+1 : null
+
+    console.log(nextPage);
+
     return {
         filters: await buildAvailableFilters(filters),
-        products: ProductSerializer.productsList(products)
+        products: ProductSerializer.productsList(products),
+        count: count,
+        nextPage: nextPage
     };
 }
 

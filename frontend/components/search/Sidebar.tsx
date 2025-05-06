@@ -17,9 +17,9 @@ import ConditionSection from "./ConditionSection";
 // import SortBySection from "./sidebar/SortBySection";
 
 const Sidebar = ({refetch, filters, filterQuery, setFilterQuery}) => {
-  const [scrollEnabled, setScrollEnabled] = React.useState<boolean>(true);
+  
   return (
-    <ScrollView className="w-full" scrollEnabled={scrollEnabled}>
+    <ScrollView  style={{flex:1}}>
       <VStack space="xl" className="py-6 px-4">
         {/* <FiltersAppliedSection /> */}
         {/* <SortBySection /> */}

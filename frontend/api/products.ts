@@ -16,9 +16,9 @@ const getToken = async () => {
     return user ? user.token : "";
 }
 
-export async function listProducts({queryFilters}) {
+export async function listProducts(queryFilters, page) {
 
-    var url = `${API_URL}/${RESOURCE}?`;
+    var url = `${API_URL}/${RESOURCE}?page=${page}&`;
     const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
     });
 
@@ -85,8 +85,6 @@ export async function createProduct({media = {}, product}) {
 
 export async function updateProduct(product, product_id) {
 
-    //console.log(product);
-    
     let url = `${API_URL}/${RESOURCE}/${product_id}`;
     const res = await fetch(url.toString(), {
         method: 'PUT',

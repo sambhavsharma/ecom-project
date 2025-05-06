@@ -3,7 +3,7 @@ import ProductListItem from "@/components/widgets/ProductListItem";
 import { useMediaQuery } from "@/components/ui/utils/use-media-query";
 
 
-export default function ProductList({page, data}) {
+export default function ProductList({page, data, onEndReached}) {
 
     const [one, two, three, four, five] = useMediaQuery([
         {
@@ -53,10 +53,13 @@ export default function ProductList({page, data}) {
                 )}
                 contentContainerClassName="gap-2"
                 horizontal={false}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0}
             />
             
             :
             <FlatList 
+                keyExtractor={(item) => item.id}
                 key={numColumns}
                 data={data}
                 renderItem={({item}) => (
@@ -65,6 +68,9 @@ export default function ProductList({page, data}) {
                 numColumns={numColumns}
                 contentContainerClassName="gap-2"
                 columnWrapperClassName="gap-2"
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.2}
+                style={{height: "120vh"}}
             />
 
         }

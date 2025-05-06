@@ -2,19 +2,19 @@ import {Request, Response} from "express";
 
 const Product = require("../models/product");
 
-const DEFAULT_LIMIT = 15;
+const DEFAULT_LIMIT = 20;
 
 export async function listProducts(req: Request, res: Response) {
     try {
-        const page = Number(req.query.page);
+        const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || DEFAULT_LIMIT;
         const offset = (page-1) * limit;
 
-        const products = await Product.list(limit, offset, req.query);
+        const products = await Product.list(page, limit, offset, req.query);
         res.status(200).json(products);
 
     } catch (e) {
-        console.log(e);
+        //console.log(e);
         res.status(500).send('Error!');
     }
     
