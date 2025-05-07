@@ -166,8 +166,6 @@ export async function update(id: number, updateFields: any, user_id: number) {
         
         const {productRow, error} = await db.transaction(async (tx) => { 
 
-            console.log(updateFields.product);
-
             var [productRow] = await tx.update(productsTable)
                 .set(updateFields.product)
                 .where(and(
@@ -179,17 +177,13 @@ export async function update(id: number, updateFields: any, user_id: number) {
     
             return {productRow: productRow};
         });
-
-        //console.log(productRow);
     
         return ProductSerializer.productObj(productRow);
 
     } catch (error) {
-        //console.log(error);
+
         return {error: error};
     }
-
-    
 };
 
 export async function deleteProduct(id: number, user_id: number) {
@@ -211,8 +205,6 @@ export async function deleteProduct(id: number, user_id: number) {
             return {productRow: productRow};
         });
 
-        //console.log(productRow);
-    
         return ProductSerializer.productObj(productRow);
 
     } catch (error) {

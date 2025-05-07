@@ -146,9 +146,7 @@ export default function CheckoutScreen(){
                             <Box className="my-5">
                                 <Button onPress={handleConfirmPurchaseClick} 
                                     className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
-                                    {/* <Link href={`checkout/${data.id}`}> */}
                                         <ButtonText size="sm">Confirm Purchase</ButtonText>
-                                    {/* </Link> */}
                                 </Button>
                             </Box>
                         </Center>

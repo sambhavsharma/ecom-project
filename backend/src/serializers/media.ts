@@ -15,8 +15,9 @@ export function mediaObj(media: any) {
         return {}
 
     return {
-       type: media.type,
-       url: media.url
+        id: media.id,
+        type: media.type,
+        url: media.url
     }
 }
 

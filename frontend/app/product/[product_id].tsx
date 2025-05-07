@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useRef} from "react";
 import { ScrollView } from "react-native";
 
 import { Text } from "@/components/ui/text";
@@ -15,11 +15,21 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Divider } from "@/components/ui/divider";
-import { Icon, StarIcon, FavouriteIcon } from "@/components/ui/icon";
+import { Icon, StarIcon, FavouriteIcon, CloseIcon } from "@/components/ui/icon";
 import { useAuth } from "@/providers/AuthProvider";
 import { Link, Redirect } from "expo-router";
 import ToastMessage from "@/components/widgets/ToastMessage";
 import Loader from "@/components/widgets/Loader";
+import ImageGallery from "@/components/imagegallery/ImageGallery";
+
+import {
+    Modal,
+    ModalBackdrop,
+    ModalContent,
+    ModalCloseButton,
+    ModalHeader,
+    ModalBody,
+  } from "@/components/ui/modal"
 
 import { getProduct } from "@/api/products";
 import { createFavorite, deleteFavorite, checkUserFavorite } from "@/api/favorites";
@@ -32,7 +42,7 @@ export default function ProductDetailsScreen(){
     const [alertMessage, setAlertMessage] = useState(null);
     const [redirectLogin, setRedirectLogin] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-
+    const [showModal, setShowModal] = useState(false)
 
     const {data, isLoading} = useQuery({
         queryKey: ['products',product_id ], 
@@ -114,21 +124,8 @@ export default function ProductDetailsScreen(){
 
             <Center>
                 <VStack>
-                    <HStack className="max-w-[1300px]">
-                        <Box className="items-center p-3 flex-1">
-                            <Center>
-                                <Box className=" mx-auto p-5 rounded-lg m-3 flex-1">
-                                    <Image
-                                        source={{
-                                        uri: data.media[0] ? data.media[0].url : 
-                                            "https://www.mountaingoatsoftware.com/uploads/blog/2016-09-06-what-is-a-product.png",
-                                        }}
-                                        className="mb-6 h-auto w-[500px] rounded-md aspect-[4/3]"
-                                        alt="image"
-                                    />
-                                </Box>
-                            </Center>
-                        </Box>
+                    <HStack space="2xl" className="max-w-[1300px]">
+                        <ImageGallery media={data.media} showModal={showModal} setShowModal={setShowModal} />
                         <Box className="items-center p-3 flex-1">
                             <Box className=" mx-auto p-5 rounded-lg max-w-[360px] m-3 flex-1">
                                 <VStack space="lg" className="mb-6">
@@ -302,6 +299,30 @@ export default function ProductDetailsScreen(){
                         <ProductList/>
                     </Center> */}
                 </VStack>
+                <Modal
+                    isOpen={showModal}
+                    onClose={() => {
+                        setShowModal(false)
+                    }}
+                    size="full"
+                >
+                    <ModalBackdrop />
+                    <ModalContent className="w-5/6">
+                        <ModalHeader>
+                            <Heading size="md" className="text-typography-950"> </Heading>
+                            <ModalCloseButton>
+                            <Icon
+                                as={CloseIcon}
+                                size="md"
+                                className="stroke-background-400 group-[:hover]/modal-close-button:stroke-background-700 group-[:active]/modal-close-button:stroke-background-900 group-[:focus-visible]/modal-close-button:stroke-background-900"
+                            />
+                            </ModalCloseButton>
+                        </ModalHeader>
+                        <ModalBody>
+                            <ImageGallery media={data.media} showModal={showModal} setShowModal={setShowModal} />
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
             </Center>
         </ScrollView>
     );
