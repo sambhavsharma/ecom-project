@@ -1,11 +1,17 @@
 
 import { db } from "../db";
 import { productsTable } from "../db/products";
+import { categoriesTable } from "../db/categories";
+import { brandsTable } from "../db/brands";
 import {  eq, and, count, inArray } from "drizzle-orm";
+import { PRODUCT_CONDITIONS, DEFAULT_LIMIT } from "../lib/constants";
 import fs from 'fs';
 
+
 const ProductSerializer = require("../serializers/products");
+const CategoriesSerializer = require("../serializers/categories");
 const Media = require("../models/media");
+const Brand = require("../models/brand");
 const ProductAttribute = require("../models/product_attribute");
 const Storage = require("../lib/multer-config");
 
@@ -104,7 +110,8 @@ export async function get(id: number) {
                         where: (media, { eq }) => eq(media.parent_type, "user")
                     }
                 }
-            }
+            },
+            brand: true
         }
     });
         
@@ -113,19 +120,16 @@ export async function get(id: number) {
 
 export async function list(page: number, limit: number, offset: number, filters)  {
 
+    const filteredProductIds = await getFilteredProductIds(page, limit, offset, filters);
+
     const whereQuery = {
         where: and(
-            eq(productsTable.is_deleted, false),
-            eq(productsTable.status, "live"),
-            filters.brand ? inArray(productsTable.brand, filters.brand.split(',')) : eq(1,1), // Find a better way to do this!
-            filters.condition ? inArray(productsTable.condition, filters.condition.split(',')) : eq(1,1), 
+            inArray(productsTable.id, filteredProductIds)
         )
     }
 
     const products = await db.query.productsTable.findMany({
         ...whereQuery,
-        limit: limit,
-        offset: offset,
         with: { 
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
@@ -142,16 +146,14 @@ export async function list(page: number, limit: number, offset: number, filters)
                 with: {
                     attribute: true
                 }
-            }
+            },
+            brand: true
         }
     });
 
     const count = await db.$count(productsTable, whereQuery.where);
-
     const nextPage = (count - (page * limit)) > 0 ? page+1 : null
-
-    console.log(nextPage);
-
+    
     return {
         filters: await buildAvailableFilters(filters),
         products: ProductSerializer.productsList(products),
@@ -208,7 +210,7 @@ export async function deleteProduct(id: number, user_id: number) {
         return ProductSerializer.productObj(productRow);
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return {error: error};
     }
 
@@ -250,31 +252,52 @@ export async function getUserProducts(limit: number, offset: number, user_id, re
 
 async function buildAvailableFilters(filters) {
 
+    const whereQuery = (
+        eq(productsTable.status, "live"),
+        eq(productsTable.is_deleted, false)
+    )
+
     const conditionFilter = await db.select({
         name: productsTable.condition,
         count: count()
     })
     .from(productsTable)
-    .where(
-        eq(productsTable.status, "live"),
-        eq(productsTable.is_deleted, false)
-    )
+    .where(whereQuery)
     .groupBy([productsTable.condition])
+    .orderBy(productsTable.condition)
 
     const brandFilter = await db.select({
-        name: productsTable.brand,
+        name: brandsTable.name,
         count: count()
     }).from(productsTable)
-    .where(
-        eq(productsTable.status, "live"),
-        eq(productsTable.is_deleted, false)
-    )
-    .groupBy([productsTable.brand])
+    .leftJoin(brandsTable, eq(productsTable.brand_id, brandsTable.id))
+    .where(whereQuery)
+    .groupBy([brandsTable.name])
+    .orderBy(brandsTable.name)
     
     return {
         brand: brandFilter,
         condition: conditionFilter
     };
+
+}
+
+async function getFilteredProductIds(page: number, limit: number, offset: number, filters) {
+
+    const filterQuery: SQL[] = [
+        eq(productsTable.status, "live"),
+        eq(productsTable.is_deleted, false)
+    ];
+
+    if (filters.brand) filterQuery.push(inArray(brandsTable.name, filters.brand.split(',')));
+    if (filters.condition) filterQuery.push(inArray(productsTable.condition, filters.condition.split(',')));
+
+    const filteredProductIds = await db.select({id: productsTable.id}).from(productsTable)
+        .leftJoin(brandsTable, eq(productsTable.brand_id, brandsTable.id))
+        .where(and(...filterQuery))
+        .limit(limit).offset(offset);
+
+    return filteredProductIds.map((obj) => obj.id);
 }
 
 export const conditionMap = {

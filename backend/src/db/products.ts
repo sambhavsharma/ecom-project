@@ -16,6 +16,8 @@ import { categoriesTable } from "./categories";
 import { productAttributesTable } from "./product_attributes";
 import { favoritesTable } from "./favorites";
 import { orderProductsTable } from "./order_products";
+import { brandsTable } from "./brands";
+import { PRODUCT_CONDITIONS } from "../lib/constants";
 
 const CURRENCY = ["INR", "USD", "EUR", "AED", "SGD", "AUD", "GBP"] as const;
 const CONDITION = ["new", "like_new", "gently_used"] as const;
@@ -26,7 +28,7 @@ export const productsTable = pgTable("products", {
     name: varchar({ length: 255 }).notNull(),
     description: text(),
     status: varchar({ length: 20 }).default("draft").notNull(),
-    brand: varchar({ length: 100 }),
+    brand_id: integer().notNull(),
     seller_id: integer().notNull(),
     category_id: integer().notNull(),
     condition: varchar({ length: 20 }).notNull(),
@@ -50,6 +52,10 @@ export const productRelations = relations(productsTable, ({ many, one }) => ({
         fields: [productsTable.seller_id],
         references: [usersTable.id]
     }),
+    brand: one(brandsTable, {
+        fields: [productsTable.brand_id],
+        references: [brandsTable.id]
+    }),
     orders: many(orderProductsTable)
 }));
 
@@ -57,7 +63,7 @@ export const createProductSchema = z.object({
     name: z.string(),
     description: z.string(),
     status: z.enum(STATUS),
-    brand: z.string().optional(),
+    brand_id: z.number().optional(),
     condition:  z.enum(CONDITION),
     seller_id: z.number(),
     category_id: z.number(),

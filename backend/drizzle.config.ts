@@ -25,6 +25,7 @@ export default defineConfig({
     './src/db/cart_items.ts',
     './src/db/orders.ts',
     './src/db/order_products.ts',
+    './src/db/brands.ts',
   ],
   dialect: 'postgresql',
   dbCredentials: {

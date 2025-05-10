@@ -34,6 +34,7 @@ import { listCategories } from "@/api/categories";
 import { getProduct, updateProduct, deleteProduct } from "@/api/products";
 
 import CategorySelect from "@/components/sell/CategorySelect";
+import BrandSelect from "@/components/sell/BrandSelect";
 import DeleteButton from "@/components/sell/DeleteButton";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
@@ -49,8 +50,7 @@ export default function SellProduct () {
     const [alertMessage, setAlertMessage] = useState(null);
     const {logout, user, isLoading} = useAuth();
 
-    // Form Values
-
+    
     const [formData, setFormData] = useState({});
     const [selectedCategory, setSelectedCategory] = useState({});
     const [attributes, setAttributes] = useState({});
@@ -105,8 +105,6 @@ export default function SellProduct () {
             media: media,
             status: status
         }
-        
-        console.log(formData);
 
         updateProductMutation.mutate({ media, product});
     };
@@ -248,11 +246,13 @@ export default function SellProduct () {
                                 className="w-full"
                             >
                                 <TextareaInput placeholder="Your text goes here..." 
-                                    value={formData.description} onChangeText = {(text)=> 
+                                    value={formData.description} 
+                                    onChangeText = {(text)=> 
                                         setFormData({
                                             ...formData,
                                             description: text
-                                        })} 
+                                        })
+                                    } 
                                 />
                             </Textarea>
                         </VStack>
@@ -271,25 +271,11 @@ export default function SellProduct () {
                             </Box>
                         </HStack>
 
-                        {/* Item Brand */}
-                        <HStack className="w-full mt-[20px] z-[-1]">
-                            <Box>
-                                <VStack space="xs">
-                                    <FormControlLabel>
-                                        <FormControlLabelText> Brand</FormControlLabelText>
-                                    </FormControlLabel>
-                                    <Input className="min-w-[250px]">
-                                        <InputField type="text" value={formData.brand} 
-                                        onChangeText = {(text)=> 
-                                            setFormData({
-                                                ...formData,
-                                                brand: text
-                                            })
-                                        }  />
-                                    </Input>
-                                </VStack>
-                            </Box>
-                        </HStack>
+                        {/* Item Brand Select */}
+                        <BrandSelect 
+                            formData={formData} 
+                            setFormData={setFormData} 
+                        />
 
                         {/* Condition Select */}
                         <HStack className="w-full mt-[20px] z-[-1]">
@@ -298,7 +284,8 @@ export default function SellProduct () {
                                     <FormControlLabel>
                                         <FormControlLabelText>Condition</FormControlLabelText>
                                     </FormControlLabel>
-                                    <Select onValueChange={(value) => {
+                                    <Select 
+                                        onValueChange={(value) => {
                                             setFormData({
                                                 ...formData,
                                                 condition: value
@@ -373,7 +360,7 @@ export default function SellProduct () {
                             <Box>
                                 <VStack space="xs">
                                 <FormControlLabel>
-                                    <FormControlLabelText>Price</FormControlLabelText>
+                                    <FormControlLabelText>Price (In Rupees)</FormControlLabelText>
                                 </FormControlLabel>
                                 <Input className="min-w-[250px]">
                                     <InputField type="text" value={formData.price} 

@@ -160,11 +160,11 @@ export default function ProductDetailsScreen(){
                                             )
                                         }
                                         <Text size="sm">
-                                        Brand: {data.brand}
+                                            Brand: {data.brand ? data.brand.name: 'Unbranded'}
                                         </Text>
 
                                         <Text size="sm">
-                                        Condition: {data.condition}
+                                            Condition: {data.condition}
                                         </Text>
                                     </VStack>
 

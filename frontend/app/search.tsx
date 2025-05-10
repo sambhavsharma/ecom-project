@@ -23,7 +23,6 @@ export default function Search() {
     });
 
     const listProductsCall = async ({ pageParam }) => {
-        //console.log(pageParam);
         return listProducts(filterQuery, pageParam);
     }
 

@@ -1,8 +1,8 @@
 import { db } from "./index";
+import { brandsTable } from "./brands";
 import { productsTable } from "./products";
 import { usersTable } from "./users";
 import { addressesTable } from "./addresses";
-import { sellersTable } from "./sellers";
 import { mediaTable } from "./media";
 import { categoriesTable } from "./categories";
 import { attributesTable } from "./attributes";
@@ -124,6 +124,93 @@ async function main() {
 
     ]
 
+    const brands = [
+        {
+            "name": "Apple",
+            "code": "apple"
+        },
+        {
+            "name": "Nike",
+            "code": "nike"
+        },
+        {
+            "name": "Dyson",
+            "code": "dyson"
+        },
+        {
+            "name": "Samsung",
+            "code": "samsung"
+        },
+        {
+            "name": "Tommy Hilfiger",
+            "code": "tommyhilfiger"
+        },
+        {
+            "name": "Calvin Klein",
+            "code": "calvinklein"
+        },
+        {
+            "name": "Armani",
+            "code": "armani"
+        },
+        {
+            "name": "Gucci",
+            "code": "gucci"
+        },
+        {
+            "name": "Adidas",
+            "code": "adidas"
+        },
+        {
+            "name": "Puma",
+            "code": "puma"
+        },
+        {
+            "name": "Sketchers",
+            "code": "sketchers"
+        },
+        {
+            "name": "Rado",
+            "code": "rado"
+        },
+        {
+            "name": "Roberto Cavalli",
+            "code": "robertocavalli"
+        },
+        {
+            "name": "Hermes",
+            "code": "hermes"
+        },
+        {
+            "name": "Levis",
+            "code": "levis"
+        },
+        {
+            "name": "Boss",
+            "code": "boss"
+        },
+        {
+            "name": "Bose",
+            "code": "bose"
+        },
+        {
+            "name": "Raymond",
+            "code": "raymond"
+        },
+        {
+            "name": "Prada",
+            "code": "prada"
+        },
+        {
+            "name": "Gant",
+            "code": "gant"
+        },
+        {
+            "name": "Sony",
+            "code": "sony"
+        }
+    ]
+
     const products = [
         {
             "name": "AirPods Pro",
@@ -131,7 +218,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 1,
             "currency": "INR",
-            "brand": "Apple",
+            "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "new",
             "price": 249.99
         },
@@ -141,7 +228,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 1,
             "currency": "INR",
-            "brand": "Apple",
+            "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
             "price": 399.99
         },
@@ -151,7 +238,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 2,
             "currency": "INR",
-            "brand": "Bose",
+            "brand_id": brands.findIndex(brand => brand.name == 'Bose') + 1,
             "condition": "new",
             "price": 349.99,
             
@@ -162,7 +249,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 2,
             "currency": "INR",
-            "brand": "Dyson",
+            "brand_id": brands.findIndex(brand => brand.name == 'Dyson') + 1,
             "condition": "new",
             "price": 699.99
         },
@@ -172,7 +259,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 3,
             "currency": "INR",
-            "brand": "Samsung",
+            "brand_id": brands.findIndex(brand => brand.name == 'Samsung') + 1,
             "condition": "gently_used",
             "price": 1199.99
         },
@@ -182,7 +269,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 6,
             "currency": "INR",
-            "brand": "Apple",
+            "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
             "price": 1099.99
         },
@@ -192,7 +279,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 6,
             "currency": "INR",
-            "brand": "Apple",
+            "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
             "price": 1299.99
         },
@@ -202,7 +289,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 7,
             "currency": "INR",
-            "brand": "Apple",
+            "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "gently_used",
             "price": 2499.99
         },
@@ -212,7 +299,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 8,
             "currency": "INR",
-            "brand": "Nike",
+            "brand_id": brands.findIndex(brand => brand.name == 'Nike') + 1,
             "condition": "new",
             "price": 149.99
         },
@@ -222,7 +309,7 @@ async function main() {
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 8,
             "currency": "INR",
-            "brand": "Sony",
+            "brand_id": brands.findIndex(brand => brand.name == 'Sony') + 1,
             "condition": "new",
             "price": 499.99
         }
@@ -507,6 +594,9 @@ async function main() {
 
     console.log('\n\n Seeding Category Attributes');
     await db.insert(categoryAttributesTable).values(category_attributes);
+
+    console.log('\n\n Seeding Brands...');
+    await db.insert(brandsTable).values(brands);
 
     console.log('\n\n Seeding Products...');
     await db.insert(productsTable).values(products);

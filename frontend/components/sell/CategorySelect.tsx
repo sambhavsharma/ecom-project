@@ -21,11 +21,7 @@ import {
     FormControlLabelText, 
 } from "@/components/ui/form-control";
 
-export default function CategorySelect({
-    data: data, 
-    selectedCategory: selectedCategory, 
-    setSelectedCategory: setSelectedCategory
-}){
+export default function CategorySelect({ data, selectedCategory, setSelectedCategory}){
 
     const [initSelect, setInitSelect] = useState(true);
     const [showCategoryMenu, setShowCategoryMenu] = React.useState(false);
@@ -97,7 +93,7 @@ export default function CategorySelect({
     }
 
     return (
-        <HStack className="w-full mt-[20px]">
+        <HStack className="w-full mt-[20px] z-20">
             <Box>     
                 <FormControlLabel>
                     <FormControlLabelText>Category</FormControlLabelText>

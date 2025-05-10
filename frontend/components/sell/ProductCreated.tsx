@@ -20,7 +20,7 @@ export default function ProductCreated({
             <Card className="p-5 w-full rounded-lg max-w-[460px] m-3" size="lg">
                 <Image
                     source={{
-                        uri:  createdProduct.media[0] ? createdProduct.media[0].url : 
+                        uri:  createdProduct.media ? createdProduct.media[0].url : 
                             "https://www.mountaingoatsoftware.com/uploads/blog/2016-09-06-what-is-a-product.png"
                     }}
                     className="mb-6 h-[240px] w-full rounded-md aspect-[263/240]"

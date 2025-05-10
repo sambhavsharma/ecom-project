@@ -2,6 +2,7 @@ const MediaSerializer = require("../serializers/media");
 const UserSerializer = require("../serializers/users");
 const CategorySerializer = require("../serializers/categories");
 const ProductAttributeSerializer = require("../serializers/product_attributes");
+const BrandSerializer = require("../serializers/brands");
 const Product = require("../models/product");
 
 export function productsList(products: any) {
@@ -25,7 +26,7 @@ export function productObj(product: any) {
         description: product.description,
         currency: product.currency,
         price: product.price,
-        brand: product.brand,
+        brand: BrandSerializer.brandObj(product.brand),
         status: product.status,
         quantity: 1,
         condition: product.condition,

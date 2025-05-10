@@ -9,7 +9,7 @@ import Loader from "@/components/widgets/Loader";
 export default function IndexContent() {
 
     const {data, isLoading} = useQuery({
-        queryKey: ["products"], 
+        queryKey: ["index_products"], 
         queryFn: listProducts}
     );
 

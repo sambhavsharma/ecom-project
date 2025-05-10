@@ -36,10 +36,11 @@ CREATE TABLE "products" (
 	"name" varchar(255) NOT NULL,
 	"description" text,
 	"status" varchar(20) DEFAULT 'draft' NOT NULL,
-	"brand" varchar(100),
+	"brand_id" integer NOT NULL,
 	"seller_id" integer NOT NULL,
 	"category_id" integer NOT NULL,
 	"condition" varchar(20) NOT NULL,
+	"quantity" integer DEFAULT 1 NOT NULL,
 	"currency" varchar(3) NOT NULL,
 	"price" double precision NOT NULL,
 	"is_deleted" boolean DEFAULT false NOT NULL,
@@ -68,19 +69,6 @@ CREATE TABLE "auth_tokens" (
 	"expires_at" time with time zone,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp
-);
---> statement-breakpoint
-CREATE TABLE "sellers" (
-	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "sellers_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"first_name" varchar(255) NOT NULL,
-	"last_name" varchar(255) NOT NULL,
-	"email" varchar(255) NOT NULL,
-	"phone" varchar(50) NOT NULL,
-	"password" varchar(255) NOT NULL,
-	"is_deleted" boolean DEFAULT false,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp,
-	CONSTRAINT "sellers_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE "categories" (
@@ -170,6 +158,17 @@ CREATE TABLE "order_products" (
 	"quantity" integer DEFAULT 1 NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp
+);
+--> statement-breakpoint
+CREATE TABLE "brands" (
+	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "brands_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
+	"code" varchar(255) NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"is_deleted" boolean DEFAULT false NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp,
+	CONSTRAINT "brands_code_unique" UNIQUE("code"),
+	CONSTRAINT "brands_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
 ALTER TABLE "category_attributes" ADD CONSTRAINT "category_attributes_category_id_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

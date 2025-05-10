@@ -1,6 +1,5 @@
 import {useState, useEffect} from "react";
 import { ScrollView } from "react-native";
-import { Text } from "@/components/ui/text";
 import { useLocalSearchParams } from "expo-router";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
@@ -36,7 +35,7 @@ export default function CheckoutScreen(){
         retry: false
     });
 
-    const {data: authCheckData, error: authCheckError, refetch} = useQuery({
+    const {data: authCheckData, error: authCheckError} = useQuery({
         queryKey: ['auth' ], 
         queryFn: authCheck,
         retry: false

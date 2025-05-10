@@ -1,7 +1,8 @@
 const API_URL = process.env.EXPO_PUBLIC_API_URL
+const RESOURCE = "brands";
 
-export async function listCategories() {
-    var url = `${API_URL}/categories`;
+export async function listBrands(query) {
+    var url = `${API_URL}/${RESOURCE}?query=${query}`;
     const res = await fetch(url.toString());
 
     if(!res.ok) {

@@ -27,7 +27,7 @@ export default function HomeScreen() {
                         <Box >
                             <Button>
                                 <ButtonText>
-                                    <Link href="/search">
+                                    <Link href="/search?">
                                         Shop Now!
                                     </Link>
                                 </ButtonText>

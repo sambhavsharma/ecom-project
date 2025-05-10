@@ -14,7 +14,6 @@ export async function createAddress(req: Request, res: Response) {
         
         res.status(500).send('Error!');
     }
-   
 }
 
 export async function getUserAddress(req: Request, res: Response) {

@@ -16,6 +16,7 @@ const router = Router();
 
 router.get('/', listProducts);
 router.get('/:id', getProduct);
+
 router.get('/user/:user_id', passport.authenticate(["jwt", "anonymous"], { session: false }), getUserProducts);
 
 router.post('/', passport.authenticate('jwt', { session: false }), createProduct);
