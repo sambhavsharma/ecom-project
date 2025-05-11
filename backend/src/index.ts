@@ -8,6 +8,7 @@ import cors from "cors";
 import "./lib/auth/strategies/local-strategy.ts";
 import "./lib/auth/strategies/jwt-strategy.ts";
 import "./lib/auth/strategies/anon-strategy.ts";
+import "./lib/auth/strategies/google-strategy.ts";
 
 // Routes Begin
 import productRoutes from './routes/products';

@@ -16,18 +16,18 @@ import { mediaTable } from "./media";
 
 export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    first_name: varchar({ length: 255 }).notNull(),
-    last_name: varchar({ length: 255 }).notNull(),
+    first_name: varchar({ length: 255 }),
+    last_name: varchar({ length: 255 }),
     email: varchar({ length: 255 }).unique().notNull(),
-    phone:  varchar({ length: 50 }).notNull(),
+    phone:  varchar({ length: 50 }),
     dob: date({mode: "date"}),
     bio: text(),
-    password: varchar({ length: 255 }).notNull(),
+    password: varchar({ length: 255 }),
     email_verified: boolean().default(false).notNull(),
     phone_verified: boolean().default(false).notNull(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
-    updated_at: timestamp({}).$onUpdate(() => new Date())
+    updated_at: timestamp({}).$onUpdate(() => new Date()).notNull()
 
 });
 
@@ -38,13 +38,13 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 
 
 export const createUserSchema = z.object({
-    first_name: z.string(),
-    last_name: z.string(),
+    first_name: z.string().optional(),
+    last_name: z.string().optional(),
     email: z.string(),
-    phone:  z.string(),
-    dob: z.string().date(),
-    bio: z.string(),
-    password: z.string(),
+    phone:  z.string().optional(),
+    dob: z.string().date().optional(),
+    bio: z.string().optional(),
+    password: z.string().optional(),
     addresses: z.object({}).array().optional()
 }).strict();
 

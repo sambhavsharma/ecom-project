@@ -10,7 +10,6 @@ import * as attributesSchema  from './attributes';
 import * as categoryAttributesSchema  from './category_attributes';
 import * as productAttributesSchema  from './product_attributes';
 import * as favoritesSchema  from './favorites';
-import * as ordersSchema  from './orders';
 import * as orderProductsSchema  from './order_products';
 import * as brandsSchema  from './brands';
 

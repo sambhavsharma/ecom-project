@@ -23,8 +23,7 @@ const jwtStrategy =  passport.use(
                 eq(usersTable.is_deleted, false)
             ));
         
-            if(!user) { throw new Error(); }
-
+        if(!user) { throw new Error(); }
             return done(null, user);
     }
 ));

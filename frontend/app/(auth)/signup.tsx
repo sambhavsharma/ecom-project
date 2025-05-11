@@ -3,41 +3,58 @@ import { FormControl } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { VStack } from "@/components/ui/vstack";
 import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
-import { useState } from "react";
+import React, { useState } from "react";
 import { HStack } from "@/components/ui/hstack";
-import { Divider } from "@/components/ui/divider";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "@/api/auth";
+import { createUser } from "@/api/users";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect, Link } from "expo-router";
 import { ScrollView } from "react-native";
 
-import GoogleLogin from "@/components/auth/GoogleLogin";
-
 import Loader from "@/components/widgets/Loader";
-
+import ToastMessage from "@/components/widgets/ToastMessage";
 	
-export default function LoginScreen() {
-
+export default function SignupScreen() {
   const [showPassword, setShowPassword] = useState(false);
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+    const [redirectLogin, setRedirectLogin] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
+
   const { signin, user, isLoading} = useAuth();
 
-  const loginMutation = useMutation({
-    mutationFn: () => login(email, password),
+  const createAccountMutation = useMutation({
+    
+    mutationFn: () => createUser({email: email, password: password}),
     onSuccess: async (data) => {
 
-      await signin(data);
+        setShowMessage(true);   
+        let message = "Account created!";
+        setAlertMessage(
+            {
+                type: "success",
+                title: message
+            }
+        )
+
+        setRedirectLogin(true);
     },
     onError: (e) => {
 
-      //console.log("error: "+e);
+        setShowMessage(true); 
+        let message = "Could not create account!";
+        setAlertMessage(
+            {
+                type: "error",
+                title: message
+            }
+        )
     }
   })
   
@@ -47,18 +64,28 @@ export default function LoginScreen() {
     });
   };
 
-  if(isLoading) {
-    return ( <Loader /> );
-  }
+    if(isLoading) {
+        return ( <Loader /> );
+    }
 
-  if(user)
-    return (<Redirect href="/"/>);
+    if(user)
+        return (<Redirect href="/"/>);
+
+    if(redirectLogin)
+        return (<Redirect href="/login"/>);
 
   return (
     <ScrollView>
+        <ToastMessage 
+            showMessage={showMessage} 
+            setShowMessage={setShowMessage}
+            alertMessage={alertMessage}
+            setAlertMessage={setAlertMessage}
+        />
+
       <FormControl className="p-4 border rounded-lg border-outline-300 max-w-[600px] mx-auto mt-5">
         <VStack space="xl">
-          <Heading className="text-typography-900">Login</Heading>
+          <Heading className="text-typography-900">Create an Account</Heading>
           <VStack space="xs">
             <Text className="text-typography-500">Email</Text>
             <Input className="min-w-[250px]">
@@ -77,17 +104,15 @@ export default function LoginScreen() {
             </Input>
           </VStack>
           <HStack space="sm">
-            <Button className="flex-1" onPress={() => loginMutation.mutate()}>
-              <ButtonText className="text-typography-0">Sign In</ButtonText>
+            <Button className="flex-1" onPress={() => createAccountMutation.mutate()}>
+              <ButtonText className="text-typography-0">
+                Create Account
+              </ButtonText>
             </Button>
-          </HStack>
-          <Divider/>
-          <HStack space="sm">
-              <GoogleLogin />
           </HStack>
           <Box>
             <Text size="sm">
-              Don't have an account? <Link className="underline" href="/signup"> Sign up</Link>
+              Already have an account? <Link className="underline" href="/login"> Sign in</Link>
             </Text>
           </Box>
         </VStack>

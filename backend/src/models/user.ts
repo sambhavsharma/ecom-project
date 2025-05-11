@@ -1,24 +1,18 @@
 import { db } from "../db";
 import { usersTable } from "../db/users";
-import crypto from "crypto";
 import { eq, and } from "drizzle-orm";
 import fs from 'fs';
+import {getHashedPassword} from "../lib/auth/password";
 
 const UserSerializer = require("../serializers/users");
 const Address = require("../models/address");
 const Media = require("../models/media");
 
-const DEFAULT_LIMIT = 10;
-const HASH_FUNCTION = 'sha512';
 const BASE_URL = "http://127.0.0.1:3000/";
 
 export async function create(user: any) {
 
-    //var salt = crypto.randomBytes(16);
-    var salt = "";
-
-    var hashedPassword = crypto.pbkdf2Sync(user.password, salt, 100000, 64, HASH_FUNCTION);
-    user.password = hashedPassword.toString('hex');
+    user.password =  await getHashedPassword(user.password)
 
     if(user.dob)
         user.dob = new Date(user.dob);
@@ -37,6 +31,58 @@ export async function create(user: any) {
                 return {error};
             }
         }
+        
+        return {userRow: userRow};
+    });
+
+    if(userRow)
+        return UserSerializer.userObj(userRow);
+    else 
+        return {error};
+};
+
+export async function findOrCreate(user: any) {
+
+    const {userRow, error} = await db.transaction(async (tx) => { 
+
+        let updateQuery = {};
+        if(user.email_verified)
+            updateQuery["email_verified"] = true;
+
+        var [userRow] = await tx.insert(usersTable)
+            .values(user)
+            .onConflictDoUpdate({
+                target: usersTable.email,
+                set: updateQuery,
+            })
+            .returning();
+        
+        if(user.image) {
+    
+            var mediaObj = {
+                parent_type: "user",
+                parent_id: userRow.id.toString(),
+                type: "image",
+                url: user.image.url
+            }
+
+            const mediaExists = await Media.count("image", "user", userRow.id);
+            let queryResponse;
+
+            if(mediaExists === 0)
+                queryResponse = await Media.create(mediaObj, tx);
+            // else
+            //     queryResponse = await Media.update(mediaObj, tx);
+
+            if (queryResponse && queryResponse.error) {
+                console.log(queryResponse);
+                tx.rollback();  
+                return { error: queryResponse.error};
+            }
+
+            userRow["image"] = queryResponse || user.image;
+        }
+
         
         return {userRow: userRow};
     });
@@ -95,7 +141,7 @@ export async function update(id: number, user: any) {
             .returning();
         
         if(user.image) {
-
+            
             if(!user.image.url){
                 let buff = Buffer.from(user.image.base64, 'base64');
                 fs.writeFileSync('./media/'+user.image.fileName, buff);
@@ -104,19 +150,22 @@ export async function update(id: number, user: any) {
             var mediaObj = {
                 parent_type: "user",
                 parent_id: id.toString(),
-                type: user.image.type,
+                type: user.image.type || "image",
                 url: user.image.url ? user.image.url : BASE_URL+user.image.fileName
             }
 
             const mediaExists = await Media.count("image", "user", id);
             let queryResponse;
 
+            // We are updating image here unnecessarily, even if the image itself is not updated
+            // So, this needs to be fixed, either in the backend or in the frontend or both
             if(mediaExists === 0)
                 queryResponse = await Media.create(mediaObj, tx);
             else
                 queryResponse = await Media.update(mediaObj, tx);
 
             if (queryResponse.error) {
+                // console.log(queryResponse);
                 tx.rollback();  
                 return { error: queryResponse.error};
             }

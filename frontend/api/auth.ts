@@ -36,6 +36,26 @@ export async function login(email: string, password: string) {
     return data;
 }
 
+export async function googleLogin(code: string) {
+    var url = `${API_URL}/${RESOURCE}/google/login`;
+    const res = await fetch(url.toString(), {
+        method: 'POST',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({code})
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const data = await res.json();
+    return data;
+}
+
 export async function authCheck() {
     var url = `${API_URL}/${RESOURCE}/check`;
     const res = await fetch(url.toString(), {

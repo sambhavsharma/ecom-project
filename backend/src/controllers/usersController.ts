@@ -11,7 +11,7 @@ export async function createUser(req: Request, res: Response) {
         res.status(201).json(userObj);
         
     } catch (e) {
-        
+        //console.log(e);
         res.status(500).send('Error!');
     }
    
@@ -64,7 +64,7 @@ export async function updateUser(req: Request, res: Response) {
         res.status(200).json(userObj);
         
     } catch (e) {
-
+        console.log(e);
         res.status(500).send('Error!');
     }
    

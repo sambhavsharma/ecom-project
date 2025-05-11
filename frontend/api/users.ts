@@ -15,6 +15,28 @@ const getToken = async () => {
     return user ? user.token : "";
 }
 
+export async function createUser(user) {
+    
+    var url = `${API_URL}/users`;
+    const res = await fetch(url.toString(), {
+        method: 'POST',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+        body:  JSON.stringify(user)
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const userObj = await res.json();
+    return userObj;
+}
+
 export async function getUser(id: string) {
     var url = `${API_URL}/users/${id}`;
     const res = await fetch(

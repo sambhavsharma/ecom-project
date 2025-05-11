@@ -58,7 +58,9 @@ const ProfileSettings = () => {
                     first_name: data.first_name,
                     last_name: data.last_name,
                     bio: data.bio,
-                    image: data.image
+                    image: {
+                        url: data.image
+                    }
                 })
             }
         },[data]
@@ -154,7 +156,7 @@ const ProfileSettings = () => {
                             formData.image ? 
                             <Image
                                 source={{
-                                    uri:  formData.image.uri || formData.image,
+                                    uri:  formData.image.uri || formData.image.url,
                                 }}
                                 alt="Logo"
                                 size="none"

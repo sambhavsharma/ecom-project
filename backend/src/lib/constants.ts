@@ -14,3 +14,5 @@ export const PRODUCT_CONDITIONS = [
 ]
 
 export const DEFAULT_LIMIT = 20;
+
+export const SALT = "";
