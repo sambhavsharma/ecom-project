@@ -25,3 +25,17 @@ export async function list(limit: number, offset: number) {
     
     return CategoriesSerializer.categoriesList(categories);
 }
+
+export async function listMenu() {
+
+    const categories = await db.query.categoriesTable.findMany({
+        where: and(
+            eq(categoriesTable.is_deleted, false)
+        ),
+        with: { 
+            parent: true
+        }
+    });
+    
+    return CategoriesSerializer.categoriesMenu(categories);
+}

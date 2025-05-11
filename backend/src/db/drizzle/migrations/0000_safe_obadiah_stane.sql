@@ -1,17 +1,18 @@
 CREATE TABLE "users" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "users_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"first_name" varchar(255) NOT NULL,
-	"last_name" varchar(255) NOT NULL,
+	"first_name" varchar(255),
+	"last_name" varchar(255),
 	"email" varchar(255) NOT NULL,
-	"phone" varchar(50) NOT NULL,
+	"phone" varchar(50),
 	"dob" date,
 	"bio" text,
-	"password" varchar(255) NOT NULL,
+	"password" varchar(255),
 	"email_verified" boolean DEFAULT false NOT NULL,
 	"phone_verified" boolean DEFAULT false NOT NULL,
 	"is_deleted" boolean DEFAULT false NOT NULL,
+	"last_login" timestamp with time zone,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp,
+	"updated_at" timestamp NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -74,16 +75,19 @@ CREATE TABLE "auth_tokens" (
 CREATE TABLE "categories" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "categories_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"name" varchar(255) NOT NULL,
+	"code" varchar(255) NOT NULL,
 	"parent_category_id" integer,
 	"is_deleted" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp,
-	CONSTRAINT "categories_name_unique" UNIQUE("name")
+	CONSTRAINT "categories_parent_category_id_name_unique" UNIQUE("parent_category_id","name"),
+	CONSTRAINT "categories_parent_category_id_code_unique" UNIQUE("parent_category_id","code")
 );
 --> statement-breakpoint
 CREATE TABLE "attributes" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "attributes_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"name" varchar(255) NOT NULL,
+	"code" varchar(255) NOT NULL,
 	"values" text[] DEFAULT ARRAY[]::text[] NOT NULL,
 	"default_value" varchar(255),
 	"is_deleted" boolean DEFAULT false,
@@ -164,6 +168,7 @@ CREATE TABLE "brands" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "brands_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"code" varchar(255) NOT NULL,
 	"name" varchar(255) NOT NULL,
+	"main" boolean DEFAULT false NOT NULL,
 	"is_deleted" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp,

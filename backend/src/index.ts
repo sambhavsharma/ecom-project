@@ -19,6 +19,7 @@ import categoryRoutes from './routes/categories';
 import addressRoutes from './routes/addresses';
 import favoriteRoutes from './routes/favorites';
 import brandRoutes from './routes/brands';
+import utilRoutes from './routes/util';
 // Routes End
 
 import bodyParser from 'body-parser';
@@ -58,6 +59,7 @@ app.use("/categories", categoryRoutes);
 app.use("/addresses", addressRoutes);
 app.use("/favorites", favoriteRoutes);
 app.use("/brands", brandRoutes);
+app.use("/util", utilRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

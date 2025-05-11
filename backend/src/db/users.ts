@@ -26,6 +26,7 @@ export const usersTable = pgTable("users", {
     email_verified: boolean().default(false).notNull(),
     phone_verified: boolean().default(false).notNull(),
     is_deleted: boolean().default(false).notNull(),
+    last_login: timestamp({ withTimezone: true }),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp({}).$onUpdate(() => new Date()).notNull()
 

@@ -15,6 +15,7 @@ import { categoryAttributesTable } from "./category_attributes";
 export const attributesTable = pgTable("attributes", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
+    code: varchar({ length: 255 }).notNull(),
     values: text().array().notNull().default(sql`ARRAY[]::text[]`),
     default_value: varchar({ length: 255 }),
     is_deleted: boolean().default(false),

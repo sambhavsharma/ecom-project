@@ -14,6 +14,7 @@ export const brandsTable = pgTable("brands", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     code:  varchar({ length: 255 }).notNull().unique(),
     name: varchar({ length: 255 }).notNull().unique(),
+    main: boolean().default(false).notNull(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp({}).$onUpdate(() => new Date())

@@ -1,5 +1,5 @@
 {
-  "id": "304ef112-e3c8-4e89-b230-f588bd89981d",
+  "id": "f028cd7a-138c-44e5-b6ee-6f989042db43",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -29,13 +29,13 @@
           "name": "first_name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "last_name": {
           "name": "last_name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "email": {
           "name": "email",
@@ -47,7 +47,7 @@
           "name": "phone",
           "type": "varchar(50)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "dob": {
           "name": "dob",
@@ -65,7 +65,7 @@
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "email_verified": {
           "name": "email_verified",
@@ -88,6 +88,12 @@
           "notNull": true,
           "default": false
         },
+        "last_login": {
+          "name": "last_login",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp with time zone",
@@ -99,7 +105,7 @@
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -514,6 +520,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "code": {
+          "name": "code",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "parent_category_id": {
           "name": "parent_category_id",
           "type": "integer",
@@ -545,11 +557,20 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "categories_name_unique": {
-          "name": "categories_name_unique",
+        "categories_parent_category_id_name_unique": {
+          "name": "categories_parent_category_id_name_unique",
           "nullsNotDistinct": false,
           "columns": [
+            "parent_category_id",
             "name"
+          ]
+        },
+        "categories_parent_category_id_code_unique": {
+          "name": "categories_parent_category_id_code_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "parent_category_id",
+            "code"
           ]
         }
       },
@@ -580,6 +601,12 @@
         },
         "name": {
           "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
@@ -1308,6 +1335,13 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
+        },
+        "main": {
+          "name": "main",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "is_deleted": {
           "name": "is_deleted",

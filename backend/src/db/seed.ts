@@ -217,6 +217,7 @@ async function main() {
             "description": "Apple's wireless noise-cancelling earbuds with adaptive transparency and spatial audio.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 1,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "new",
@@ -227,6 +228,7 @@ async function main() {
             "description": "Latest smartwatch from Apple featuring always-on retina display and advanced health monitoring.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 1,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
@@ -237,6 +239,7 @@ async function main() {
             "description": "Premium noise-cancelling over-ear headphones with 20 hours of battery life and voice assistant integration.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 2,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Bose') + 1,
             "condition": "new",
@@ -248,6 +251,7 @@ async function main() {
             "description": "Powerful cordless vacuum with laser-detect technology and advanced filtration system.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 2,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Dyson') + 1,
             "condition": "new",
@@ -258,6 +262,7 @@ async function main() {
             "description": "Flagship smartphone with 200MP camera, 120Hz AMOLED display, and S Pen support.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 3,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Samsung') + 1,
             "condition": "gently_used",
@@ -268,6 +273,7 @@ async function main() {
             "description": "12.9-inch iPad Pro with M2 chip, Liquid Retina XDR display, and 5G connectivity.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 6,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
@@ -278,6 +284,7 @@ async function main() {
             "description": "Apple's latest iPhone with A18 Bionic chip, ProMotion display, and advanced triple-lens camera system.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 6,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "like_new",
@@ -288,6 +295,7 @@ async function main() {
             "description": "High-performance laptop with M2 Max chip, Liquid Retina XDR display, and 1TB SSD.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 7,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Apple') + 1,
             "condition": "gently_used",
@@ -298,6 +306,7 @@ async function main() {
             "description": "Popular running shoes with Nike Air cushioning and breathable mesh upper.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 8,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Nike') + 1,
             "condition": "new",
@@ -308,6 +317,7 @@ async function main() {
             "description": "Sony's latest gaming console with 8K output, lightning-fast load times, and 825GB SSD.",
             "seller_id": Math.floor(Math.random() * 10)+1,
             "category_id": 8,
+            "status": "live",
             "currency": "INR",
             "brand_id": brands.findIndex(brand => brand.name == 'Sony') + 1,
             "condition": "new",
@@ -380,50 +390,359 @@ async function main() {
 
     const categories = [
         {
-            name: "Electronics"
+            name: "Menswear",
+            code: "menswear",
+            subCategory: [
+                {
+                    name: "Topwear",
+                    code: "topwear",
+                    subCategory: [
+                        {
+                            name: "Shirts",
+                            code: "shirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "T Shirts",
+                            code: "tshirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Polos",
+                            code: "polo",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweaters",
+                            code: "sweaters",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Jackets",
+                            code: "jacket",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Hoodies",
+                            code: "hoodie",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Bottomwear",
+                    code: "bottomwear",
+                    subCategory: [
+                        {
+                            name: "Jeans",
+                            code: "jeans",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Pants",
+                            code: "pants",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Shorts",
+                            code: "shorts",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Joggers",
+                            code: "joggers",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweatpants",
+                            code: "sweatpants",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Sportwear",
+                    code: "sportswear",
+                    subCategory: [
+                        {
+                            name: "Joggers",
+                            code: "joggers",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Leggings",
+                            code: "leggings",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Shorts",
+                            code: "shorts",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Sleepwear",
+                    code: "sleepwear",
+                    subCategory: [
+                        {
+                            name: "Pyjamas",
+                            code: "pyjama",
+                            attributes: ['color','size']
+                        }
+                    ]
+                }
+            ]
         },
         {
-            name: "Apparel"
+            name: "Womenswear",
+            code: "womenswear",
+            subCategory: [
+                {
+                    name: "Topwear",
+                    code: "topwear",
+                    subCategory: [
+                        {
+                            name: "Shirts",
+                            code: "shirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "T Shirts",
+                            code: "tshirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Polos",
+                            code: "polo",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweaters",
+                            code: "sweaters",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Jackets",
+                            code: "jacket",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Hoodies",
+                            code: "hoodie",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Bottomwear",
+                    code: "bottomwear",
+                    subCategory: [
+                        {
+                            name: "Jeans",
+                            code: "jeans",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Pants",
+                            code: "pants",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Shorts",
+                            code: "shorts",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Joggers",
+                            code: "joggers",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweatpants",
+                            code: "sweatpants",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Short Skirts",
+                            code: "shortskirts",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Long Skirts",
+                            code: "longskirts",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Sportwear",
+                    code: "sportswear",
+                    subCategory: [
+                        {
+                            name: "Joggers",
+                            code: "joggers",
+                        },
+                        {
+                            name: "Leggings",
+                            code: "leggings",
+                        },
+                        {
+                            name: "Shorts",
+                            code: "shorts",
+                        }
+                    ]
+                },
+                {
+                    name: "Sleepwear",
+                    code: "sleepwear",
+                    subCategory: [
+                        {
+                            name: "Pyjamas",
+                            code: "pyjama",
+                            attributes: ['color','size']
+                        }
+                    ]
+                }
+            ]
         },
         {
-            name: "Watches"
+            name: "Kidswear",
+            code: "kidswear",
+            subCategory: [
+                {
+                    name: "Topwear",
+                    code: "topwear",
+                    subCategory: [
+                        {
+                            name: "Shirts",
+                            code: "shirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Tshirts",
+                            code: "tshirt",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweaters",
+                            code: "sweater",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Sweatshirts",
+                            code: "sweatshirts",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Bottomwear",
+                    code: "bottomwear",
+                    subCategory: [
+                        {
+                            name: "Skirts",
+                            code: "skirts",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Pants",
+                            code: "pants",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Jeans",
+                            code: "jeans",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Shorts",
+                            code: "shorts",
+                            attributes: ['color','size']
+                        }
+                    ]
+                }
+            ]
         },
         {
-            name: "Men's Clothing",
-            parent_category_id: 2
+            name: "Footwear",
+            code: "footwear",
+            subCategory: [
+                {
+                    name: "Shoes",
+                    code: "shoes",
+                    attributes: ['color','size']
+                },
+                {
+                    name: "Sandals",
+                    code: "sandals",
+                    attributes: ['color','size']
+                },
+                {
+                    name: "Flipflops",
+                    code: "flipflops",
+                    attributes: ['color','size']
+                }
+            ]
         },
         {
-            name: "Women's Clothing",
-            parent_category_id: 2
-        },
-        {
-            name: "Sunglasses"
-        },
-        {
-            name: "Laptops",
-            parent_category_id: 1
-        },
-        {
-            name: "Mobile Phones",
-            parent_category_id: 1
+            name: "Accessories",
+            code: "accessories",
+            subCategory: [
+                {
+                    name: "Watches",
+                    code: "watches",
+                    subCategory: [
+                        {
+                            name: "Mens Watches",
+                            code: "menswatches",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Womens Watches",
+                            code: "womenswatches",
+                            attributes: ['color','size']
+                        }
+                    ]
+                },
+                {
+                    name: "Sunglasses",
+                    code: "sunglasses",
+                    subCategory: [
+                        {
+                            name: "Mens Sunglasses",
+                            code: "menssunglasses",
+                            attributes: ['color','size']
+                        },
+                        {
+                            name: "Womens Sunglasses",
+                            code: "womenssunglasses",
+                            attributes: ['color','size']
+                        }
+                    ]
+                }
+            ]
         }
     ]
 
     const attributes = [
         {
-            name: "color",
-            values: ['black','white','blue','green','grey','orange','pink'],
+            name: "Color",
+            code: "color",
+            values: ['black','white','blue','green','grey','orange','pink','red','purple'],
             default_value: 'white'
         },
         {
-            name: "shape",
+            name: "Shape",
+            code: "shape",
             values: ['round','short','long'],
-            default_value: 'white'
+            default_value: 'round'
         },
         {
-            name: "size",
-            values: ['26','28','30','32','XL','L','M','S'],
-            default_value: 'white'
+            name: "Size",
+            code: "size",
+            values: ['26','28','30','32','XXXL','XXL','XL','L','M','S','XS','Small', 'Medium', 'Large', 'Big'],
+            default_value: 'L'
         }
     ]
 
@@ -586,14 +905,11 @@ async function main() {
 
     console.log('\n\n Starting Seed...');
 
-    console.log('\n\n Seeding Categories');
-    await db.insert(categoriesTable).values(categories);
-
     console.log('\n\n Seeding Attributes');
-    await db.insert(attributesTable).values(attributes);
+    const attributesMap = await seedAttributes(attributes); 
 
-    console.log('\n\n Seeding Category Attributes');
-    await db.insert(categoryAttributesTable).values(category_attributes);
+    console.log('\n\n Seeding Categories');
+    let persistedCategories = await seedCategories(categories, attributesMap);
 
     console.log('\n\n Seeding Brands...');
     await db.insert(brandsTable).values(brands);
@@ -616,7 +932,67 @@ async function main() {
     console.log('\n\n Seeding Addresses...');
     await db.insert(addressesTable).values(addresses);
     
-
     console.log('\n\n Seeding Complete.');
 }
+
+async function seedCategories(categories: [{name: string, code: string, attributes: [], subCategory: []}], attributesMap) {
+
+    let allCategories = categories;
+    let category;
+    let categoryObj;
+    let index = 0;
+    let categoryAttributes = [];
+
+    while (allCategories[index]) {
+        
+        category = allCategories[index];
+
+        [categoryObj] = await db.insert(categoriesTable).values({
+            name: category.name,
+            code: category.code,
+            parent_category_id: category.parent_category_id
+        }).returning();
+
+        for (let subCategory of category.subCategory || []) {
+            allCategories.push({
+                name: subCategory.name,
+                code: subCategory.code,
+                parent_category_id: categoryObj.id,
+                attributes: subCategory.attributes || [],
+                subCategory: subCategory.subCategory
+            })
+        }
+
+        for (let attribute of category.attributes || []) {
+            categoryAttributes.push({
+                category_id: categoryObj.id,
+                attribute_id: attributesMap[attribute]
+            })
+        }
+        
+        index+=1;
+    }
+
+    console.log('\n\n Seeding Category Attributes');
+    const respoonse = await db.insert(categoryAttributesTable).values(categoryAttributes);
+
+    return allCategories;
+}
+
+async function seedAttributes(attributes: [{name: string, code: string, subCategory: []}]) {
+
+    let attributeObj;
+    let attributesMap = {};
+    for (let attribute of attributes) {
+        [attributeObj] = await db.insert(attributesTable).values({
+            name: attribute.name,
+            code: attribute.code,
+        }).returning();
+        
+        attributesMap[attributeObj.code] = attributeObj.id
+    }
+
+    return attributesMap;
+}
+
 main();

@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "@/providers/AuthProvider";
 
 import Header from "@/components/header/Header";
+import Footer from "@/components/footer/Footer";
 
 const queryClient = new QueryClient();
 
@@ -20,8 +21,9 @@ export default function RootLayout() {
                     <Stack
                         screenOptions={{headerShown: false}}
                     >
-                    
+                       
                     </Stack>
+                    {/* <Footer/> */}
                 </GluestackUIProvider>
             </QueryClientProvider>
         </AuthProvider>

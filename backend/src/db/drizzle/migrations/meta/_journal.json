@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1746651861692,
-      "tag": "0000_slimy_sway",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1746900900753,
-      "tag": "0001_pale_spiral",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1746901004907,
-      "tag": "0002_cheerful_warbound",
+      "when": 1746981180627,
+      "tag": "0000_safe_obadiah_stane",
       "breakpoints": true
     }
   ]
