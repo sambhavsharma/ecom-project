@@ -11,6 +11,7 @@ import { ScrollView } from "react-native";
 // import PriceRangeSection from "./PriceRangeSection";
 // import CustomerRatingSection from "./CustomerRatingSection";
 
+import FiltersAppliedSection from "./FiltersAppliedSection";
 import BrandsSection from "./BrandsSection";
 import ConditionSection from "./ConditionSection";
 
@@ -21,14 +22,9 @@ const Sidebar = ({refetch, filters, filterQuery, setFilterQuery}) => {
   return (
     <ScrollView  style={{flex:1}}>
       <VStack space="xl" className="py-6 px-4">
-        {/* <FiltersAppliedSection /> */}
-        {/* <SortBySection /> */}
+        <FiltersAppliedSection refetch={refetch} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
         <BrandsSection  refetch={refetch} brandsFilter={filters["brand"]} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
         <ConditionSection  refetch={refetch} conditionFilter={filters["condition"]}  filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
-        {/* <AmenitiesSection /> */}
-        {/* <PriceRangeSection setScrollEnabled={setScrollEnabled} /> */}
-        {/* <BookingOptions /> */}
-        {/* <CustomerRatingSection />  */}
       </VStack>
     </ScrollView>
   );

@@ -1,13 +1,16 @@
 import { useState } from "react";
 
 import { Checkbox, CheckboxGroup, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from "@/components/ui/checkbox";
-import { CheckIcon } from "@/components/ui/icon";
+import { Icon, CheckIcon, ChevronUpIcon, ChevronDownIcon } from "@/components/ui/icon";
 import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import { Pressable } from "@/components/ui/pressable";
+import { Text } from "@/components/ui/text";
 import { Heading } from "@/components/ui/heading";
 
 const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
 
-  const colorMode = "light";
+  const [viewAllComponents, setViewAllComponents] = useState(false);
 
   const handleFilterChange = (brand) => {
 
@@ -26,7 +29,8 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
         onChange={handleFilterChange}
         accessibilityLabel="place-type"
       >
-        {brandsFilter.map((brand: any) => {
+        {brandsFilter.map((brand: any, index: number) => {
+          if (index > 4 && !viewAllComponents) return null;
           return (
             <Checkbox
               value={brand.name}
@@ -38,7 +42,6 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
               <CheckboxIndicator>
                 <CheckboxIcon
                   as={CheckIcon}
-                  color={colorMode === "light" ? "#FEFEFF" : "#171717"}
                 />
               </CheckboxIndicator>
               <CheckboxLabel>{brand.name}</CheckboxLabel>
@@ -46,6 +49,33 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
           );
         })}
       </CheckboxGroup>
+      {viewAllComponents ? (
+        <Pressable
+          onPress={() => {
+            setViewAllComponents(false);
+          }}
+        >
+          <HStack className="justify-between">
+            <Text size="sm" className="font-medium">
+              Show less
+            </Text>
+            <Icon as={ChevronUpIcon} size="sm" />
+          </HStack>
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={() => {
+            setViewAllComponents(true);
+          }}
+        >
+          <HStack className="justify-between">
+            <Text size="sm" className="font-medium">
+              Show more
+            </Text>
+            <Icon as={ChevronDownIcon} size="sm" />
+          </HStack>
+        </Pressable>
+      )}
     </VStack>
   );
 };

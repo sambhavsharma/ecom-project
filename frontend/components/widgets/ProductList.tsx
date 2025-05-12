@@ -70,7 +70,7 @@ export default function ProductList({page, data, onEndReached}) {
                 columnWrapperClassName="gap-2"
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.2}
-                style={{height: "120vh"}}
+                style={{height: "120vh", marginBottom: "20px"}}
             />
 
         }

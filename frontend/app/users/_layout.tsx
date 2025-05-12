@@ -1,12 +1,10 @@
 import {useState, useEffect} from "react";
-import { useLocalSearchParams, usePathname } from "expo-router";
+import { usePathname } from "expo-router";
 import { ScrollView } from "react-native";
 import { HStack } from "@/components/ui/hstack";
 import { Stack } from "expo-router";
 
 import WebSettingsMenu from "@/components/settings/WebSettingsMenu";
-import ProfileSettings from "@/components/settings/ProfileSettings";
-import AddressSettings from "@/components/settings/AddressSettings";
 
 import { Redirect } from "expo-router";
 import Loader from "@/components/widgets/Loader";

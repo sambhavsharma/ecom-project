@@ -47,7 +47,7 @@ const Header = (() => {
       {/* big screen */}
       <WebTopBar/>
       <WebMenu activeTab={activeTab} setActiveTab={setActiveTab} setShowMenu={setShowMenu} menu={menu}/>
-      <WebSubMenu activeTab={activeTab} showMenu={showMenu}/>
+      <WebSubMenu activeTab={activeTab} setActiveTab={setActiveTab} showMenu={showMenu} setShowMenu={setShowMenu}/>
     </>
   );
 });

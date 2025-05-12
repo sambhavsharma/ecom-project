@@ -1,8 +1,18 @@
 import { Grid } from "@/components/ui/grid";
-//import { Link } from "@/components/ui/link";
-import { Link } from "expo-router";
+import { Pressable } from "@/components/ui/pressable";
+import { useRouter } from 'expo-router';
 
-export default function DesignerMenu({designers}){
+export default function DesignerMenu({designers, setShowMenu, setActiveTab}){
+
+    const router = useRouter();
+
+    const handleClick = (designer: any) => {
+        setShowMenu(false);
+        setActiveTab({});
+        const url = `/search?brand=${designer.name}`;
+        router.replace(url);
+        //return <Redirect href={url}/>;
+    }
 
     return (
         <Grid
@@ -15,13 +25,13 @@ export default function DesignerMenu({designers}){
                 designers.map(
                     (designer) => {
                         return(
-                            <Link
-                                href="#"
+                            <Pressable
+                                onPress={() => {handleClick(designer)}}
                                 key={designer.code}
-                                className="text-typography-600 mr-4 pointer"
+                                className="text-typography-600 mr-4"
                             >
                                 {designer.title || designer.name}
-                            </Link>
+                            </Pressable>
                         )
                     }
                 )
