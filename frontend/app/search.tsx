@@ -20,14 +20,18 @@ export default function Search() {
     // We should not have to do this!!!
     const [filters, setFilters] = useState({
         brand: [], 
-        condition: []
+        condition: [],
+        department: [],
+        category: []
     });
 
     const {brand: brandParam } = useLocalSearchParams();
 
     const [filterQuery, setFilterQuery] = useState({
         brand: useLocalSearchParams().brand ? useLocalSearchParams().brand.split(',') : [],
-        condition: []
+        condition: [],
+        department: useLocalSearchParams().department ? useLocalSearchParams().department.split(',') : [],
+        category: useLocalSearchParams().category ? useLocalSearchParams().category.split(',') : [],
     });
 
     const listProductsCall = async ({ pageParam }) => {
@@ -89,32 +93,12 @@ export default function Search() {
     }
 
     return (
-        // <ScrollView className="px-12" >
         <View className="px-12" style={{flex:1}} >
             <HStack className="w-full md:flex flex-1">
                 <Box className="max-w-[300px] w-full">
                     <WebSidebar refetch={refetch} filterQuery={filterQuery} setFilterQuery={setFilterQuery} 
                         filters={filters}/>
                 </Box>
-                
-                {/* {
-                    products.length > 0 ? 
-                    <Box className="w-full mt-8">
-                        <Center>
-                            <ProductList data={products} page="search" onEndReached={fetchNext}/>
-                            {isFetching && <Loader /> }
-                        </Center>
-                    </Box>
-                    :
-                    <Box className="w-full mt-8">
-                        <Center>
-                            <Heading>
-                                No products with current search critera!
-                            </Heading>
-                        </Center>
-                    </Box>
-                } */}
-
                 <Box className="w-full">
                     {
                         products.length > 0 ? 
@@ -132,8 +116,6 @@ export default function Search() {
                     
                 </Box>
             </HStack>
-            
         </View>
-        // </ScrollView>
     )
 }

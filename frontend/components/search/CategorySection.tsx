@@ -8,13 +8,13 @@ import { Pressable } from "@/components/ui/pressable";
 import { Text } from "@/components/ui/text";
 import { Heading } from "@/components/ui/heading";
 
-const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
+const CategorySection = ({refetch, categoriesFilter, filterQuery, setFilterQuery}) => {
 
   const [viewAllComponents, setViewAllComponents] = useState(false);
 
-  const handleFilterChange = (brand) => {
+  const handleFilterChange = (category) => {
 
-    filterQuery["brand"] = brand;
+    filterQuery["category"] = category;
     setFilterQuery({
       ...filterQuery
     });
@@ -23,20 +23,20 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
 
   return (
     <VStack space="sm" className="px-2">
-      <Heading size="sm">Brand</Heading>
+      <Heading size="sm">Category</Heading>
       <CheckboxGroup
-        value={filterQuery["brand"]}
+        value={filterQuery["category"]}
         onChange={handleFilterChange}
-        accessibilityLabel="brand"
+        accessibilityLabel="category"
       >
-        {brandsFilter.map((brand: any, index: number) => {
+        {categoriesFilter.map((category: any, index: number) => {
           if (index > 4 && !viewAllComponents) return null;
           return (
             <Checkbox
-              value={brand.name}
+              value={category.name}
               size="sm"
-              key={brand.name}
-              accessibilityLabel={brand.name}
+              key={category.name}
+              accessibilityLabel={category.name}
               className="my-2 justify-start"
             >
               <CheckboxIndicator>
@@ -44,7 +44,7 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
                   as={CheckIcon}
                 />
               </CheckboxIndicator>
-              <CheckboxLabel>{brand.name}</CheckboxLabel>
+              <CheckboxLabel>{category.name}</CheckboxLabel>
             </Checkbox>
           );
         })}
@@ -79,4 +79,4 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
     </VStack>
   );
 };
-export default BrandSection;
+export default CategorySection;

@@ -125,7 +125,7 @@ export default function ProductDetailsScreen(){
             <Center>
                 <VStack>
                     <HStack space="2xl" className="max-w-[1300px]">
-                        <ImageGallery media={data.media} showModal={showModal} setShowModal={setShowModal} />
+                        <ImageGallery media={data.media} setShowModal={setShowModal} />
                         <Box className="items-center p-3 flex-1">
                             <Box className=" mx-auto p-5 rounded-lg max-w-[360px] m-3 flex-1">
                                 <VStack space="lg" className="mb-6">

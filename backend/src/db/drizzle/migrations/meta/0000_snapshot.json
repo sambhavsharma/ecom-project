@@ -1,5 +1,5 @@
 {
-  "id": "f028cd7a-138c-44e5-b6ee-6f989042db43",
+  "id": "ff91bc7b-0334-4c55-aa02-6b8f686177a6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -280,11 +280,29 @@
           "primaryKey": false,
           "notNull": true
         },
+        "department_id": {
+          "name": "department_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "category_id": {
           "name": "category_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
+        },
+        "subcategory_id": {
+          "name": "subcategory_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "product_type_id": {
+          "name": "product_type_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
         },
         "condition": {
           "name": "condition",
@@ -522,6 +540,12 @@
         },
         "code": {
           "name": "code",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category_type": {
+          "name": "category_type",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true

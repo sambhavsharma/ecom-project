@@ -84,6 +84,7 @@ export function categoryMenuObj(category: any) {
         id: category.id,
         name: category.name,
         code: category.code,
+        category_type: category.category_type,
         parent_category_id: category.parent_category_id,
     }
 }

@@ -5,13 +5,11 @@ import { useRouter } from 'expo-router';
 export default function DesignerMenu({designers, setShowMenu, setActiveTab}){
 
     const router = useRouter();
-
     const handleClick = (designer: any) => {
         setShowMenu(false);
         setActiveTab({});
         const url = `/search?brand=${designer.name}`;
         router.replace(url);
-        //return <Redirect href={url}/>;
     }
 
     return (

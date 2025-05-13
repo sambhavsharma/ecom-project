@@ -1,10 +1,9 @@
-import {useState, useRef} from "react";
 import {Pressable, ScrollView} from 'react-native';
 
 import { Image } from "@/components/ui/image";
 import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
-import { Icon, ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icon";
+import { Icon, ChevronRightIcon, ChevronLeftIcon } from "@/components/ui/icon";
 
 
 export default function ImageGallerySlider({media, changeImage, selectedIndex, setGalleryWidth, scrollViewRef, setShowModal}){
@@ -14,7 +13,7 @@ export default function ImageGallerySlider({media, changeImage, selectedIndex, s
             <HStack space="lg">
                 <Box className='justify-center'>
                     <Pressable onPress={() => {changeImage(selectedIndex-1)}}>
-                        <Icon as={ArrowLeftIcon} size="xl" />
+                        <Icon as={ChevronLeftIcon} size="xl" />
                     </Pressable>
                 </Box>
                 <ScrollView 
@@ -38,7 +37,7 @@ export default function ImageGallerySlider({media, changeImage, selectedIndex, s
                 </ScrollView>
                 <Box className='justify-center'>
                     <Pressable onPress={() => {changeImage(selectedIndex+1)}}>
-                        <Icon as={ArrowRightIcon} size="xl" />
+                        <Icon as={ChevronRightIcon} size="xl" />
                     </Pressable>
                 </Box>
             </HStack>

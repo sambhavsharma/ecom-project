@@ -3,6 +3,7 @@ import { db } from "../db";
 import { productsTable } from "../db/products";
 import { categoriesTable } from "../db/categories";
 import { brandsTable } from "../db/brands";
+import { categoriesTable } from "../db/categories";
 import {  eq, and, count, inArray } from "drizzle-orm";
 import { PRODUCT_CONDITIONS, DEFAULT_LIMIT } from "../lib/constants";
 import fs from 'fs';
@@ -12,6 +13,7 @@ const ProductSerializer = require("../serializers/products");
 const CategoriesSerializer = require("../serializers/categories");
 const Media = require("../models/media");
 const Brand = require("../models/brand");
+const Category = require("../models/category");
 const ProductAttribute = require("../models/product_attribute");
 const Storage = require("../lib/multer-config");
 
@@ -274,10 +276,30 @@ async function buildAvailableFilters(filters) {
     .where(whereQuery)
     .groupBy([brandsTable.name])
     .orderBy(brandsTable.name)
+
+    const departmentFilter = await db.select({
+        name: categoriesTable.name,
+        count: count()
+    }).from(productsTable)
+    .leftJoin(categoriesTable, eq(productsTable.department_id, categoriesTable.id))
+    .where(whereQuery)
+    .groupBy([categoriesTable.name])
+    .orderBy(categoriesTable.name)
+
+    const categoryFilter = await db.select({
+        name: categoriesTable.name,
+        count: count()
+    }).from(productsTable)
+    .leftJoin(categoriesTable, eq(productsTable.category_id, categoriesTable.id))
+    .where(whereQuery)
+    .groupBy([categoriesTable.name])
+    .orderBy(categoriesTable.name)
     
     return {
         brand: brandFilter,
-        condition: conditionFilter
+        condition: conditionFilter,
+        department: departmentFilter,
+        category: categoryFilter
     };
 
 }

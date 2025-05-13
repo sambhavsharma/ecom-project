@@ -1,33 +1,55 @@
-import { Grid } from "@/components/ui/grid";
+
 import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Heading } from "@/components/ui/heading";
-//import { Link } from "@/components/ui/link";
-import { Link } from "expo-router";
+import { Text } from "@/components/ui/text";
+import { Pressable } from "@/components/ui/pressable";
+import { useRouter } from 'expo-router';
 
-export default function CategoryMenu({category}){
+export default function CategoryMenu({categories, setShowMenu, setActiveTab}){
+
+    const router = useRouter();
+    const handleClick = (category: any) => {
+        setShowMenu(false);
+        setActiveTab({});
+        const url = `/search?${category.category_type.toLowerCase()}=${category.code}`;
+        router.replace(url);
+    }
 
     return (
         <HStack space="4xl">
             {
-                category.map(
+                categories.map(
                     (categoryObj) => {
                         return(
                             <VStack space="2xl" className="mr-4">
-                                <Heading
-                                    size="sm"
+                                <Pressable
+                                    onPress={() => {handleClick(categoryObj)}}
                                     key={categoryObj.code}
-                                    className="text-typography-600 mr-4 cursor-pointer"
+                                    className="text-typography-600 mr-4"
                                 >
-                                    {categoryObj.title || categoryObj.name}
-                                </Heading>
+                                    <Heading
+                                        size="sm"
+                                        key={categoryObj.code}
+                                        className="text-typography-600 mr-4 cursor-pointer"
+                                    >
+                                        {categoryObj.title || categoryObj.name}
+                                    </Heading>
+                                </Pressable>
+                                
                                 {
                                     categoryObj.children.map(
                                         (childCategory) => {
                                             return (
-                                                <Link href="#" className="">
-                                                    {childCategory.title || childCategory.name}
-                                                </Link>
+                                                <Pressable
+                                                    onPress={() => {handleClick(childCategory)}}
+                                                    key={childCategory.code}
+                                                    className="text-typography-600 mr-4"
+                                                >
+                                                    <Text className="">
+                                                        {childCategory.title || childCategory.name}
+                                                    </Text>
+                                                </Pressable>
                                             )
                                         }
                                     )
@@ -38,28 +60,5 @@ export default function CategoryMenu({category}){
                 )
             }
         </HStack>
-
-        // <Grid
-        //     className="gap-5"
-        //     _extra={{
-        //         className: "grid-cols-8 grid-rows-3 grid-flow-col",
-        //     }}
-        // >
-        //     {
-        //         category.map(
-        //             (categoryObj) => {
-        //                 return(
-        //                     <Link
-        //                         href="#"
-        //                         key={categoryObj.code}
-        //                         className="text-typography-600 mr-4 pointer"
-        //                     >
-        //                         {categoryObj.title || categoryObj.name}
-        //                     </Link>
-        //                 )
-        //             }
-        //         )
-        //     }
-        // </Grid>
     );
 }

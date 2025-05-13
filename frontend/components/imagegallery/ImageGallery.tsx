@@ -1,30 +1,12 @@
 import {useState, useRef} from "react";
-import {ScrollView, Pressable} from 'react-native';
 
-import { Text } from "@/components/ui/text";
-import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
-import { Heading } from "@/components/ui/heading";
-import { Icon, ArrowLeftIcon, ArrowRightIcon, CloseIcon } from "@/components/ui/icon";
 import { Center } from "@/components/ui/center";
-import { Button, ButtonText } from "@/components/ui/button";
 import ImageGallerySlider from "@/components/imagegallery/ImageGallerySlider";
 import ImageGalleryFooter from "@/components/imagegallery/ImageGalleryFooter";
 
-import {
-    Modal,
-    ModalBackdrop,
-    ModalContent,
-    ModalCloseButton,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-  } from "@/components/ui/modal"
-
-
-export default function ImageGallery({media, showModal, setShowModal}){
+export default function ImageGallery({media, setShowModal}){
 
     const [ galleryWidth, setGalleryWidth] = useState(0);
     const [selectedIndex, setSelectedIndex] = useState(0);

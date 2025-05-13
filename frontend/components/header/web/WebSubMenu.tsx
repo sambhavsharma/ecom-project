@@ -57,7 +57,7 @@ const Header = (({activeTab, setActiveTab, showMenu, setShowMenu}) => {
 
                         {
                             activeTab && activeTab.code !== "designer" && activeTab.children &&
-                                <CategoryMenu category={activeTab.children}/>
+                                <CategoryMenu categories={activeTab.children} setShowMenu={setShowMenu} setActiveTab={setActiveTab}/>
                         }
                     </VStack>
                 </HStack>

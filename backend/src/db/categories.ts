@@ -11,10 +11,13 @@ import { relations } from 'drizzle-orm';
 
 import { categoryAttributesTable } from "./category_attributes";
 
+const CATEGORY_TYPES = ["Department", "Category", "Subcategory", "Type"] as const;
+
 export const categoriesTable = pgTable("categories", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
     code: varchar({ length: 255 }).notNull(),
+    category_type: varchar({ length: 255 }).notNull(),
     parent_category_id: integer(),
     is_deleted: boolean().default(false).notNull(),
     created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),

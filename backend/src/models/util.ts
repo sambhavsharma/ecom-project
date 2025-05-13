@@ -24,7 +24,8 @@ async function getBrandMenu() {
     
     let designerMenu = {
         title: 'Designer',
-        code: 'designer'
+        code: 'designer',
+        filter: 'brand'
     }
 
     const brands = await Brand.list({}, 20);
@@ -42,6 +43,7 @@ async function getCategoryMenu() {
         categoryMenu.push({
             title: mainCategory.name,
             code: mainCategory.code,
+            filter: mainCategory.category_type,
             children: mainCategory.children,
         })
     }
