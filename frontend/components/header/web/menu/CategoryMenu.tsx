@@ -12,7 +12,7 @@ export default function CategoryMenu({categories, setShowMenu, setActiveTab}){
     const handleClick = (category: any) => {
         setShowMenu(false);
         setActiveTab({});
-        const url = `/search?${category.category_type.toLowerCase()}=${category.code}`;
+        const url = `/search?${category.category_type.toLowerCase()}=${category.id}`;
         router.replace(url);
     }
 

@@ -16,13 +16,22 @@ export default function ProductListItem({product: product}) {
                     className="mb-6 h-[240px] w-full rounded-md aspect-[4/3]"
                     alt="image"
                 />
+
+                <Heading size="sm" className="mb-4">
+                    {product.brand.name}
+                </Heading>
+
+                <Text className="text-sm font-normal mb-2 text-typography-700 capitalize">
+                    {product.condition.split('_').join(' ')} {product.name}
+                </Text>
+
                 <Text className="text-sm font-normal mb-2 text-typography-700">
-                    {product.name}
+                    {product.category.name}
                 </Text>
                 
-                    <Heading size="md" className="mb-4">
-                        ${product.price}
-                    </Heading>
+                <Heading size="xs" className="mb-4">
+                    ${product.price}
+                </Heading>
                     {/* <Text size="sm">
                     {product.description}
                     </Text> */}

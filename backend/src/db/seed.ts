@@ -183,20 +183,20 @@ async function main() {
 
     const brands = [
         {
-            "name": "Apple",
-            "code": "apple"
+            "name": "Asics",
+            "code": "asics"
         },
         {
             "name": "Nike",
             "code": "nike"
         },
         {
-            "name": "Dyson",
-            "code": "dyson"
+            "name": "Balmain",
+            "code": "balmain"
         },
         {
-            "name": "Samsung",
-            "code": "samsung"
+            "name": "Seiko",
+            "code": "seiko"
         },
         {
             "name": "Tommy Hilfiger",
@@ -247,8 +247,8 @@ async function main() {
             "code": "boss"
         },
         {
-            "name": "Bose",
-            "code": "bose"
+            "name": "Bombay Shirt Company",
+            "code": "bombayshirtcompany"
         },
         {
             "name": "Raymond",
@@ -263,8 +263,8 @@ async function main() {
             "code": "gant"
         },
         {
-            "name": "Sony",
-            "code": "sony"
+            "name": "Superdry",
+            "code": "superdry"
         }
     ]
 
@@ -1001,11 +1001,11 @@ async function main() {
     // console.log('\n\n Seeding Product Attributes...');
     // await db.insert(productAttributesTable).values(product_attributes);
 
-    // console.log('\n\n Seeding Users...');
-    // await db.insert(usersTable).values(users);
+    console.log('\n\n Seeding Users...');
+    await db.insert(usersTable).values(users);
 
-    // console.log('\n\n Seeding Addresses...');
-    // await db.insert(addressesTable).values(addresses);
+    console.log('\n\n Seeding Addresses...');
+    await db.insert(addressesTable).values(addresses);
     
     console.log('\n\n Seeding Complete.');
 }

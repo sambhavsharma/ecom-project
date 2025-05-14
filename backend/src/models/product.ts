@@ -269,37 +269,40 @@ async function buildAvailableFilters(filters) {
     .orderBy(productsTable.condition)
 
     const brandFilter = await db.select({
+        id: brandsTable.id,
         name: brandsTable.name,
         count: count()
     }).from(productsTable)
     .leftJoin(brandsTable, eq(productsTable.brand_id, brandsTable.id))
     .where(whereQuery)
-    .groupBy([brandsTable.name])
+    .groupBy([brandsTable.id, brandsTable.name])
     .orderBy(brandsTable.name)
 
     const departmentFilter = await db.select({
+        id: categoriesTable.id,
         name: categoriesTable.name,
         count: count()
     }).from(productsTable)
     .leftJoin(categoriesTable, eq(productsTable.department_id, categoriesTable.id))
     .where(whereQuery)
-    .groupBy([categoriesTable.name])
+    .groupBy([categoriesTable.id, categoriesTable.name])
     .orderBy(categoriesTable.name)
 
     const categoryFilter = await db.select({
+        id: categoriesTable.id,
         name: categoriesTable.name,
         count: count()
     }).from(productsTable)
     .leftJoin(categoriesTable, eq(productsTable.category_id, categoriesTable.id))
     .where(whereQuery)
-    .groupBy([categoriesTable.name])
+    .groupBy([categoriesTable.id, categoriesTable.name])
     .orderBy(categoriesTable.name)
     
     return {
-        brand: brandFilter,
-        condition: conditionFilter,
-        department: departmentFilter,
-        category: categoryFilter
+        brand: Object.fromEntries(brandFilter.map((brand) => [brand.id, brand])),
+        condition: Object.fromEntries(conditionFilter.map((condition) => [condition.name, condition])),
+        department: Object.fromEntries(departmentFilter.map((dept) => [dept.id, dept])),
+        category: Object.fromEntries(categoryFilter.map((category) => [category.id, category]))
     };
 
 }
@@ -311,7 +314,10 @@ async function getFilteredProductIds(page: number, limit: number, offset: number
         eq(productsTable.is_deleted, false)
     ];
 
-    if (filters.brand) filterQuery.push(inArray(brandsTable.name, filters.brand.split(',')));
+    if (filters.brand) filterQuery.push(inArray(productsTable.brand_id, filters.brand.split(',')));
+    if (filters.department) filterQuery.push(inArray(productsTable.department_id, filters.department.split(',')));
+    if (filters.category) filterQuery.push(inArray(productsTable.category_id, filters.category.split(',')));
+    if (filters.subcategory) filterQuery.push(inArray(productsTable.subcategory_id, filters.subcategory.split(',')));
     if (filters.condition) filterQuery.push(inArray(productsTable.condition, filters.condition.split(',')));
 
     const filteredProductIds = await db.select({id: productsTable.id}).from(productsTable)

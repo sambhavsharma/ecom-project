@@ -8,12 +8,10 @@ import { Icon, CloseIcon } from "@/components/ui/icon";
 import { Pressable } from "@/components/ui/pressable";
 import { Text } from "@/components/ui/text";
 
-const FiltersAppliedSection = ({refetch, filterQuery, setFilterQuery}) => {
+const FiltersAppliedSection = ({filters, refetch, filterQuery, setFilterQuery}) => {
 
     const [triggerRefetch, setTriggerRefetch] = useState(false);
-    const [appliedFilters, setAppliedFilters]: any = useState([
-        ...filterQuery.brand || [],
-    ]);
+    const filterSections = ["department", "category", "brand", "condition"];
 
     const removeItem = (array: [], itemToRemove: string) => {
         const index = array.indexOf(itemToRemove);
@@ -26,7 +24,9 @@ const FiltersAppliedSection = ({refetch, filterQuery, setFilterQuery}) => {
     const clearFilters = async () => {
         filterQuery = {
             brand: [], 
-            condition: []
+            condition: [],
+            department: [],
+            category: []
         } ;
 
         await setFilterQuery({
@@ -36,13 +36,8 @@ const FiltersAppliedSection = ({refetch, filterQuery, setFilterQuery}) => {
         setTriggerRefetch(true);   
     }
 
-    const removeFilter = async (filter) => {
-
-        Object.keys(filterQuery).forEach(
-            (key) => {
-                removeItem(filterQuery[key], filter)
-            }
-        )
+    const removeFilter = async (key, id) => {
+        removeItem(filterQuery[key], id);
 
         await setFilterQuery({
             ...filterQuery
@@ -80,7 +75,49 @@ const FiltersAppliedSection = ({refetch, filterQuery, setFilterQuery}) => {
             
 
                 <HStack space="sm" className='flex-wrap'>
+                    
                     {
+                        filterSections.map((section) => (
+                            <>
+                                 {
+                                    ( (filterQuery[section] || []))
+                                    .map((item: any) => (
+                                        <Badge
+                                            action="muted"
+                                            key={item}
+                                            className="rounded-full px-2.5 py-2 mt-3 items-center"
+                                        >
+                                            
+                                            <BadgeText className="normal-case text-typography-900 capitalize">
+                                                {
+                                                    filters[section][item] ? 
+                                                        filters[section][item].name.split('_').join(' ')
+                                                        : 
+                                                        ""
+                                                }
+                                            </BadgeText>
+                                            
+                                            <Pressable
+                                                className="ml-2 rounded-full"
+                                                onPress={() => {
+                                                    removeFilter(section,item);
+                                                }}
+                                            >
+                                                <Icon
+                                                    as={CloseIcon}
+                                                    size="sm"
+                                                />
+                                            </Pressable>
+                                        </Badge>
+                                    ))
+                                }
+                            </>
+                        ))
+                    }
+
+                   
+
+                    {/* {
                         ( Object.values(filterQuery).filter(k => k.length > 0).join().split(','))
                         .map((item: any) => (
                             <Badge
@@ -105,7 +142,7 @@ const FiltersAppliedSection = ({refetch, filterQuery, setFilterQuery}) => {
                                     />
                                 </Pressable>
                             </Badge>
-                    ))}
+                    ))} */}
                 </HStack>
             </Box>
         }

@@ -8,7 +8,7 @@ export default function DesignerMenu({designers, setShowMenu, setActiveTab}){
     const handleClick = (designer: any) => {
         setShowMenu(false);
         setActiveTab({});
-        const url = `/search?brand=${designer.name}`;
+        const url = `/search?brand=${designer.id}`;
         router.replace(url);
     }
 

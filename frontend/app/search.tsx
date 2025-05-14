@@ -22,7 +22,8 @@ export default function Search() {
         brand: [], 
         condition: [],
         department: [],
-        category: []
+        category: [],
+        subcategory: []
     });
 
     const {brand: brandParam } = useLocalSearchParams();
@@ -32,6 +33,7 @@ export default function Search() {
         condition: [],
         department: useLocalSearchParams().department ? useLocalSearchParams().department.split(',') : [],
         category: useLocalSearchParams().category ? useLocalSearchParams().category.split(',') : [],
+        subcategory: useLocalSearchParams().subcategory ? useLocalSearchParams().subcategory.split(',') : [],
     });
 
     const listProductsCall = async ({ pageParam }) => {
