@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import {
     Select,
     SelectTrigger,
@@ -21,46 +20,44 @@ import {
     FormControlLabelText, 
 } from "@/components/ui/form-control";
 
-export default function CategorySelect({categoryMap, setFormData, formData}){
+export default function DepartmentSelect({categoryMap, setFormData, formData}){
 
     return (
         <HStack className="w-full mt-[20px] z-[-1]">
             <Box>
                 <VStack space="xs">
                     <FormControlLabel>
-                        <FormControlLabelText>Category</FormControlLabelText>
+                        <FormControlLabelText>Department</FormControlLabelText>
                     </FormControlLabel>
                     <Select 
-                       initialLabel={
-                            (categoryMap.category && categoryMap.category[formData.department_id]
-                                && categoryMap.category[formData.department_id][formData.category_id]) ? 
-                                categoryMap.category[formData.department_id][formData.category_id].name : 
+                        selectedValue={formData.department_id}
+                        initialLabel={
+                            (categoryMap.department && categoryMap.department[formData.department_id]) ? 
+                            categoryMap.department[formData.department_id].name : 
                             ""
                         }
-                        selectedValue={formData.category_id}
                         onValueChange={(value) => {
                             setFormData({
                                 ...formData,
-                                category_id: value,
+                                department_id: value,
+                                category_id: null,
                                 subcategory_id: null
                             })
                         }}
-                        isDisabled={formData?.department_id ? false : true}
                     >
                         <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Select Category" />
+                            <SelectInput placeholder="Select Department" />
                             <SelectIcon className="mr-3" as={ChevronDownIcon} />
                         </SelectTrigger>
                         <SelectPortal>
                             <SelectBackdrop />
                             <SelectContent>
                                 {
-                                    categoryMap && categoryMap.category && categoryMap.category[formData?.department_id]
-                                        && Object.values(categoryMap.category[formData.department_id]).map(
-                                        (category) => {
+                                    categoryMap && categoryMap.department && Object.values(categoryMap.department).map(
+                                        (department) => {
                                             return (
                                                 <>
-                                                    <SelectItem key={category.id} label={category.name} value={category.id} />
+                                                    <SelectItem key={department.id} label={department.name} value={department.id} />
                                                 </>
                                             )
                                         }

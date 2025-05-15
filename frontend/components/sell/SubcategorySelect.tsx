@@ -21,46 +21,45 @@ import {
     FormControlLabelText, 
 } from "@/components/ui/form-control";
 
-export default function CategorySelect({categoryMap, setFormData, formData}){
+export default function SubcategorySelect({categoryMap, setFormData, formData}){
 
     return (
         <HStack className="w-full mt-[20px] z-[-1]">
             <Box>
                 <VStack space="xs">
                     <FormControlLabel>
-                        <FormControlLabelText>Category</FormControlLabelText>
+                        <FormControlLabelText>Select Sub Category</FormControlLabelText>
                     </FormControlLabel>
                     <Select 
-                       initialLabel={
-                            (categoryMap.category && categoryMap.category[formData.department_id]
-                                && categoryMap.category[formData.department_id][formData.category_id]) ? 
-                                categoryMap.category[formData.department_id][formData.category_id].name : 
+                        initialLabel={
+                            (categoryMap.subcategory && categoryMap.subcategory[formData.category_id]
+                                && categoryMap.subcategory[formData.category_id][formData.subcategory_id]) ? 
+                                categoryMap.subcategory[formData.category_id][formData.subcategory_id].name : 
                             ""
                         }
-                        selectedValue={formData.category_id}
+                        selectedValue={formData.subcategory_id}
                         onValueChange={(value) => {
                             setFormData({
                                 ...formData,
-                                category_id: value,
-                                subcategory_id: null
+                                subcategory_id: value
                             })
                         }}
-                        isDisabled={formData?.department_id ? false : true}
+                        isDisabled={formData?.category_id ? false : true}
                     >
                         <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Select Category" />
+                            <SelectInput placeholder="Select Sub Category" />
                             <SelectIcon className="mr-3" as={ChevronDownIcon} />
                         </SelectTrigger>
                         <SelectPortal>
                             <SelectBackdrop />
                             <SelectContent>
                                 {
-                                    categoryMap && categoryMap.category && categoryMap.category[formData?.department_id]
-                                        && Object.values(categoryMap.category[formData.department_id]).map(
-                                        (category) => {
+                                    categoryMap && categoryMap.subcategory && categoryMap.subcategory[formData?.category_id]
+                                        && Object.values(categoryMap.subcategory[formData.category_id]).map(
+                                        (subcategory) => {
                                             return (
                                                 <>
-                                                    <SelectItem key={category.id} label={category.name} value={category.id} />
+                                                    <SelectItem key={subcategory.id} label={subcategory.name} value={subcategory.id} />
                                                 </>
                                             )
                                         }

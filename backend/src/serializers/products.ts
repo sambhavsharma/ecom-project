@@ -32,7 +32,9 @@ export function productObj(product: any) {
         condition: product.condition,
         media: MediaSerializer.mediaList(product.media),
         seller: UserSerializer.sellerObj(product.seller),
+        department: CategorySerializer.baseCategoryObj(product.department),
         category: CategorySerializer.baseCategoryObj(product.category),
+        subcategory: CategorySerializer.baseCategoryObj(product.subcategory),
         attributes: ProductAttributeSerializer.productAttributesList(product.attributes)
     }
 }

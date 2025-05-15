@@ -1,5 +1,3 @@
-import React from "react";
-import { Box } from "@/components/ui/box";
 import Sidebar from "./Sidebar";
 
 const WebSidebar = ({refetch, filters, filterQuery, setFilterQuery}) => {

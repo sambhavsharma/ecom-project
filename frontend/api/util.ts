@@ -12,3 +12,15 @@ export async function getMenu() {
     const menu = await res.json();
     return menu;
 }
+
+export async function getCategoryMap() {
+    var url = `${API_URL}/${RESOURCE}/categorymap`;
+    const res = await fetch(url.toString());
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const menu = await res.json();
+    return menu;
+}

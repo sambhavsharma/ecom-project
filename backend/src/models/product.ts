@@ -1,13 +1,11 @@
 
 import { db } from "../db";
 import { productsTable } from "../db/products";
-import { categoriesTable } from "../db/categories";
 import { brandsTable } from "../db/brands";
 import { categoriesTable } from "../db/categories";
 import {  eq, and, count, inArray } from "drizzle-orm";
-import { PRODUCT_CONDITIONS, DEFAULT_LIMIT } from "../lib/constants";
+import { PRODUCT_CONDITIONS, DEFAULT_LIMIT, BASE_URL } from "../lib/constants";
 import fs from 'fs';
-
 
 const ProductSerializer = require("../serializers/products");
 const CategoriesSerializer = require("../serializers/categories");
@@ -16,8 +14,6 @@ const Brand = require("../models/brand");
 const Category = require("../models/category");
 const ProductAttribute = require("../models/product_attribute");
 const Storage = require("../lib/multer-config");
-
-const BASE_URL = "http://127.0.0.1:3000/";
 
 export async function create(product: any, user_id: number) {
 
@@ -100,7 +96,9 @@ export async function get(id: number) {
             media: {
                 where: (media, { eq }) => eq(media.parent_type, "product")
             },
+            department: true,
             category: true,
+            subcategory: true,
             attributes: {
                 with: {
                     attribute: true
