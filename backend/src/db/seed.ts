@@ -1124,7 +1124,6 @@ async function seedMedia(product_id) {
 
     for (let i = 0; i < num_media; i++) {
         let url = `${BaseImageURL}${getRandomItem(productImages)}`;
-        console.log(url);
         media.push({
             url:  url,
             parent_id: product_id,

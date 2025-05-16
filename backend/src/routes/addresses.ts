@@ -3,6 +3,7 @@ import passport from "passport";
 
 import { 
     createAddress,
+    createUserAddress,
     getUserAddress,
     updateAddress
 } from '../controllers/addressesController';
@@ -12,6 +13,7 @@ import { createAddressSchema } from '../db/addresses';
 const router = Router();
 
 router.post('/',  passport.authenticate('jwt', { session: false }), validateData(createAddressSchema), createAddress);
+router.post('/users/:id',  passport.authenticate('jwt', { session: false }), createUserAddress);
 router.get('/users/:id', passport.authenticate('jwt', { session: false }), getUserAddress);
 router.put('/:id', passport.authenticate('jwt', { session: false }), updateAddress);
 

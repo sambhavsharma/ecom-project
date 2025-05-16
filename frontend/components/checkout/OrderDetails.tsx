@@ -27,13 +27,13 @@ export default function OrderDetails({product: product}){
                     </VStack>
                     <VStack space="lg"  className="w-full">
                         <Text size="sm" className="text-typography-500 text-right">
-                            {product.currency} {product.price}
+                            {product.amount_formatted}
                         </Text>
                         <Text size="sm" className="text-typography-500 text-right">
                             Free
                         </Text>
                         <Text size="sm" className="text-typography-500 text-right">
-                            INR 0
+                            Free
                         </Text>
                     </VStack>
                 </HStack>
@@ -43,7 +43,7 @@ export default function OrderDetails({product: product}){
                         Order Total
                     </Heading>
                     <Text className="w-full text-right">
-                        {product.currency} {product.price}
+                        {product.amount_formatted}
                     </Text>
                 </HStack>
                 

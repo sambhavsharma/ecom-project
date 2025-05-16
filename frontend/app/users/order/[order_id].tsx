@@ -11,6 +11,8 @@ import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
 import { Heading } from "@/components/ui/heading";
 import { Card } from "@/components/ui/card";
+import { Icon, ChevronRightIcon, ChevronLeftIcon } from "@/components/ui/icon";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { Link, LinkText }from "@/components/ui/link";
@@ -58,10 +60,17 @@ export default function OrderDetailsScreen(){
         <Box className="flex-1 md:flex hidden pr-12">            
             <View className="w-full">
             <VStack space="md" className="py-6 px-2 min-w-[400px]">
-                <Heading size="lg">Your Order</Heading>
+                <Link href="/users/buyorders">
+                    <Pressable className="flex-row flex-wrap items-center">
+                        <Icon as={ChevronLeftIcon} size="sm"/>
+                        <Heading size="sm"> All Orders</Heading>
+                    </Pressable>
+                </Link>
+                
+                <Heading size="lg"> Your Order</Heading>
                 {
                     order &&
-                    <VStack space="lg" className="py-6 px-2 min-w-[400px]">
+                    <VStack space="lg" className="py-4 px-2 min-w-[400px]">
                         <Box className="px-1">
                             <Text className="text-md font-normal text-typography-700">
                                 Ordered on { Moment( order.created_at).format('d MMM YYYY') }
@@ -69,7 +78,7 @@ export default function OrderDetailsScreen(){
                             <Text className="text-md font-normal text-typography-700">
                                 Order Number: #{order.id}
                             </Text>
-                            <Text className="text-md font-normal text-typography-700">
+                            <Text className="text-md font-normal text-typography-700 capitalize">
                                 Order Status: {order.status}
                             </Text>
                         </Box>
@@ -77,13 +86,13 @@ export default function OrderDetailsScreen(){
                             order.products.map(
                                 (product) => {
                                     return (
-                                        <Card className="p-4 rounded-lg" >
+                                        <Card className="p-4 rounded-lg" key={product.id}>
                                             <VStack>
                                                 <HStack space="lg">
                                                     <Box className="w-full">
                                                         <VStack className="mt-auto">
                                                             <Heading size="lg" className="mb-2">
-                                                                {product.brand}
+                                                                {product.brand.name}
                                                             </Heading>
                                                             <Heading size="md" className="mb-2">
                                                                 {product.name}

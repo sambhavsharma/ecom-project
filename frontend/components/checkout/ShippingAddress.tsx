@@ -1,50 +1,89 @@
-import { ScrollView } from "react-native";
-import { getProduct } from "@/api/products";
 import { Text } from "@/components/ui/text";
-import { useLocalSearchParams } from "expo-router";
 import { Card } from "@/components/ui/card";
-import { Image } from "@/components/ui/image";
-import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
-import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Stack } from "expo-router";
+import { VStack } from "@/components/ui/vstack";
+import { Icon, EditIcon } from "@/components/ui/icon";
+import { Link } from "@/components/ui/link";
+import { Pressable } from "@/components/ui/pressable";
 import { Center } from "@/components/ui/center";
-import { useCart } from "@/store/cartStore";
-import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator } from "react-native";
-import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
-import { Divider } from "@/components/ui/divider";
-import { Icon, StarIcon } from "@/components/ui/icon";
-import ProductList from "@/components/widgets/ProductList";
-import {
-    Popover,
-    PopoverBackdrop,
-    PopoverBody,
-    PopoverContent,
-  } from "@/components/ui/popover";
-  import { Input, InputField } from "@/components/ui/input";
+import { Heading } from "@/components/ui/heading";
 
-export default function ShippingAddress(){
+import { Box } from "@/components/ui/box";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getUserAddress } from "@/api/addresses";
+
+import Loader from "@/components/widgets/Loader";
+
+export default function ShippingAddress({user}){
+
+    const {data: address, isLoading} = useQuery({
+        queryKey: ['address' ], 
+        queryFn:() => getUserAddress(user.id),
+        retry: false
+    });
+
+    if(isLoading){
+        return <Loader/>
+    }
 
     return (
         <Card size="sm" variant="outline">
-            <VStack space="sm">
-                <Text className="font-semibold text-typography-900">
-                Sambhav Sharma
-                </Text>
-                
-                <Text size="md">A-87 </Text>
-                <Text size="md">Patel Nagar II</Text>
+            {
+                (!address || !address.id) && 
+                <Center>
+                    <VStack space="sm">
+                        <Heading size="md">
+                            We do not have your address yet.
+                        </Heading>
+                        <HStack>
+                            <Text className="mr-1">
+                                Add your address 
+                            </Text>
+                            <Link className="underline" href={`/users/addresses`}>here</Link>
+                        </HStack>
+                    </VStack>
+                </Center>
+            }
 
-                <Text size="sm" className="text-typography-500">
-                    Delhi
-                </Text>
-                <Text size="sm" className="text-typography-500">
-                    Delhi 110011
-                </Text>
-            </VStack>
+            {
+                address && address.id && 
+                <VStack space="sm">
+                    <HStack className="justify-between">
+                        <Text className="font-semibold text-typography-900">
+                            {user?.first_name} {user?.last_name}
+                        </Text>
+                        <HStack space="md" className="justify-between align-middle">
+                            <Link href="/users/addresses">
+                            <Pressable className="flex-wrap flex-row">
+                                <Text className="mr-2">
+                                    Edit
+                                </Text>
+                                <Icon as={EditIcon}></Icon>
+                            </Pressable>
+                            </Link>
+                        </HStack>
+                        
+                    </HStack>
+                    
+                    <Text size="md"> {address?.address1} </Text>
+                    <Text size="md"> {address?.address2} </Text>
+
+                    {
+                        address?.address3 && <Text size="md"> {address.address3} </Text>
+                    }
+
+                    <Text size="sm" className="text-typography-500">
+                        {address?.city}
+                    </Text>
+
+                    <Text size="sm" className="text-typography-500">
+                        {address?.state} {address?.postcode}
+                    </Text>
+                </VStack>
+            }
+            
         </Card>
     );
 }

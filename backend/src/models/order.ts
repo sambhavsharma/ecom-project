@@ -11,12 +11,12 @@ const DEFAULT_CURRENCY = "INR";
 
 export async function create(order: any, user_id: number) {
 
-    // const {error} = zodParse(createOrderSchema, order);
-    // if(error) 
-    //     return {error: error};
+    const {zodError} = zodParse(createOrderSchema, order);
+    if(zodError) 
+        throw zodError;
 
     try {
-        
+
         let [currency, price] = calculatePrice(order.products);
         order.user_id = user_id;
         order.currency = currency;
@@ -39,7 +39,7 @@ export async function create(order: any, user_id: number) {
                 if (error) {
 
                     tx.rollback();  
-                    return {error};
+                    throw error;
                 }
             }
 
@@ -52,7 +52,7 @@ export async function create(order: any, user_id: number) {
             if (error) {
 
                 tx.rollback();  
-                return {error};
+                throw error;
             }
 
             return {orderRow: orderRow};
@@ -61,7 +61,7 @@ export async function create(order: any, user_id: number) {
         return OrderSerializer.orderObj(orderRow);
     } catch (error) {
         //console.log(error);
-        return {error: error};
+        throw error;
     }
     
 };
@@ -102,35 +102,60 @@ export async function getUserOrder(id: number, user_id: number) {
    
 }
 
-export async function getUserOrders(user_id: number) {
+export async function getUserBuyOrders(user_id: number) {
 
     try {
-        const orders = await db.query.ordersTable.findMany({
-            where: and(
-                eq(ordersTable.user_id, user_id)
-            ),
-            with: {
-                products: {
-                    with:  {
-                        product: {
-                            with: {
-                                media: {
-                                    where: (media, { eq }) => eq(media.parent_type, "product")
-                                }
-                            },
-                        }
-                    }
-                }
-            }
-        });
+        const whereQuery = and(
+            eq(ordersTable.user_id, user_id)
+        );
+
+        const orders = await fetchOrders(whereQuery);
             
         return OrderSerializer.ordersList(orders);
 
     } catch (error) {
-        console.log(error);
+        throw error;
+    }
+   
+}
+
+export async function getUserSaleOrders(user_id: number) {
+
+    try {
+        const whereQuery = and(
+            eq(ordersTable.seller_id, user_id)
+        );
+
+        const orders = await fetchOrders(whereQuery);
+            
+        return OrderSerializer.ordersList(orders);
+
+    } catch (error) {
+        //console.log(error);
         return {error: error};
     }
    
+}
+
+async function fetchOrders(query) {
+    const orders = await db.query.ordersTable.findMany({
+        where: query,
+        with: {
+            products: {
+                with:  {
+                    product: {
+                        with: {
+                            media: {
+                                where: (media, { eq }) => eq(media.parent_type, "product")
+                            }
+                        },
+                    }
+                }
+            }
+        }
+    });
+
+    return orders;
 }
 
 function calculatePrice(orderProducts) {

@@ -23,12 +23,6 @@ const BrandSection = ({refetch, brandsFilter, filterQuery, setFilterQuery}) => {
     refetch();
   }
 
-  useEffect(
-    () => {
-      console.log(filterQuery);
-    },[filterQuery]
-  )
-
   return (
     <VStack space="sm" className="px-2">
       <SectionHeader title="Brand" viewOptions={viewOptions} setViewOprions={setViewOprions} />

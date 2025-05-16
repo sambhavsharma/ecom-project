@@ -21,21 +21,34 @@ export async function getUserOrder(req: Request, res: Response) {
     try {
         const order_id = req.params.id;
         var orderObj = await Order.getUserOrder( order_id, req.user.id);
-        res.status(201).json(orderObj);
+        res.status(200).json(orderObj);
     } catch (e) {
        
         res.status(500).send('Error fetching order');
     }
 }
 
-export async function getUserOrders(req: Request, res: Response) {
+export async function getUserBuyOrders(req: Request, res: Response) {
     
     try {
         
-        var orders = await Order.getUserOrders( req.user.id);
-        res.status(201).json(orders);
+        var orders = await Order.getUserBuyOrders( req.user.id);
+        res.status(200).json(orders);
     } catch (e) {
-     
+        
+        console.log(e);
+        res.status(500).send('Error fetching orders');
+    }
+}
+
+export async function getUserSaleOrders(req: Request, res: Response) {
+    
+    try {
+        
+        var orders = await Order.getUserSaleOrders( req.user.id);
+        res.status(200).json(orders);
+    } catch (e) {
+        //console.log(e)
         res.status(500).send('Error fetching orders');
     }
 }

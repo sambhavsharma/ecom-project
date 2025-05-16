@@ -169,7 +169,7 @@ export default function ProductDetailsScreen(){
                                     </VStack>
 
                                     <Heading size="md" className="mb-1">
-                                        {data.currency} {data.price}
+                                        {data.amount_formatted}
                                     </Heading>
                                     
 
@@ -191,16 +191,8 @@ export default function ProductDetailsScreen(){
                                     {
                                         (user && (data.seller.id !== user.id))  &&
 
-                                        <VStack space="sm" className="mb-6">
+                                        <VStack space="sm" className="mb-6"> 
                                             
-                                            
-                                                <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
-                                                    <Link href={`checkout/${data.id}`}>
-                                                        <ButtonText size="sm">Purchase</ButtonText>
-                                                    </Link>
-                                                </Button>
-                                        
-                                        
                                                 <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
                                                     <Link href={`checkout/${data.id}`}>
                                                         <ButtonText size="sm">Purchase</ButtonText>

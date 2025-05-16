@@ -16,6 +16,22 @@ export async function createAddress(req: Request, res: Response) {
     }
 }
 
+export async function createUserAddress(req: Request, res: Response) {
+
+    try {
+
+        let user = req.user;
+        var address = req.body;
+        var addressObj = await Address.createUserAddress(user.id, address);
+        res.status(201).json(addressObj);
+        
+    } catch (e) {
+        
+        res.status(500).send('Error!');
+    }
+}
+
+
 export async function getUserAddress(req: Request, res: Response) {
 
     try {

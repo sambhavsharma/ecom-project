@@ -16,9 +16,28 @@ const getToken = async () => {
     return user ? user.token : "";
 }
 
-export async function getUserOrders({queryFilters}) {
+export async function getUserBuyOrders({queryFilters}) {
 
-    var url = `${API_URL}/${RESOURCE}/user?`;
+    var url = `${API_URL}/${RESOURCE}/user/buy?`;
+    const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const orders = await res.json();
+    return orders;
+}
+
+export async function getUserSaleOrders({queryFilters}) {
+
+    var url = `${API_URL}/${RESOURCE}/user/sale?`;
     const res = await fetch(url+new URLSearchParams(queryFilters).toString(), {
         headers: {
             "Accept":"application/json", 

@@ -7,8 +7,10 @@ import { HStack } from "@/components/ui/hstack";
 import { Box } from "@/components/ui/box";
 import { Heading } from "@/components/ui/heading";
 import { Center } from "@/components/ui/center";
+import { Link } from "@/components/ui/link";
+import { Pressable } from "@/components/ui/pressable";
 
-export default function ProductCard({product: product}){
+export default function ProductCard({product}){
 
     return (
         <Box className="w-full m-3">
@@ -29,9 +31,26 @@ export default function ProductCard({product: product}){
                                     <Heading size="md" className="mb-1">
                                         {product.name}
                                     </Heading>
-                                    <Text size="sm">{product.brand} </Text>
-                                    <Text size="sm">{product.condition} </Text>
-                                    <Text size="sm">Seller: {product.seller.first_name} {product.seller.last_name} </Text>
+                                    <Text size="sm">{product.brand?.name} </Text>
+                                    <Text size="sm" className="capitalize">
+                                        {product.condition.split('_').join(' ')} 
+                                    </Text>
+                                    
+
+                                    {/* <Link href={`/profile/${product.seller.id}`}>
+                                        <Pressable className="flex-row flex-wrap items-center">
+                                            <Text size="sm"> All Orders</Text>
+                                        </Pressable>
+                                    </Link> */}
+                                    <HStack>
+                                        <Text size="sm">Sold by:  </Text>
+                                        <Link className="underline" href={`/profile/${product.seller.id}`}>
+                                            <Text size="sm"> 
+                                                {product.seller.first_name} {product.seller.last_name} 
+                                            </Text>
+                                        </Link>
+                                    </HStack>
+                                    
                                 </VStack>
                             </HStack>
                             
@@ -39,7 +58,7 @@ export default function ProductCard({product: product}){
                         <Box className="w-full">
                             <VStack className="ml-6">
                                 <Heading size="sm" className="mb-1 text-right">
-                                    {product.currency} {product.price}
+                                    {product.amount_formatted}
                                 </Heading>
                             </VStack>
                         </Box>

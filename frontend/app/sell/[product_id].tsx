@@ -103,7 +103,6 @@ export default function SellProduct () {
             return updateProduct(productObj, product_id)
         },
         onSuccess: (data) => {
-            setShowMessage(true);
             
             let message = "Product updated!";
             setAlertMessage(
@@ -111,7 +110,8 @@ export default function SellProduct () {
                     type: "success",
                     title: message
                 }
-            )
+            );
+            setShowMessage(true);
         },
         onError: async (err) => {
 

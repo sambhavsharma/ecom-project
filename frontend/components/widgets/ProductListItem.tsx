@@ -30,7 +30,7 @@ export default function ProductListItem({product: product}) {
                 </Text>
                 
                 <Heading size="xs" className="mb-4">
-                    ${product.price}
+                    {product.amount_formatted}
                 </Heading>
                     {/* <Text size="sm">
                     {product.description}

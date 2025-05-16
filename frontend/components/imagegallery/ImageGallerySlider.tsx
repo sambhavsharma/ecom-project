@@ -26,9 +26,8 @@ export default function ImageGallerySlider({media, changeImage, selectedIndex, s
                     className="max-w-[500px]"
                 >
                     {media.map((image, index) => (
-                        <Pressable onPress={ () => {setShowModal(true)}}>
+                        <Pressable onPress={ () => {setShowModal(true)}} key={image.id}>
                             <Image
-                                key={image.id}
                                 source={{uri: `${image.url}`}}
                                 className="mb-6 h-auto w-[500px] rounded-md aspect-[4/3]"
                             />

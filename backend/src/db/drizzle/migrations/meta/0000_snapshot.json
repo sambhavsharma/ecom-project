@@ -1,5 +1,5 @@
 {
-  "id": "ff91bc7b-0334-4c55-aa02-6b8f686177a6",
+  "id": "4abae980-4f26-4378-9366-b98f8a26b53e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1178,6 +1178,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "seller_id": {
+          "name": "seller_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "price": {
           "name": "price",
           "type": "double precision",
@@ -1212,6 +1218,19 @@
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "orders_seller_id_users_id_fk": {
+          "name": "orders_seller_id_users_id_fk",
+          "tableFrom": "orders",
+          "tableTo": "users",
+          "columnsFrom": [
+            "seller_id"
           ],
           "columnsTo": [
             "id"

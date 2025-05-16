@@ -8,7 +8,7 @@ import { Text } from "@/components/ui/text";
 import { Input, InputField } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { getUserAddress, updateAddress } from "@/api/addresses";
+import { getUserAddress, createUserAddress, updateAddress } from "@/api/addresses";
 import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
 
@@ -42,8 +42,6 @@ const AddressSettings = () => {
 
     const [showMessage, setShowMessage] = useState(false);
     const [alertMessage, setAlertMessage] = useState(null);
-    
-    
 
      // Form Values
      const [formData, setFormData] = useState({});
@@ -78,7 +76,9 @@ const AddressSettings = () => {
                     city: data.city,
                     state: data.state,
                     country: data.country,
-                    postcode: data.postcode
+                    postcode: data.postcode,
+                    parent_type: "user",
+                    parent_id: user.id
                 })
             }
             
@@ -122,8 +122,44 @@ const AddressSettings = () => {
         }
     })
 
+    const createUserAddressMutation = useMutation({
+        mutationFn: (updateAddressParams: object) => {
+
+            return createUserAddress(user.id, updateAddressParams.address)
+        },
+        onSuccess: async (data) => {
+            refetch();
+            setAlertMessage(
+                {
+                    type: "success",
+                    title: "Address saved!"
+                }
+            )
+            setShowMessage(true);
+        },
+        onError: async (err) => {
+            
+            if(err.status === 401){
+                await logout();
+                return <Redirect href="/login"/>;
+            } else {
+                
+                setAlertMessage(
+                    {
+                        type: "error",
+                        title: "Error updating!"
+                    }
+                )
+                setShowMessage(true);
+            }
+        }
+    })
+
     const handleSubmit = () => {
-        updateAddressMutation.mutate({address: formData, id: addressId});
+        if(addressId)
+            updateAddressMutation.mutate({address: formData, id: addressId});
+        else
+        createUserAddressMutation.mutate({address: formData});
     }
 
     return (

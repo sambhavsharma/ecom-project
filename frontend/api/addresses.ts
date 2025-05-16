@@ -35,6 +35,28 @@ export async function getUserAddress(id: string) {
     return user;
 }
 
+export async function createUserAddress(id, address) {
+    
+    var url = `${API_URL}/addresses/users/${id}`;
+    const res = await fetch(url.toString(), {
+        method: 'POST',
+        mode: "cors",
+        headers: {
+            "Accept":"application/json", 
+            "Content-Type":"application/json",
+            "Authorization": "Bearer "+( await getToken())
+        },
+        body:  JSON.stringify(address)
+    });
+
+    if(!res.ok) {
+        throw res;
+    }
+
+    const addressObj = await res.json();
+    return addressObj;
+}
+
 export async function updateAddress(id, address) {
     
     var url = `${API_URL}/addresses/${id}`;
@@ -53,6 +75,6 @@ export async function updateAddress(id, address) {
         throw res;
     }
 
-    const userObj = await res.json();
-    return userObj;
+    const addressObj = await res.json();
+    return addressObj;
 }

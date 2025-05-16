@@ -15,9 +15,9 @@ const SectionHeader = ({title, viewOptions, setViewOprions }) => {
             <Heading size="sm">{title}</Heading>
 
             <Pressable
-            onPress={toggleSetViewOptions}
+                onPress={toggleSetViewOptions}
             >
-            <Icon as={viewOptions ? RemoveIcon : AddIcon} size="sm" />
+                <Icon as={viewOptions ? RemoveIcon : AddIcon} size="sm" />
             </Pressable>
             
         </HStack>

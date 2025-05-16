@@ -1,5 +1,6 @@
 const OrderProductsSerializer = require("../serializers/order_products");
 const AddressSerializer = require("../serializers/addresses");
+const AmountSerializer = require("../serializers/amounts");
 
 export function ordersList(orders: any) {
 
@@ -27,6 +28,7 @@ export function orderDetailsObj(order: any) {
         id: order.id,
         currency: order.currency,
         price:  order.price,
+        amount_formatted: AmountSerializer.amount_formatted(order.currency, order.price),
         status: order.status,
         created_at: order.created_at,
         address: AddressSerializer.addressObj(order.address),

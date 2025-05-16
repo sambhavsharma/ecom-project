@@ -31,6 +31,38 @@ export async function create(address: any, tx: any) {
     
 };
 
+export async function createUserAddress(user_id, address: any, tx: any) {
+
+    // For now, we just allow one address per user
+    if(address.parent_type == 'user') {
+        const addressExists = await count( "user", address.parent_id);
+        if(addressExists)
+            return {error: "Operation not allowed"}
+        
+        // Making sure a user only adds their own address
+        address = {
+            ...address,
+            parent_id: user_id
+        }
+    }
+
+    const {error} = zodParse(createAddressSchema, address);
+    if(error) 
+        return {error: error};
+
+    try {
+        const [addressRow] = await (tx ? tx : db).insert(addressesTable)
+        .values(address)
+        .returning()
+
+        return AddressSerializer.addressObj(addressRow);
+    } catch (error) {
+        
+        return {error: error};
+    }
+    
+};
+
 export async function getUserAddress(user_id: number) {
 
     const address = await db.query.addressesTable.findFirst({

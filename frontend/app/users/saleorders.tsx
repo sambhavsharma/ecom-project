@@ -13,7 +13,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { Redirect } from "expo-router";
 import Loader from "@/components/widgets/Loader";
 
-import { getUserBuyOrders } from "@/api/orders";
+import { getUserSaleOrders } from "@/api/orders";
 import OrderListItem from "@/components/users/OrderListItem";
 
 export default function BuyOrders(){
@@ -26,8 +26,8 @@ export default function BuyOrders(){
     const [redirectLogin, setRedirectLogin] = useState(false);
     
     const {data: orders, error, isLoading} = useQuery({
-        queryKey: ['buyorders' ], 
-        queryFn:() => getUserBuyOrders({queryFilters: filterQuery}),
+        queryKey: ['saleorders' ], 
+        queryFn:() => getUserSaleOrders({queryFilters: filterQuery}),
         retry: false
     });
 
@@ -56,9 +56,9 @@ export default function BuyOrders(){
         <Box className="flex-1 md:flex hidden pr-12">            
             <View className="w-full">
                 <VStack space="md" className="py-6 px-2 min-w-[400px]">
-                    <Heading size="lg">Buy Orders</Heading>
+                    <Heading size="xl">Sale Orders</Heading>
                     {
-                        orders && orders.map(
+                        orders && !orders.error && orders.map(
                             (order) => {
                                 return (
                                     <OrderListItem order={order}/>
@@ -67,16 +67,18 @@ export default function BuyOrders(){
                         )
                     }
                     {
-                        ((orders || []).length == 0 ) &&
+                         ((orders || []).length == 0 ) &&
                         <VStack space="lg" className="mt-4">
                             <Heading size="md">
-                                You have not bought anything on Evergrail yet. 
+                                You have not sold anything on Evergrail yet. 
                             </Heading>
                             <Text>
-                                Let's find you something cool for your closet <Link className="underline" href={`/search`}>here</Link> !
+                                Let's review your <Link className="underline" href={`/profile/${user.id}`}>closet</Link> !
                             </Text>
-                        </VStack> 
+                        </VStack>
+                        
                     }
+                    
                 </VStack>
             </View>
         </Box>
