@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "Evergrail",
+    "slug": "evergrail",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "ecom-app",

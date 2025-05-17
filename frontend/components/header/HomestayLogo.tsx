@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { Image } from "@/components/ui/image";
-//import { ThemeContext } from "@/App";
+
 
 const HomestayLogo = () => {
-  const colorMode = "light" //useContext(ThemeContext);
+  const colorMode = "light"
   return (
     <Image
       source={
         colorMode === "light"
-          ? require("@/assets/light-logo.svg")
+          ? require("@/assets/logo.webp")
           : require("@/assets/dark-logo.svg")
       }
       alt="homestaylogo"

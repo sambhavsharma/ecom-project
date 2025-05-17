@@ -2,11 +2,11 @@ import React from "react";
 import { VStack } from "@/components/ui/vstack";
 import { ScrollView } from "react-native";
 
-import FiltersAppliedSection from "./FiltersAppliedSection";
-import BrandsSection from "./BrandsSection";
-import DepartmentSection from "./DepartmentSection";
-import CategorySection from "./CategorySection";
-import ConditionSection from "./ConditionSection";
+import FiltersAppliedSection from "./filtersection/FiltersAppliedSection";
+import BrandsSection from "./filtersection/BrandsSection";
+import DepartmentSection from "./filtersection/DepartmentSection";
+import CategorySection from "./filtersection/CategorySection";
+import ConditionSection from "./filtersection/ConditionSection";
 
 // import SortBySection from "./sidebar/SortBySection";
 

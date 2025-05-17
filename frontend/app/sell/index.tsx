@@ -59,7 +59,7 @@ export default function Sell () {
                 fileName: image.fileName,
                 mimeType: image.mimeType,
                 type: "image",
-                uri: image.base64
+                base64: image.base64
             };
             
             media.push(imageObj);

@@ -8,6 +8,8 @@ import { Icon, CloseIcon } from "@/components/ui/icon";
 import { Pressable } from "@/components/ui/pressable";
 import { Text } from "@/components/ui/text";
 
+import removeFromArrayByValue from "@/util/util";
+
 const FiltersAppliedSection = ({filters, refetch, filterQuery, setFilterQuery}) => {
 
     const [triggerRefetch, setTriggerRefetch] = useState(false);
@@ -37,7 +39,7 @@ const FiltersAppliedSection = ({filters, refetch, filterQuery, setFilterQuery}) 
     }
 
     const removeFilter = async (key, id) => {
-        removeItem(filterQuery[key], id);
+        removeFromArrayByValue(filterQuery[key], id);
 
         await setFilterQuery({
             ...filterQuery

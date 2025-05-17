@@ -1,11 +1,10 @@
-
 import { db } from "../db";
 import { productsTable } from "../db/products";
 import { brandsTable } from "../db/brands";
 import { categoriesTable } from "../db/categories";
-import {  eq, and, count, inArray } from "drizzle-orm";
-import { PRODUCT_CONDITIONS, DEFAULT_LIMIT, BASE_URL } from "../lib/constants";
+import { eq, and, count, inArray } from "drizzle-orm";
 import fs from 'fs';
+import * as _ from "lodash";
 
 const ProductSerializer = require("../serializers/products");
 const CategoriesSerializer = require("../serializers/categories");
@@ -27,31 +26,7 @@ export async function create(product: any, user_id: number) {
                 .returning();
     
             // Adding Product Media
-            productRow.media = [];
-            
-            for (var media of product.media || []) {
-    
-                if(!media.url){
-                    let buff = Buffer.from(media.uri, 'base64');
-                    fs.writeFileSync('./media/'+media.fileNname, buff);
-                }
-                    
-                var mediaObj = {
-                    parent_type: "product",
-                    parent_id: productRow.id.toString(),
-                    type: media.type,
-                    url: media.url ? media.url : BASE_URL+media.fileNname
-                }
-    
-                productRow.media.push(mediaObj);
-    
-                const {error} = await Media.create(mediaObj, tx);
-                
-                if (error) {
-                    tx.rollback();  
-                    return {error};
-                }
-            }
+            productRow.media = await Media.createProductMediaFromList(productRow.id, product.media, tx);
     
             // Adding Product Attributes
             for (var attribute_id of Object.keys(product.attributes || {})) {
@@ -80,9 +55,6 @@ export async function create(product: any, user_id: number) {
         //console.log(error);
         return {error: error};
     }
-        
-    
-
 };
 
 export async function get(id: number) {
@@ -94,7 +66,10 @@ export async function get(id: number) {
         ),
         with: { 
             media: {
-                where: (media, { eq }) => eq(media.parent_type, "product")
+                where: (media, { and, eq }) => and(
+                    eq(media.is_deleted, false),
+                    eq(media.parent_type, "product")
+                )
             },
             department: true,
             category: true,
@@ -165,26 +140,34 @@ export async function list(page: number, limit: number, offset: number, filters)
 export async function update(id: number, updateFields: any, user_id: number) {
      
     try {
-        
+
         const {productRow, error} = await db.transaction(async (tx) => { 
 
             var [productRow] = await tx.update(productsTable)
-                .set(updateFields.product)
+                .set(updateFields)
                 .where(and(
                     eq(productsTable.id, id),
                     eq(productsTable.is_deleted, false),
                     eq(productsTable.seller_id, user_id)
                 ))
                 .returning();
-    
+            
+            // Update deleted media
+            let productMediaIds = _.filter(updateFields.media, media => _.has(media, "id")).map(media => media.id);
+            await Media.removeProductMediaByNotIds(productRow.id, productMediaIds, tx);
+                    
+            // Create new media
+            const createMediaList = _.filter(updateFields.media, (media) => _.isUndefined(media.id));
+            await Media.createProductMediaFromList(productRow.id, createMediaList, tx);
+            
             return {productRow: productRow};
         });
     
         return ProductSerializer.productObj(productRow);
 
     } catch (error) {
-
-        return {error: error};
+        console.log(error);
+        throw error;
     }
 };
 

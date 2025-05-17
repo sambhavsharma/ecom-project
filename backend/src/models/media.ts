@@ -1,7 +1,9 @@
 import { zodParse } from "../middlewares/validationMiddleware";
 import { db } from "../db";
 import { mediaTable, createMediaSchema } from "../db/media";
-import { eq, and } from "drizzle-orm";
+import { eq, and, notInArray} from "drizzle-orm";
+import { PRODUCT_CONDITIONS, DEFAULT_LIMIT, BASE_URL } from "../lib/constants";
+import fs from 'fs';
 
 const MediaSerializer = require("../serializers/media");
 
@@ -45,7 +47,7 @@ export async function update(media: any, tx: any) {
         return MediaSerializer.mediaObj(mediaRow);
     } catch (error) {
  
-        return {error: error};
+        throw error;
     }
     
 };
@@ -68,8 +70,6 @@ export async function count(type: string, parent_type: string, parent_id: string
     }
 }
 
-
-
 export async function get(parent_id: string, parent_type: string) {
 
     try {
@@ -87,4 +87,53 @@ export async function get(parent_id: string, parent_type: string) {
         console.log(error);
         return {error: error};
     }
+}
+
+export async function removeProductMediaByNotIds(product_id, mediaIds: [], tx: any) {
+
+    try {
+        const mediaRows = await (tx ? tx : db).update(mediaTable)
+        .set({ is_deleted: true })
+        .where(
+            and(
+                notInArray(mediaTable.id, mediaIds),
+                eq(mediaTable.parent_type, "product"),
+                eq(mediaTable.parent_id, product_id),
+                eq(mediaTable.is_deleted, false)
+            )
+        )
+        .returning()
+
+        return MediaSerializer.mediaList(mediaRows);
+    } catch (error) {
+        tx.rollback();  
+        throw error;
+    }
+}
+
+export async function createProductMediaFromList(product_id, mediaList, tx: any) {
+    let createdMedia = [];
+    for (var media of mediaList || []) {
+    
+        if(!media.url){
+            let buff = Buffer.from(media.base64, 'base64');
+            fs.writeFileSync('./media/'+media.fileName, buff);
+        }
+            
+        var mediaObj = {
+            parent_type: "product",
+            parent_id: product_id.toString(),
+            type: media.type,
+            url: media.url ? media.url : BASE_URL+media.fileName
+        }
+
+        const createdMediaObj = await create(mediaObj, tx);
+        createdMedia.push(createdMediaObj);
+        if (!createdMediaObj) {
+            tx.rollback();  
+            throw new Exception('Error creating media!');
+        }
+    }
+
+    return createdMedia;
 }

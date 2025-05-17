@@ -11,9 +11,7 @@ import { FormControl,
  } from "@/components/ui/form-control";
 
  import { Box } from "@/components/ui/box";
- import { Image } from "@/components/ui/image";
- import { AddIcon, ChevronDownIcon } from "@/components/ui/icon";
- import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+ import { ChevronDownIcon } from "@/components/ui/icon";
  import { Input, InputField } from "@/components/ui/input";
  import { Textarea, TextareaInput } from "@/components/ui/textarea";
  import {
@@ -27,13 +25,12 @@ import { FormControl,
     SelectItem,
 } from "@/components/ui/select";
  
-import DepartmentSelect from "@/components/sell/DepartmentSelect";
-import CategorySelect from "@/components/sell/CategorySelect";
-import SubcategorySelect from "@/components/sell/SubcategorySelect";
-import BrandSelect from "@/components/sell/BrandSelect";
+import DepartmentSelect from "@/components/sell/formsections/DepartmentSelect";
+import CategorySelect from "@/components/sell/formsections/CategorySelect";
+import SubcategorySelect from "@/components/sell/formsections/SubcategorySelect";
+import BrandSelect from "@/components/sell/formsections/BrandSelect";
+import ImageSection from "@/components/sell/formsections/ImageSection";
 import Loader from "@/components/widgets/Loader";
-
-import * as ImagePicker from 'expo-image-picker';
 
 export default function ProductForm({ formData, setFormData}){
 
@@ -42,25 +39,6 @@ export default function ProductForm({ formData, setFormData}){
         queryFn: getCategoryMap,
         retry: false
     });
-
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images','videos'],
-            allowsEditing: false,
-            aspect: [4, 3],
-            quality: 1,
-            allowsMultipleSelection: true,
-            base64: true,
-        });
-    
-        if (!result.canceled) {
-            setFormData({
-                ...formData,
-                media: result.assets
-            })
-        }
-    };
 
     if(isLoading)
         return <Loader/>
@@ -205,7 +183,7 @@ export default function ProductForm({ formData, setFormData}){
                 <Box>
                     <VStack space="xs">
                     <FormControlLabel>
-                        <FormControlLabelText>Price (In Rupees)</FormControlLabelText>
+                        <FormControlLabelText>Price (₹)</FormControlLabelText>
                     </FormControlLabel>
                     <Input className="min-w-[250px]">
                         <InputField type="text" value={formData.price} 
@@ -219,28 +197,10 @@ export default function ProductForm({ formData, setFormData}){
                     </Input>
                     </VStack>
                 </Box>
-            </HStack>   
-
-            {/* Image Upload */}
-            <HStack space="lg" className="w-full mt-[20px] z-[-1]">
-                <Box>
-                    <Button className="mt-2" onPress={pickImage}>
-                        <ButtonText>Add Image</ButtonText>
-                        <ButtonIcon as={AddIcon} className="ml-2" />
-                    </Button>
-                </Box>
-                <Box>
-                    <HStack space="md">
-                        {
-                            formData.media && formData.media.map((img: any) => {
-                                return (
-                                    <Image key={img.id} source={{ uri: img.url || img.uri }} style={styles.image} />
-                                );
-                            })
-                        }
-                    </HStack>
-                </Box>
             </HStack>
+
+             {/* Image Upload */}
+            <ImageSection formData={formData} setFormData={setFormData}/>
         
         </FormControl>
     )
@@ -253,7 +213,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     image: {
-        width: 400,
-        height: 400,
+        width: 800,
+        height: 800,
     },
 });

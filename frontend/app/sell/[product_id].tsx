@@ -71,11 +71,14 @@ export default function SellProduct () {
         let media = [];
 
         for (let image of formData.media) {
+
             let imageObj = {
+                id: image.id,
+                url: image.url,
                 fileName: image.fileName,
                 mimeType: image.mimeType,
                 type: "image",
-                uri: image.base64
+                base64: image.base64
             };
             
             media.push(imageObj);
@@ -87,7 +90,7 @@ export default function SellProduct () {
             status: status
         }
 
-        updateProductMutation.mutate({ media, product});
+        updateProductMutation.mutate(product);
     };
 
     const attributesUpdate = (attribute_id: number, value: string) => {
